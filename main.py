@@ -43,24 +43,22 @@ class Fusée():
 
 
 
-    def dessiner(self,ecran):
-        pygame.draw.rect(ecran,couleur,(self.position[0],self.position[1],self.taille,self.hauteur))
+
 
 
 
 running=True
 
-fusé=Fusée(20,100,20,100,0,position)
+fusé=Fusée(5,10,20,100,0,position)
 
 
 while running:
+    screen.fill((0,0,0))
     keys = pygame.key.get_pressed()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-
 
 
     if keys[pygame.K_SPACE]:
@@ -73,18 +71,18 @@ while running:
     else:
         if fusé.vitesse != 0:
             fusé.vitesse -= 1
+    if fusé
 
     if fusé.vitesse > fusé.vitesse_max / 2 and fusé.vitesse != fusé.vitesse_max:
-        position[1] += 1
+        position[1] -= 1
     elif fusé.vitesse == fusé.vitesse_max:
-        position[1] += 2
+        position[1] -= 2
 
-    print(fusé.vitesse)
-    print(fusé.position)
 
-    pygame.draw.rect(screen, couleur, (fusé.position[0], fusé.position[1], fusé.taille, fusé.hauteur))
+    pygame.draw.rect(screen, couleur, (fusé.position[0], fusé.position[1],fusé.taille, fusé.hauteur))
 
-    pygame.display.update()
+    pygame.display.flip()
+
     pygame.time.Clock().tick(60)
 
 pygame.quit()
