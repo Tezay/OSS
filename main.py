@@ -71,12 +71,12 @@ while running:
     else:
         if fusé.vitesse != 0:
             fusé.vitesse -= 1
-    if fusé
 
-    if fusé.vitesse > fusé.vitesse_max / 2 and fusé.vitesse != fusé.vitesse_max:
-        position[1] -= 1
-    elif fusé.vitesse == fusé.vitesse_max:
-        position[1] -= 2
+    if fusé.vitesse<fusé.vitesse_max/2 and position[1]!=600:
+        position[1]+=2
+
+    if fusé.vitesse > fusé.vitesse_max / 2:
+        position[1] -= fusé.vitesse*0.05
 
 
     pygame.draw.rect(screen, couleur, (fusé.position[0], fusé.position[1],fusé.taille, fusé.hauteur))
