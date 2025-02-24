@@ -14,35 +14,40 @@ class Camera:
         self.MIN_ZOOM = 0.2   # dézoom maximum (affiche plus de monde)
         self.MAX_ZOOM = 5.0   # zoom maximum (affiche moins de monde)
 
+        # Initialisation de view_rect pour éviter l'erreur si draw() est appelé avant update()
+        self.view_rect = pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+
     def set_target(self, target):
         self.target = target
 
-    def update(self):
-        # Si un target est défini et qu'on n'est pas en mode debug, la caméra se centre sur le target
+    def update(self, actions):
+        """
+        On reçoit 'actions', un dict contenant l'état des touches.
+        """
         if self.target and not DEBUG_MODE:
+            # Caméra centrée sur la cible
             x = self.target.rect.centerx - WINDOW_WIDTH // 2
             y = self.target.rect.centery - WINDOW_HEIGHT // 2
             self.camera_rect = pygame.Rect(x, y, WINDOW_WIDTH, WINDOW_HEIGHT)
         elif DEBUG_MODE:
-            # Déplacement manuel de la caméra avec les flèches
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT]:
+            # Déplacement manuel de la caméra
+            if actions.get("camera_left"):
                 self.camera_rect.x -= CAMERA_SPEED
-            if keys[pygame.K_RIGHT]:
+            if actions.get("camera_right"):
                 self.camera_rect.x += CAMERA_SPEED
-            if keys[pygame.K_UP]:
+            if actions.get("camera_up"):
                 self.camera_rect.y -= CAMERA_SPEED
-            if keys[pygame.K_DOWN]:
+            if actions.get("camera_down"):
                 self.camera_rect.y += CAMERA_SPEED
 
-            # Gestion du zoom avec Z (zoomer) et X (dézoomer)
-            if keys[pygame.K_z]:
+            # Gestion du zoom
+            if actions.get("zoom_in"):
                 self.zoom += 0.01
-            if keys[pygame.K_x]:
+            if actions.get("zoom_out"):
                 self.zoom -= 0.01
             self.zoom = max(self.MIN_ZOOM, min(self.zoom, self.MAX_ZOOM))
 
-        # Calcul du centre de la caméra (position actuelle)
+        # Suite du code identique (calcul du view_rect)
         center_x = self.camera_rect.x + WINDOW_WIDTH // 2
         center_y = self.camera_rect.y + WINDOW_HEIGHT // 2
 

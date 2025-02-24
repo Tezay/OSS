@@ -1,103 +1,66 @@
 import pygame
 import sys
-import random
-from config import (
-    WINDOW_WIDTH,
-    WINDOW_HEIGHT,
-    FPS,
-    WORLD_WIDTH,
-    WORLD_HEIGHT,
-    DEBUG_MODE,
-    DEFAULT_SEED,
-    NUMBER_OF_PLANETS
-)
-from camera import Camera
-from map_generator import generate_map
+from config import WINDOW_WIDTH, WINDOW_HEIGHT, FPS
+from states.menu_state import MenuState
+from input_manager import get_actions
 
-pygame.init()
+# Classe pour gérer les différents état du jeu (les menus)
+class StateManager:
+    def __init__(self):
+        self.current_state = None
 
-screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("OSS - Orbital Space Simulator")
+    def set_state(self, new_state):
+        self.current_state = new_state
 
-clock = pygame.time.Clock()
+# Fonction principale
+def main():
+    # Initialisation de pygame
+    pygame.init()
+    # Configuration des dimensions de la fenêtre (configurables depuis config.py)
+    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    # Definition du titre de la fenêtre
+    pygame.display.set_caption("OSS - Orbital Space Simulator")
 
-# On détermine la seed : si DEFAULT_SEED est None, on en génère une au hasard
-if DEFAULT_SEED is None:
-    seed = random.randint(0, 999999999)
-else:
-    seed = DEFAULT_SEED
-print(f"Seed : {seed}")
+    # Initialisation de la clock pygame
+    clock = pygame.time.Clock()
+    # Initialisation de la variable running (passe à False pour arrêter l'exécution du programme)
+    running = True
 
-# Génération de la liste de planètes
-planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
-print("Planets generated.")
+    # Création du manager d'états
+    state_manager = StateManager()
+    # Création de MenuState (menu de démarrage)
+    menu_state = MenuState(state_manager)
+    # Attribution de MenuState au manager d'états (on passe l'état du manager à MenuState)
+    state_manager.set_state(menu_state)
 
-# Création d'une grande surface représentant le monde
-world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
-world.fill((20, 20, 64))  # Fond sombre pour simuler l'espace
-print("World generated.")
+    # Boucle d'exécution (tourne tant que running est True)
+    while running:
+        # Première action, faire tourner la clock (en fonction du FPS spécifié dans config.py)
+        dt = clock.tick(FPS) / 1000.0  # dt en secondes
 
-# Exemple : vaisseau au centre du monde
-ship_rect = pygame.Rect(WORLD_WIDTH // 2, WORLD_HEIGHT // 2, 40, 40)
-ship_color = (255, 255, 0)
-pygame.draw.rect(world, ship_color, ship_rect)
+        # Récupération des actions (touches) via input_manager
+        actions = get_actions()
 
-# Création de la caméra
-camera = Camera(WORLD_WIDTH, WORLD_HEIGHT)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            # Délègue la gestion des événements (souris, etc.) à l'état courant
+            if state_manager.current_state:
+                state_manager.current_state.handle_event(event)
 
-# En mode non-debug, la caméra suit le vaisseau
-if not DEBUG_MODE:
-    class Target:
-        def __init__(self, rect):
-            self.rect = rect
-    camera.set_target(Target(ship_rect))
+        # Mise à jour de l'état courant
+        if state_manager.current_state:
+            state_manager.current_state.update(dt, actions)
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        # Dessin de l'état courant
+        if state_manager.current_state:
+            state_manager.current_state.draw(screen)
 
-    # Mise à jour de la caméra
-    camera.update()
+        pygame.display.flip()
 
-    # -- Rendu du monde avant affichage -- #
-    # On "nettoie" le fond du monde à chaque frame (pour redessiner par-dessus)
-    world.fill((0, 0, 50))
+    pygame.quit()
+    sys.exit()
 
-    # Dessin du vaisseau
-    pygame.draw.rect(world, ship_color, ship_rect)
-
-    # NEW : Dessin des planètes
-    for planet in planets:
-        pygame.draw.circle(world, planet.color, (planet.x, planet.y), planet.radius)
-
-    # -- Création et affichage de la surface vue par la caméra -- #
-    view_surface = pygame.Surface((camera.view_rect.width, camera.view_rect.height))
-    border_color = (30, 30, 30)
-    view_surface.fill(border_color)
-
-    world_rect = pygame.Rect(0, 0, WORLD_WIDTH, WORLD_HEIGHT)
-    intersection = camera.view_rect.clip(world_rect)
-
-    if intersection.width > 0 and intersection.height > 0:
-        dest_x = intersection.x - camera.view_rect.x
-        dest_y = intersection.y - camera.view_rect.y
-        dest_rect = pygame.Rect(dest_x, dest_y, intersection.width, intersection.height)
-        view_surface.blit(world, dest_rect, intersection)
-
-    scaled_view = pygame.transform.scale(view_surface, (WINDOW_WIDTH, WINDOW_HEIGHT))
-    screen.blit(scaled_view, (0, 0))
-
-    # Affichage d'infos en mode debug
-    if DEBUG_MODE:
-        font = pygame.font.Font(None, 24)
-        debug_text = f"Camera pos: ({camera.view_rect.x}, {camera.view_rect.y})  Zoom: {camera.zoom:.2f}  Seed: {seed}"
-        text = font.render(debug_text, True, (255, 255, 255))
-        screen.blit(text, (10, 10))
-
-    pygame.display.flip()
-    clock.tick(FPS)
-
-pygame.quit()
-sys.exit()
+if __name__ == "__main__":
+    main()

@@ -3,7 +3,7 @@ WINDOW_WIDTH = 1920
 WINDOW_HEIGHT = 1080
 
 # Nombre d'images par seconde
-FPS = 60
+FPS = 100
 
 # Paramètre pour le mode debug
 DEBUG_MODE = True
@@ -16,7 +16,7 @@ WORLD_WIDTH = 10000
 WORLD_HEIGHT = 10000
 
 # Paramètres de seed et de nombre de planètes
-DEFAULT_SEED = 1    # Si None, on génère une seed aléatoire.
+DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
 NUMBER_OF_PLANETS = 50  # Nombre de planètes à générer par défaut.
 
 # --- Paramètres de distance pour la génération des planètes ---
@@ -47,3 +47,15 @@ PLANET_COLORS = [
     (128, 128, 128),  # Gris
 ]
 
+import pygame
+# Dictionnaire des bindings (actions -> touches)
+KEY_BINDINGS = {
+    "camera_left": pygame.K_LEFT,
+    "camera_right": pygame.K_RIGHT,
+    "camera_up": pygame.K_UP,
+    "camera_down": pygame.K_DOWN,
+    "zoom_in": pygame.K_z,
+    "zoom_out": pygame.K_x,
+    "pause": pygame.K_p,       # Touche pour basculer en pause
+    "start_game": pygame.K_RETURN,  # Touche pour lancer la partie depuis le menu
+}
