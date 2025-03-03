@@ -16,7 +16,7 @@ WORLD_WIDTH = 10000
 WORLD_HEIGHT = 10000
 
 # Paramètres de seed et de nombre de planètes
-DEFAULT_SEED = 69    # Si None, on génère une seed aléatoire.
+DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
 NUMBER_OF_PLANETS = 50  # Nombre de planètes à générer par défaut.
 
 # --- Paramètres de distance pour la génération des planètes ---
