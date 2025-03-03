@@ -52,7 +52,7 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
 
             # Vérifier la distance par rapport aux planètes déjà générées
             if can_place_planet(x, y, radius, planets):
-                # Si la planète peut être placé, créer un nouvel objet planet avec les paramètres définis
+                # Si la planète peut être placée, créer un nouvel objet planet avec les paramètres définis
                 planet = Planet(x, y, radius, mass, color)
                 # Ajouter cet objet à la liste des planètes
                 planets.append(planet)

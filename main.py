@@ -41,7 +41,6 @@ def main():
         # Récupération des actions (touches) via input_manager
         actions = get_actions()
 
-        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False

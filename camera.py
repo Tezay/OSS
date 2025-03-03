@@ -12,7 +12,7 @@ class Camera:
         # Gestion du zoom
         self.zoom = 1.0  # 1.0 : pas de zoom
         self.MIN_ZOOM = 0.2   # dézoom maximum (affiche plus de monde)
-        self.MAX_ZOOM = 5.0   # zoom maximum (affiche moins de monde)
+        self.MAX_ZOOM = 4.0   # zoom maximum (affiche moins de monde)
 
         # Initialisation de view_rect pour éviter l'erreur si draw() est appelé avant update()
         self.view_rect = pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
@@ -45,9 +45,10 @@ class Camera:
                 self.zoom += 0.01
             if actions.get("zoom_out"):
                 self.zoom -= 0.01
+            # Update du zoom (avec gestion du zoom min et max)
             self.zoom = max(self.MIN_ZOOM, min(self.zoom, self.MAX_ZOOM))
 
-        # Suite du code identique (calcul du view_rect)
+        # Calcul du view_rect
         center_x = self.camera_rect.x + WINDOW_WIDTH // 2
         center_y = self.camera_rect.y + WINDOW_HEIGHT // 2
 
