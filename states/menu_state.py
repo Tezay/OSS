@@ -29,8 +29,8 @@ class MenuState(BaseState):
         if lancement().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lancement
             self.state_manager.set_state(GameState(self.state_manager))     #changer le state
 
-        if parametre(self.state).click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de parametre
-            self.state_manager.set_state(GameState(self.state_manager))     #changer le state
+        """if parametre(self.state).click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de parametre
+            self.state_manager.set_state(GameState(self.state_manager))     #changer le state"""
 
 
     def draw(self, screen):
