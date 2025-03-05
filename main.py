@@ -42,15 +42,20 @@ def main():
         actions = get_actions()
 
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = event.pos
+            else:
+                pos=(0,0)
             if event.type == pygame.QUIT:
                 running = False
             # Délègue la gestion des événements (souris, etc.) à l'état courant
             if state_manager.current_state:
                 state_manager.current_state.handle_event(event)
 
+
         # Mise à jour de l'état courant
         if state_manager.current_state:
-            state_manager.current_state.update(dt, actions)
+            state_manager.current_state.update(dt, actions,pos)
 
         # Dessin de l'état courant
         if state_manager.current_state:

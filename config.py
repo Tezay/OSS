@@ -1,9 +1,9 @@
 # Dimensions de la fenêtre
-WINDOW_WIDTH = 1920/2
-WINDOW_HEIGHT = 1080/2
+WINDOW_WIDTH = 1920/1.5
+WINDOW_HEIGHT = 1080/1.5
 
 # Nombre d'images par seconde
-FPS = 100
+FPS = 60
 
 # Paramètre pour le mode debug
 DEBUG_MODE = True
@@ -57,6 +57,5 @@ KEY_BINDINGS = {
     "zoom_in": pygame.K_z,
     "zoom_out": pygame.K_x,
     "pause": pygame.K_p,       # Touche pour basculer en pause
-    "start_game": pygame.K_RETURN,
-    "click": pygame.MOUSEBUTTONDOWN # Touche pour lancer la partie depuis le menu
+    "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
 }

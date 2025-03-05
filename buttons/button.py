@@ -1,4 +1,5 @@
 import pygame
+import math
 from config import*
 
 largeur_ecran=WINDOW_WIDTH
@@ -28,9 +29,9 @@ class Button():
         screen.blit(texte_surface, texte_rect)
 
     def click(self,mouse_x,mouse_y):
-        print("clique accepté",self.x,self.x+self.largeur,self.y,self.y+self.hauteur)
+        #print("clique accepté",self.x,self.x+self.largeur,self.y,self.y+self.hauteur)
         if self.x< mouse_x < self.x+self.largeur and self.y< mouse_y < self.y+self.hauteur:
-            print("cliquer")
+            #print("cliquer")
             #clique=False
             return True
 
@@ -60,3 +61,13 @@ class Button():
         elif objet=="rect":
             return button_rect
         return
+
+
+def lancement():
+    return Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),"Bienvenue dans OSS", 20, "lancement.png")
+
+def parametre(state):
+    if state==0:
+        return Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),"", 20, "lancement.png")
+    elif state==1:
+        return Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),"", 20, "lancement.png")

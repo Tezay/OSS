@@ -1,6 +1,6 @@
-import pygame
 from .base_state import BaseState
-from button import *
+from buttons.button import *
+from .game_state import GameState
 
 button_lancement = Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),
                           "Bienvenue dans OSS", 20, "lancement.png")
@@ -18,21 +18,19 @@ class MenuState(BaseState):
         # On peut gérer des événements de souris / clavier ici si besoin
         pass
 
-    def update(self, dt, actions):
+    def update(self, dt, actions,pos):
         # Si l'action "start_game" (définie dans config.py) est True, on passe au GameState
-        if actions.get("start_game"):
+        """if actions.get("start_game"):
             from .game_state import GameState
-            self.state_manager.set_state(GameState(self.state_manager))
+            self.state_manager.set_state(GameState(self.state_manager)"""
 
-        for event in pygame.event.get():
-            pos = event.pos
-            mouse_x, mouse_y = pos
-            #print(mouse_x, mouse_y)
-            if event.type== pygame.MOUSEBUTTONDOWN:
-                print(mouse_x, mouse_y)
-                if button_lancement.click(mouse_x,mouse_y):
-                    from .game_state import GameState
-                    self.state_manager.set_state(GameState(self.state_manager))
+        mouse_x,mouse_y=pos
+
+        if lancement().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lancement
+            self.state_manager.set_state(GameState(self.state_manager))     #changer le state
+
+        if parametre(self.state).click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de parametre
+            self.state_manager.set_state(GameState(self.state_manager))     #changer le state
 
 
     def draw(self, screen):
@@ -41,6 +39,7 @@ class MenuState(BaseState):
         """title_surf = self.title_font.render("Menu Principal", True, (255, 255, 255))
         info_surf = self.info_font.render("Appuyez sur ENTER pour lancer le jeu", True, (200, 200, 200))"""
         button_lancement.draw()
+
 
 
         """screen.blit(title_surf, (100, 100))

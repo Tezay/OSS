@@ -1,6 +1,8 @@
-import pygame
 from .base_state import BaseState
-from config import KEY_BINDINGS
+from buttons.button import *
+
+
+
 
 class PauseState(BaseState):
     def __init__(self, state_manager, game):
@@ -19,7 +21,7 @@ class PauseState(BaseState):
                 new_game_state.game = self.game
                 self.state_manager.set_state(new_game_state)
 
-    def update(self, dt, actions):
+    def update(self, dt, actions,pos):
         # Pas besoin de surveiller actions["pause"] ici
         pass
 

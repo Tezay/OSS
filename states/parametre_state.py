@@ -1,6 +1,12 @@
-class BaseState():
-    def __init__(self):
-        pass
+import pygame
+
+
+class parametreState():
+    def __init__(self, state_manager, game):
+        super().__init__()
+        self.state_manager = state_manager
+        self.game = game
+        self.font = pygame.font.Font(None, 50)
 
     def handle_event(self, event):
         """

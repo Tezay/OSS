@@ -15,7 +15,7 @@ class GameState(BaseState):
                 from .pause_state import PauseState
                 self.state_manager.set_state(PauseState(self.state_manager, self.game))
 
-    def update(self, dt, actions):
+    def update(self, dt, actions,pos):
         # Le reste de la logique (caméra, etc.) s'appuie sur actions
         self.game.update(dt, actions)
 
