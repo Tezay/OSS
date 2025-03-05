@@ -1,6 +1,6 @@
 # Dimensions de la fenêtre
-WINDOW_WIDTH = 1920
-WINDOW_HEIGHT = 1080
+WINDOW_WIDTH = 1920/2
+WINDOW_HEIGHT = 1080/2
 
 # Nombre d'images par seconde
 FPS = 100
@@ -57,5 +57,6 @@ KEY_BINDINGS = {
     "zoom_in": pygame.K_z,
     "zoom_out": pygame.K_x,
     "pause": pygame.K_p,       # Touche pour basculer en pause
-    "start_game": pygame.K_RETURN,  # Touche pour lancer la partie depuis le menu
+    "start_game": pygame.K_RETURN,
+    "click": pygame.MOUSEBUTTONDOWN # Touche pour lancer la partie depuis le menu
 }
