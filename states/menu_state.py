@@ -1,7 +1,7 @@
 from .base_state import BaseState
 from buttons.button import *
 from .game_state import GameState
-from.settings_state import SettingsState
+from.settings_menu_state import MenuSettingsState
 import main
 
 
@@ -27,9 +27,9 @@ class MenuState(BaseState):
         if lounch().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lounch
             self.state_manager.set_state(GameState(self.state_manager))     #changer le state
 
-        if settings(1).click(mouse_x,mouse_y):      #verifie si il y a un clique sur le bouton de parametre
+        if menu_settings().click(mouse_x,mouse_y):      #verifie si il y a un clique sur le bouton de parametre
             setting_quit = 2
-            self.state_manager.set_state(SettingsState(self.state_manager))     #changer le state
+            self.state_manager.set_state(MenuSettingsState(self.state_manager))     #changer le state
 
         if quit().click(mouse_x,mouse_y):       #verifie si il y a un clique sur le bouton de quiter le jeu
             #permet de quitter le programe dans le main via le bouton
@@ -45,10 +45,10 @@ class MenuState(BaseState):
         info_surf = self.info_font.render("Appuyez sur ENTER pour lancer le jeu", True, (200, 200, 200))"""
 
 
-        if settings(0).normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
-            screen.blit(settings(0).hoover_picture("picture"), settings(0).hoover_picture("rect"))
+        if menu_settings().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
+            screen.blit(menu_settings().hoover_picture("picture"), menu_settings().hoover_picture("rect"))
         else:
-            screen.blit(settings(0).normal_picture("picture"), settings(0).normal_picture("rect"))
+            screen.blit(menu_settings().normal_picture("picture"), menu_settings().normal_picture("rect"))
 
         style_image(lounch)         #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
 

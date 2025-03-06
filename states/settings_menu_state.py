@@ -1,9 +1,11 @@
 import pygame
 from buttons.button import close
+from .base_state import BaseState
 
 
 
-class SettingsState():
+
+class MenuSettingsState(BaseState):
     def __init__(self, state_manager):
         super().__init__()
         self.state_manager = state_manager

@@ -73,13 +73,18 @@ def lounch():
     return Button(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/lounch_game.png")
             #POUR CHANGER LA POSITION: CHANGER LA 1 ET 2,           POUR LA TAILLE :3 ET 4
 
-def settings(state):
-    if state==0:
-        return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")
-    elif state==1:
-        return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")
+def menu_settings():
+    return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")
+def game_settings():
+    return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")
 def quit():
     return Button(WINDOW_WIDTH // 8, WINDOW_HEIGHT // 8, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/quit_game.png")
 
 def close():
     return Button(WINDOW_WIDTH-20, 0, 20, 20, (255, 255, 255), "X",0,"")
+def tech_tree():
+    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 255, 255), "",30,"assets/tech_tree.png")
+def test():
+    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 255, 255), "",30,"assets/default_texture.png")
+
+
