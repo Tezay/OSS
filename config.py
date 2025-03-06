@@ -1,6 +1,6 @@
 # Dimensions de la fenêtre
-WINDOW_WIDTH = 1920/1.5
-WINDOW_HEIGHT = 1080/1.5
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
 
 # Nombre d'images par seconde
 FPS = 60

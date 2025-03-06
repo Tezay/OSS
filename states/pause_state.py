@@ -11,7 +11,7 @@ class PauseState(BaseState):
         self.game = game
         self.font = pygame.font.Font(None, 50)
 
-    def handle_event(self, event):
+    def handle_event(self, event,pos):
         # On ne regarde pas "actions", on regarde les events
         if event.type == pygame.KEYDOWN:
             if event.key == KEY_BINDINGS["pause"]:

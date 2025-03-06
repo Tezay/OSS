@@ -1,8 +1,10 @@
 import pygame
 import sys
 from config import WINDOW_WIDTH, WINDOW_HEIGHT, FPS
-from states.menu_state import MenuState
+from states.menu_state import*
 from input_manager import get_actions
+
+
 
 # Classe pour gérer les différents état du jeu (les menus)
 class StateManager:
@@ -51,7 +53,7 @@ def main():
                 running = False
             # Délègue la gestion des événements (souris, etc.) à l'état courant
             if state_manager.current_state:
-                state_manager.current_state.handle_event(event)
+                state_manager.current_state.handle_event(event,pos)
 
 
         # Mise à jour de l'état courant

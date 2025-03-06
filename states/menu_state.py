@@ -2,9 +2,9 @@ from .base_state import BaseState
 from buttons.button import *
 from .game_state import GameState
 from.settings_state import SettingsState
+import main
 
-
-
+settings_quit=0
 
 class MenuState(BaseState):
     def __init__(self, state_manager):
@@ -14,8 +14,7 @@ class MenuState(BaseState):
         self.title_font = pygame.font.Font(None, 60)
         self.info_font = pygame.font.Font(None, 32)
 
-    def handle_event(self, event):
-        # On peut gérer des événements de souris / clavier ici si besoin
+    def handle_event(self, event,pos):
         pass
 
     def update(self, dt, actions,pos):
@@ -29,8 +28,15 @@ class MenuState(BaseState):
         if lounch().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lounch
             self.state_manager.set_state(GameState(self.state_manager))     #changer le state
 
-        if settings(1).click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de parametre
+        if settings(1).click(mouse_x,mouse_y):      #verifie si il y a un clique sur le bouton de parametre
+            setting_quit = 2
             self.state_manager.set_state(SettingsState(self.state_manager))     #changer le state
+
+        if quit().click(mouse_x,mouse_y):       #verifie si il y a un clique sur le bouton de quiter le jeu
+            #permet de quitter le programe dans le main via le bouton
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+
 
 
     def draw(self, screen,pos):
@@ -45,10 +51,10 @@ class MenuState(BaseState):
         else:
             screen.blit(settings(0).normal_picture("picture"), settings(0).normal_picture("rect"))
 
-        if lounch().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
-            screen.blit(lounch().hoover_picture("picture"), lounch().hoover_picture("rect"))
-        else:
-            screen.blit(lounch().normal_picture("picture"), lounch().normal_picture("rect"))
+        style_image(lounch)         #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
+
+        style_image(quit)       #pareil wallah
+
 
         """screen.blit(title_surf, (100, 100))
         screen.blit(info_surf, (100, 200))"""

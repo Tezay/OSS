@@ -2,7 +2,7 @@ class BaseState():
     def __init__(self):
         pass
 
-    def handle_event(self, event):
+    def handle_event(self, event,pos):
         """
         Gère les événements Pygame.
         """

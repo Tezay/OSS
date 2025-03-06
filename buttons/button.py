@@ -35,8 +35,6 @@ class Button():
             #clique=False
             return True
 
-    def close(self):
-        Button(0, 0, 20, 20, (255, 255, 255), "X").draw()
 
     def cirle_click(self,button_center,button_radius,mouse_x,mouse_y):
         distance = math.sqrt((mouse_x - button_center[0]) ** 2 + (mouse_y - button_center[1]) ** 2)
@@ -63,6 +61,14 @@ class Button():
         return
 
 
+def style_image(name):
+    if name().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
+        return screen.blit(name().hoover_picture("picture"), name().hoover_picture("rect"))
+    else:
+        return screen.blit(name().normal_picture("picture"), name().normal_picture("rect"))
+
+
+
 def lounch():
     return Button(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/lounch_game.png")
             #POUR CHANGER LA POSITION: CHANGER LA 1 ET 2,           POUR LA TAILLE :3 ET 4
@@ -72,3 +78,8 @@ def settings(state):
         return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")
     elif state==1:
         return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")
+def quit():
+    return Button(WINDOW_WIDTH // 8, WINDOW_HEIGHT // 8, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/quit_game.png")
+
+def close():
+    return Button(WINDOW_WIDTH-20, 0, 20, 20, (255, 255, 255), "X",0,"")
