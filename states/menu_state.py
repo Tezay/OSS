@@ -4,7 +4,6 @@ from .game_state import GameState
 from.settings_state import SettingsState
 import main
 
-settings_quit=0
 
 class MenuState(BaseState):
     def __init__(self, state_manager):

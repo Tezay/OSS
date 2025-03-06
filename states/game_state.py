@@ -5,7 +5,6 @@ from config import KEY_BINDINGS
 from buttons.button import *
 from.settings_state import SettingsState
 
-setting_quit = 0
 
 
 class GameState(BaseState):
@@ -17,7 +16,7 @@ class GameState(BaseState):
     def handle_event(self, event,pos):
         if event.type == pygame.KEYDOWN:
             if event.key == KEY_BINDINGS["pause"]:
-                from .pause_state import PauseState
+                from .pause_state_game import PauseState
                 setting_quit=1
                 self.state_manager.set_state(PauseState(self.state_manager, self.game))
 
