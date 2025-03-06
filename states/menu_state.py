@@ -1,9 +1,9 @@
 from .base_state import BaseState
 from buttons.button import *
 from .game_state import GameState
+from.settings_state import SettingsState
 
-button_lancement = Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),
-                          "Bienvenue dans OSS", 20, "lancement.png")
+
 
 
 class MenuState(BaseState):
@@ -26,21 +26,29 @@ class MenuState(BaseState):
 
         mouse_x,mouse_y=pos
 
-        if lancement().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lancement
+        if lounch().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lounch
             self.state_manager.set_state(GameState(self.state_manager))     #changer le state
 
-        """if parametre(self.state).click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de parametre
-            self.state_manager.set_state(GameState(self.state_manager))     #changer le state"""
+        if settings(1).click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de parametre
+            self.state_manager.set_state(SettingsState(self.state_manager))     #changer le state
 
 
-    def draw(self, screen):
+    def draw(self, screen,pos):
         screen.fill((0, 0, 0))
 
         """title_surf = self.title_font.render("Menu Principal", True, (255, 255, 255))
         info_surf = self.info_font.render("Appuyez sur ENTER pour lancer le jeu", True, (200, 200, 200))"""
-        button_lancement.draw()
 
 
+        if settings(0).normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
+            screen.blit(settings(0).hoover_picture("picture"), settings(0).hoover_picture("rect"))
+        else:
+            screen.blit(settings(0).normal_picture("picture"), settings(0).normal_picture("rect"))
+
+        if lounch().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
+            screen.blit(lounch().hoover_picture("picture"), lounch().hoover_picture("rect"))
+        else:
+            screen.blit(lounch().normal_picture("picture"), lounch().normal_picture("rect"))
 
         """screen.blit(title_surf, (100, 100))
         screen.blit(info_surf, (100, 200))"""

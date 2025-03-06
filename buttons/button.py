@@ -2,35 +2,35 @@ import pygame
 import math
 from config import*
 
-largeur_ecran=WINDOW_WIDTH
-hauteur_ecran=WINDOW_HEIGHT
+
+
 pygame.init()
-screen = pygame.display.set_mode((largeur_ecran, hauteur_ecran))
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("interface")
 font=pygame.font.Font(None,36)
 
 
 class Button():
-    def __init__(self,x,y,largeur,hauteur,couleur,texte,dif_hoover,fichier):
+    def __init__(self,x,y,width,height,color,text,dif_hoover,file):
         self.x=x
         self.y=y
-        self.largeur=largeur
-        self.hauteur=hauteur
-        self.couleur=couleur
-        self.texte=texte
+        self.width=width
+        self.height=height
+        self.color=color
+        self.text=text
         self.dif_hoover=dif_hoover
-        self.fichier=fichier
+        self.file=file
 
 
     def draw(self):
-        pygame.draw.rect(screen, self.couleur, (self.x, self.y, self.largeur, self.hauteur))
-        texte_surface = font.render(self.texte, True, (0, 0, 0))
-        texte_rect = texte_surface.get_rect(center=(self.x + self.largeur // 2, self.y + self.hauteur // 2))
-        screen.blit(texte_surface, texte_rect)
+        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
+        text_surface = font.render(self.text, True, (0, 0, 0))
+        text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        screen.blit(text_surface, text_rect)
 
     def click(self,mouse_x,mouse_y):
-        #print("clique accepté",self.x,self.x+self.largeur,self.y,self.y+self.hauteur)
-        if self.x< mouse_x < self.x+self.largeur and self.y< mouse_y < self.y+self.hauteur:
+        #print("clique accepté",self.x,self.x+self.width,self.y,self.y+self.height)
+        if self.x< mouse_x < self.x+self.width and self.y< mouse_y < self.y+self.height:
             #print("cliquer")
             #clique=False
             return True
@@ -43,31 +43,32 @@ class Button():
         if distance <= button_radius:  # Si la souris est dans le cercle
             print("Bouton circulaire cliqué !")
 
-    def normal_image(self,objet):
-        image = pygame.image.load(self.fichier)
-        image = pygame.transform.scale(image, (self.largeur, self.hauteur))
-        button_rect = image.get_rect(center=(self.x + self.largeur // 2, self.y + self.hauteur // 2))
-        if objet=="image":
-            return image
+    def normal_picture(self,objet):
+        picture = pygame.image.load(self.file)
+        picture = pygame.transform.scale(picture, (self.width, self.height))
+        button_rect = picture.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        if objet=="picture":
+            return picture
         elif objet=="rect":
             return button_rect
 
-    def hoover_image(self,objet):
-        image = pygame.image.load(self.fichier)
-        image = pygame.transform.scale(image, (self.largeur+self.dif_hoover,self.hauteur+self.dif_hoover ))
-        button_rect = image.get_rect(center=(self.x+self.largeur // 2,self.y+self.hauteur // 2))
-        if objet=="image":
-            return image
+    def hoover_picture(self,objet):
+        picture = pygame.image.load(self.file)
+        picture = pygame.transform.scale(picture, (self.width+self.dif_hoover,self.height+self.dif_hoover ))
+        button_rect = picture.get_rect(center=(self.x+self.width // 2,self.y+self.height // 2))
+        if objet=="picture":
+            return picture
         elif objet=="rect":
             return button_rect
         return
 
 
-def lancement():
-    return Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),"Bienvenue dans OSS", 20, "lancement.png")
+def lounch():
+    return Button(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/lounch_game.png")
+            #POUR CHANGER LA POSITION: CHANGER LA 1 ET 2,           POUR LA TAILLE :3 ET 4
 
-def parametre(state):
+def settings(state):
     if state==0:
-        return Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),"", 20, "lancement.png")
+        return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")
     elif state==1:
-        return Button(largeur_ecran // 3, hauteur_ecran // 4, largeur_ecran // 4, 100, (255, 0, 0),"", 20, "lancement.png")
+        return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"", 30, "assets/settings.png")

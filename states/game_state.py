@@ -19,5 +19,5 @@ class GameState(BaseState):
         # Le reste de la logique (caméra, etc.) s'appuie sur actions
         self.game.update(dt, actions)
 
-    def draw(self, screen):
+    def draw(self, screen,pos):
         self.game.draw(screen)

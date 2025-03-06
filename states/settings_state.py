@@ -1,12 +1,10 @@
 import pygame
 
 
-class parametreState():
-    def __init__(self, state_manager, game):
+class SettingsState():
+    def __init__(self, state_manager):
         super().__init__()
         self.state_manager = state_manager
-        self.game = game
-        self.font = pygame.font.Font(None, 50)
 
     def handle_event(self, event):
         """
@@ -20,8 +18,7 @@ class parametreState():
         """
         pass
 
-    def draw(self, screen):
-        """
-        Dessine l'état sur l'écran.
-        """
+    def draw(self, screen,pos):
+        screen.fill((0, 0, 0))
+
         pass

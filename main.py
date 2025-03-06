@@ -44,6 +44,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = event.pos
+                print(pos)
             else:
                 pos=(0,0)
             if event.type == pygame.QUIT:
@@ -59,7 +60,7 @@ def main():
 
         # Dessin de l'état courant
         if state_manager.current_state:
-            state_manager.current_state.draw(screen)
+            state_manager.current_state.draw(screen,pos)
 
         pygame.display.flip()
 

@@ -25,7 +25,7 @@ class PauseState(BaseState):
         # Pas besoin de surveiller actions["pause"] ici
         pass
 
-    def draw(self, screen):
+    def draw(self, screen,pos):
         # Dessiner le jeu "en fond"
         self.game.draw(screen)
         # Dessiner l'overlay

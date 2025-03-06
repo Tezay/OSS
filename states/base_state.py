@@ -14,7 +14,7 @@ class BaseState():
         """
         pass
 
-    def draw(self, screen):
+    def draw(self, screen,pos):
         """
         Dessine l'état sur l'écran.
         """

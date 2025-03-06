@@ -47,7 +47,7 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
             radius = random.randint(PLANET_MIN_RADIUS, PLANET_MAX_RADIUS)
             # Définir aléatoirement la masse de la planète
             mass = random.uniform(PLANET_MIN_MASS, PLANET_MAX_MASS)
-            # Définir aléatoirement la couleur de la planète (utilisation de texture à l'avenir)
+            # Définir aléatoirement la color de la planète (utilisation de texture à l'avenir)
             color = random.choice(PLANET_COLORS)
 
             # Vérifier la distance par rapport aux planètes déjà générées

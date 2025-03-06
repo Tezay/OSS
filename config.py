@@ -29,7 +29,7 @@ PLANET_MAX_RADIUS = 200
 PLANET_MIN_MASS = 1e4
 PLANET_MAX_MASS = 1e6
 
-# On définit un set de couleurs possibles pour les planètes
+# On définit un set de colors possibles pour les planètes
 PLANET_COLORS = [
     (255, 0, 0),      # Rouge
     (0, 255, 0),      # Vert
