@@ -45,14 +45,14 @@ class MenuState(BaseState):
         info_surf = self.info_font.render("Appuyez sur ENTER pour lancer le jeu", True, (200, 200, 200))"""
 
 
-        if menu_settings_button().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
+        """if menu_settings_button().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
             screen.blit(menu_settings_button().hoover_picture("picture"), menu_settings_button().hoover_picture("rect"))
         else:
-            screen.blit(menu_settings_button().normal_picture("picture"), menu_settings_button().normal_picture("rect"))
+            screen.blit(menu_settings_button().normal_picture("picture"), menu_settings_button().normal_picture("rect"))"""
 
-        style_image(launch_button)         #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
-
-        style_image(quit_button)       #pareil wallah
+        launch_button().draw()    #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
+        menu_settings_button().draw()
+        quit_button().draw()      #pareil wallah
 
 
         """screen.blit(title_surf, (100, 100))

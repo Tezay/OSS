@@ -32,6 +32,6 @@ class TechTreeState(BaseState):
         screen.fill((0, 0, 0))
         return_button().draw()
 
-        style_image(test)
+        test().draw()
 
         pass

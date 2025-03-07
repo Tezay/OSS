@@ -35,6 +35,6 @@ class MenuSettingsState(BaseState):
         screen.fill((0, 0, 0))
         return_button().draw()
 
-        style_image(resolution_screen_button)
+        resolution_screen_button().draw()
 
         pass

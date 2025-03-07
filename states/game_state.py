@@ -39,5 +39,5 @@ class GameState(BaseState):
     def draw(self, screen,pos):
         self.game.draw(screen)
 
-        style_image(game_settings_button)
-        style_image(tech_tree_button)
+        game_settings_button().draw()
+        tech_tree_button().draw()
