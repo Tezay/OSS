@@ -22,18 +22,22 @@ class GameState(BaseState):
 
     def update(self, dt, actions,pos):
         mouse_x, mouse_y=pos
-        if game_settings().click(mouse_x, mouse_y):  # verifie si il y a un clique sur le bouton de parametre
+        from .settings_game_state import GameSettingsState
+        if game_settings_button().click(mouse_x, mouse_y):  # verifie si il y a un clique sur le bouton de parametre
             self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))  # changer le state
         self.game.update(dt, actions)
 
-        if tech_tree().click(mouse_x,mouse_y):
+        if tech_tree_button().click(mouse_x,mouse_y):
             from .tech_tree_state import TechTreeState
             self.state_manager.set_state(TechTreeState(self.state_manager,self.game))  # changer le state
         self.game.update(dt, actions)
+
+        
+
 
 
     def draw(self, screen,pos):
         self.game.draw(screen)
 
-        style_image(game_settings)
-        style_image(tech_tree)
+        style_image(game_settings_button)
+        style_image(tech_tree_button)
