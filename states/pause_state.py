@@ -2,8 +2,11 @@ from .base_state import BaseState
 from buttons.button import *
 
 
-
-
+# Classe enfant de BaseState
+# Méthodes utilisées :
+# - handles_event : surveille les événements (touches clavier)
+# - update : update la logique relative à l'état en cours
+# - draw : déssine l'état courant
 class PauseState(BaseState):
     def __init__(self, state_manager, game):
         super().__init__()

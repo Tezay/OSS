@@ -1,6 +1,6 @@
 import pygame
 from buttons.button import*
-from .base_state import BaseState
+from ..base_state import BaseState
 
 
 
@@ -29,7 +29,7 @@ class GameSettingsState(BaseState):
         
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
-            from .game_state import GameState
+            from ..game_state import GameState
             new_game_state = GameState(self.state_manager)
             # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
             new_game_state.game = self.game
@@ -44,7 +44,7 @@ class GameSettingsState(BaseState):
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
+
+        # Dessin des boutons relatifs à l'état setting_game_state (avec la méthode .draw() de la classe Button)
         return_button().draw()
         quit_button().draw()
-
-        pass

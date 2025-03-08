@@ -1,17 +1,9 @@
-
-
 # Dimensions de la fenêtre
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
 # Nombre d'images par seconde
 FPS = 60
-
-#taille des boutons
-global button_size_widht,button_size_height 
-button_size_widht = WINDOW_WIDTH * 0.2  # Largeur est 20% de la largeur de la fenêtre
-button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur est 10% de la hauteur de la fenêtre
-
 
 # Paramètre pour le mode debug
 DEBUG_MODE = True
@@ -67,3 +59,8 @@ KEY_BINDINGS = {
     "pause": pygame.K_p,       # Touche pour basculer en pause
     "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
 }
+
+# Taille des boutons
+global button_size_widht,button_size_height 
+button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre
+button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fenêtre

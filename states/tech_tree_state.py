@@ -3,7 +3,11 @@ from buttons.button import*
 from .base_state import BaseState
 
 
-
+# Classe enfant de BaseState
+# Méthodes utilisées :
+# - handles_event : surveille les événements (touches clavier)
+# - update : update la logique relative à l'état en cours
+# - draw : déssine l'état courant
 class TechTreeState(BaseState):
     def __init__(self, state_manager,game):
         super().__init__()
@@ -14,7 +18,6 @@ class TechTreeState(BaseState):
         if event==pygame.K_ESCAPE:
             from .game_state import GameState
             self.state_manager.set_state(GameState(self.state_manager))
-
 
     def update(self, dt, actions,pos):
 
@@ -27,11 +30,10 @@ class TechTreeState(BaseState):
             new_game_state.game = self.game
             self.state_manager.set_state(new_game_state)     #changer le state)
 
-
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
         return_button().draw()
 
+        # Dessin des boutons relatifs à l'état tech_tree_state (avec la méthode .draw() de la classe Button)
+        # Bouton test
         test().draw()
-
-        pass

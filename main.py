@@ -5,7 +5,6 @@ from states.menu_state import*
 from input_manager import get_actions
 
 
-
 # Classe pour gérer les différents état du jeu (les menus)
 class StateManager:
     def __init__(self):
@@ -55,7 +54,6 @@ def main():
             if state_manager.current_state:
                 state_manager.current_state.handle_event(event,pos)
 
-
         # Mise à jour de l'état courant
         if state_manager.current_state:
             state_manager.current_state.update(dt, actions,pos)
@@ -64,6 +62,7 @@ def main():
         if state_manager.current_state:
             state_manager.current_state.draw(screen,pos)
 
+        # Refresh de l'affichage pygame
         pygame.display.flip()
 
     pygame.quit()

@@ -3,7 +3,6 @@ import math
 from config import*
 
 
-
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("interface")
@@ -54,25 +53,21 @@ class Button():
         # Dessiner le texte sur l'écran
         screen.blit(text, text_rect)
 
-
-
-
     def click(self,mouse_x,mouse_y):
-        #print("clique accepté",self.x,self.x+self.width,self.y,self.y+self.height)
+        # Vérifie si les coordonnées de la position de la souris sont comprisent dans les coordonnées du bouton
         if self.x< mouse_x < self.x+self.width and self.y< mouse_y < self.y+self.height:
-            #print("cliquer")
-            #clique=False
             return True
 
-
-    def cirle_click(self,button_center,button_radius,mouse_x,mouse_y):
+    def circle_click(self,button_center,button_radius,mouse_x,mouse_y):
+        # Calcul de la distance entre la position de la souris et le centre du cercle
         distance = math.sqrt((mouse_x - button_center[0]) ** 2 + (mouse_y - button_center[1]) ** 2)
-        if distance <= button_radius:  # Si la souris est dans le cercle
-            print("Bouton circulaire cliqué !")
+        # Vérification si la souris est dans le cercle
+        if distance <= button_radius:
+            print("Bouton circulaire cliqué")
 
 
-
-    """def normal_picture(self,objet):
+"""
+    def normal_picture(self,objet):
         picture = pygame.image.load(self.file)
         picture = pygame.transform.scale(picture, (self.width, self.height))
         button_rect = picture.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
@@ -89,9 +84,11 @@ class Button():
             return picture
         elif objet=="rect":
             return button_rect
-        return"""
+        return
+"""
 
 
+# Sert plus à rien ??
 def style_image(name):
     if name().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
         return name().draw()
@@ -99,34 +96,43 @@ def style_image(name):
         return screen.blit(name().normal_picture("picture"), name().normal_picture("rect"))
 
 
-
-
-
-"""def launch_button():
+"""
+def launch_button():
     return Button(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/button.png")
             #POUR CHANGER LA POSITION: CHANGER LA 1 ET 2,           POUR LA TAILLE :3 ET 4
 
 def menu_settings_button():
     return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"parametre", 0, "assets/button.png")
+
 def game_settings_button():
     return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"parametre", 30, "assets/button.png")
+
 def quit_button():
     return Button(WINDOW_WIDTH // 8, WINDOW_HEIGHT // 8, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/button.png")
 
 def return_button():
-    return Button(WINDOW_WIDTH-20, 0, 20, 20, (255, 255, 255), "retour arriere",0,"assets/button.png")"""
+    return Button(WINDOW_WIDTH-20, 0, 20, 20, (255, 255, 255), "retour arriere",0,"assets/button.png")
+"""
+
+
+########################
+# Toutes les fonctions relatives aux boutons du jeu
+# Return à chaque fois un objet de la classe Button (avec les paramètres dédiés)
+# Pour afficher un bouton, utiliser .draw() sur un l'appel
+########################
+
 
 def tech_tree_button():
-    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "arbre technologique",30,"assets/button.png")
+    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "Arbre technologique",30,"assets/button.png")
+
 def test():
-    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "",30,"assets/button.png")
+    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "Bouton test",30,"assets/button.png")
 
 def resolution_screen_button():
-    return Button(900,350,button_size_widht, button_size_height, (255, 255, 255), "résolution",30,"assets/button.png")
-
+    return Button(900,350,button_size_widht, button_size_height, (255, 255, 255), "Résolution",30,"assets/button.png")
 
 def launch_button():
-    return Button(350,460, button_size_widht, button_size_height, (255, 0, 0), "lancer le jeu", 20, "assets/button.png")
+    return Button(350,460, button_size_widht, button_size_height, (255, 0, 0), "Lancer le jeu", 20, "assets/button.png")
 
 def menu_settings_button():
     return Button(650,370, button_size_widht, button_size_height, (255, 0, 0), "Paramètres", 0, "assets/button.png")
@@ -141,7 +147,7 @@ def return_button():
     return Button(735, 585, button_size_widht, button_size_height, (255, 255, 255), "Retour", 0, "assets/button.png")
 
 def full_screen_button():
-    return Button(250,130, button_size_widht, button_size_height, (255, 255, 255), "plein ecran", 0, "assets/button.png")
+    return Button(250,130, button_size_widht, button_size_height, (255, 255, 255), "Plein ecran", 0, "assets/button.png")
 
 def resolution_1280x720_button():
     return Button(250,200, button_size_widht, button_size_height, (255, 255, 255), "1280x720", 0, "assets/button.png")

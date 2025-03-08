@@ -1,10 +1,13 @@
 from .base_state import BaseState
 from buttons.button import *
 from .game_state import GameState
-from.settings_menu_state import MenuSettingsState
-import main
+from .settings_state.settings_menu_state import MenuSettingsState
 
-
+# Classe enfant de BaseState
+# Méthodes utilisées :
+# - handles_event : surveille les événements (touches clavier)
+# - update : update la logique relative à l'état en cours
+# - draw : déssine l'état courant
 class MenuState(BaseState):
     def __init__(self, state_manager):
         super().__init__()
@@ -35,9 +38,6 @@ class MenuState(BaseState):
             #permet de quitter le programe dans le main via le bouton
             pygame.event.post(pygame.event.Event(pygame.QUIT))
 
-
-
-
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
 
@@ -50,10 +50,10 @@ class MenuState(BaseState):
         else:
             screen.blit(menu_settings_button().normal_picture("picture"), menu_settings_button().normal_picture("rect"))"""
 
-        launch_button().draw()    #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
+        # Dessin des boutons relatifs à l'état menu_state (avec la méthode .draw() de la classe Button)
+        launch_button().draw()
         menu_settings_button().draw()
-        quit_button().draw()      #pareil wallah
-
+        quit_button().draw()
 
         """screen.blit(title_surf, (100, 100))
         screen.blit(info_surf, (100, 200))"""

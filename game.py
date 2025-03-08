@@ -86,6 +86,7 @@ class Game:
             text = font.render(debug_text, True, (255, 255, 255))
             screen.blit(text, (10, 10))
 
+    # A revoir (+ commenter)
     def _get_camera_view(self):
         """ 
         Gère la logique d'extraction de la vue depuis self.world en fonction de la caméra.

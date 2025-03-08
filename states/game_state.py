@@ -3,9 +3,13 @@ from .base_state import BaseState
 from game import Game
 from config import KEY_BINDINGS
 from buttons.button import *
-from.settings_game_state import GameSettingsState
 
 
+# Classe enfant de BaseState
+# Méthodes utilisées :
+# - handles_event : surveille les événements (touches clavier)
+# - update : update la logique relative à l'état en cours
+# - draw : déssine l'état courant
 class GameState(BaseState):
     def __init__(self, state_manager):
         super().__init__()
@@ -21,7 +25,7 @@ class GameState(BaseState):
 
     def update(self, dt, actions,pos):
         mouse_x, mouse_y=pos
-        from .settings_game_state import GameSettingsState
+        from .settings_state.settings_game_state import GameSettingsState
         if game_settings_button().click(mouse_x, mouse_y):  # verifie si il y a un clique sur le bouton de parametre
             self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))  # changer le state
 
@@ -33,13 +37,10 @@ class GameState(BaseState):
 
         # Update de GameState
         self.game.update(dt, actions)
-
         
-
-
-
     def draw(self, screen,pos):
         self.game.draw(screen)
 
+        # Dessin des boutons relatifs à l'état game_state (avec la méthode .draw() de la classe Button)
         game_settings_button().draw()
         tech_tree_button().draw()
