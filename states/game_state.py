@@ -20,13 +20,12 @@ class GameState(BaseState):
                 self.state_manager.set_state(PauseState(self.state_manager, self.game))
 
     def update(self, dt, actions,pos):
-
-        mouse_x, mouse_y = pos
-        if game_settings().click(mouse_x, mouse_y):  # verifie si il y a un clique sur le bouton de parametre
+        mouse_x, mouse_y=pos
+        from .settings_game_state import GameSettingsState
+        if game_settings_button().click(mouse_x, mouse_y):  # verifie si il y a un clique sur le bouton de parametre
             self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))  # changer le state
 
-        if tech_tree().click(mouse_x,mouse_y):
-            # Import de l'état TechTreeState
+        if tech_tree_button().click(mouse_x,mouse_y):
             from .tech_tree_state import TechTreeState
             # Définie l'état courant à TechTreeState
             # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
@@ -35,9 +34,12 @@ class GameState(BaseState):
         # Update de GameState
         self.game.update(dt, actions)
 
+        
+
+
 
     def draw(self, screen,pos):
         self.game.draw(screen)
 
-        style_image(game_settings)
-        style_image(tech_tree)
+        game_settings_button().draw()
+        tech_tree_button().draw()

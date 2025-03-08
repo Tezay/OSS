@@ -24,14 +24,14 @@ class MenuState(BaseState):
 
         mouse_x,mouse_y=pos
 
-        if launch().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de launch
+        if launch_button().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lounch
             self.state_manager.set_state(GameState(self.state_manager))     #changer le state
 
-        if menu_settings().click(mouse_x,mouse_y):      #verifie si il y a un clique sur le bouton de parametre
+        if menu_settings_button().click(mouse_x,mouse_y):      #verifie si il y a un clique sur le bouton de parametre
             setting_quit = 2
             self.state_manager.set_state(MenuSettingsState(self.state_manager))     #changer le state
 
-        if quit().click(mouse_x,mouse_y):       #verifie si il y a un clique sur le bouton de quiter le jeu
+        if quit_button().click(mouse_x,mouse_y):       #verifie si il y a un clique sur le bouton de quiter le jeu
             #permet de quitter le programe dans le main via le bouton
             pygame.event.post(pygame.event.Event(pygame.QUIT))
 
@@ -45,14 +45,14 @@ class MenuState(BaseState):
         info_surf = self.info_font.render("Appuyez sur ENTER pour lancer le jeu", True, (200, 200, 200))"""
 
 
-        if menu_settings().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
-            screen.blit(menu_settings().hoover_picture("picture"), menu_settings().hoover_picture("rect"))
+        """if menu_settings_button().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
+            screen.blit(menu_settings_button().hoover_picture("picture"), menu_settings_button().hoover_picture("rect"))
         else:
-            screen.blit(menu_settings().normal_picture("picture"), menu_settings().normal_picture("rect"))
+            screen.blit(menu_settings_button().normal_picture("picture"), menu_settings_button().normal_picture("rect"))"""
 
-        style_image(launch)         #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
-
-        style_image(quit)       #pareil wallah
+        launch_button().draw()    #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
+        menu_settings_button().draw()
+        quit_button().draw()      #pareil wallah
 
 
         """screen.blit(title_surf, (100, 100))

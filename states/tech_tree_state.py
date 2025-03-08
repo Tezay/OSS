@@ -20,7 +20,7 @@ class TechTreeState(BaseState):
 
         # Récupération des coordonnées de la souris
         mouse_x, mouse_y = pos
-        if close().click(mouse_x,mouse_y):
+        if return_button().click(mouse_x,mouse_y):
             from states.game_state import GameState
             new_game_state = GameState(self.state_manager)
             # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
@@ -30,8 +30,8 @@ class TechTreeState(BaseState):
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
-        close().draw()
+        return_button().draw()
 
-        style_image(test)
+        test().draw()
 
         pass
