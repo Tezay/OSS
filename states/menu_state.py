@@ -25,16 +25,21 @@ class MenuState(BaseState):
             from .game_state import GameState
             self.state_manager.set_state(GameState(self.state_manager)"""
 
+        # Récupération des coordonnées de la souris
         mouse_x,mouse_y=pos
+        # Vérification du clique de la souris sur le bouton
+        if launch_button().click(mouse_x,mouse_y):
+            # Passe l'état courant à game_state
+            self.state_manager.set_state(GameState(self.state_manager))
 
-        if launch_button().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lounch
-            self.state_manager.set_state(GameState(self.state_manager))     #changer le state
-
-        if menu_settings_button().click(mouse_x,mouse_y):      #verifie si il y a un clique sur le bouton de parametre
+        # Vérification du clique de la souris sur le bouton
+        if menu_settings_button().click(mouse_x,mouse_y):
             setting_quit = 2
-            self.state_manager.set_state(MenuSettingsState(self.state_manager))     #changer le state
+            # Passe l'état courant à menu_settings_state
+            self.state_manager.set_state(MenuSettingsState(self.state_manager))
 
-        if quit_button().click(mouse_x,mouse_y):       #verifie si il y a un clique sur le bouton de quiter le jeu
+        # Vérification du clique de la souris sur le bouton
+        if quit_button().click(mouse_x,mouse_y):
             #permet de quitter le programe dans le main via le bouton
             pygame.event.post(pygame.event.Event(pygame.QUIT))
 

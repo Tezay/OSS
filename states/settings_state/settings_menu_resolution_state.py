@@ -25,14 +25,18 @@ class MenuSettingsResolutionState(BaseState):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             from ..menu_state import MenuState
+            # Passe l'état courant à menu_state
             self.state_manager.set_state(MenuState(self.state_manager))
 
     def update(self, dt, actions,pos):
-        global WINDOW_WIDTH, WINDOW_HEIGHT,button_size_widht,button_size_height   # définir les variables comme globales
+        # Définition des variables de taille de l'écran (globales)
+        global WINDOW_WIDTH, WINDOW_HEIGHT,button_size_widht,button_size_height
         mouse_x,mouse_y=pos
+        # Vérification du clique de la souris sur le bouton
         if return_button().click(mouse_x,mouse_y):
             from .settings_menu_state import MenuSettingsState
-            self.state_manager.set_state(MenuSettingsState(self.state_manager))     #changer le state
+            # Passe l'état courant à menu_settings_state
+            self.state_manager.set_state(MenuSettingsState(self.state_manager))
 
         if full_screen_button().click(mouse_x,mouse_y):
             pygame.display.set_mode((MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT), pygame.FULLSCREEN)  # Activer le mode plein écran

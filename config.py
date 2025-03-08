@@ -60,7 +60,7 @@ KEY_BINDINGS = {
     "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
 }
 
-# Taille des boutons
+# Taille des boutons (globales, afin de pouvoir les éditer dynamiquement pendant l'exécution du jeu)
 global button_size_widht,button_size_height 
 button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre
 button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fenêtre

@@ -20,15 +20,19 @@ class GameState(BaseState):
         if event.type == pygame.KEYDOWN:
             if event.key == KEY_BINDINGS["pause"]:
                 from .pause_state import PauseState
-                setting_quit=1
+                setting_quit=1 # wtf ?
                 self.state_manager.set_state(PauseState(self.state_manager, self.game))
 
     def update(self, dt, actions,pos):
-        mouse_x, mouse_y=pos
-        from .settings_state.settings_game_state import GameSettingsState
-        if game_settings_button().click(mouse_x, mouse_y):  # verifie si il y a un clique sur le bouton de parametre
+        # Récupération des coordonnées de la souris dans un tuple
+        mouse_x, mouse_y = pos
+        # Vérification du clique de la souris sur le bouton
+        if game_settings_button().click(mouse_x, mouse_y):
+            from .settings_state.settings_game_state import GameSettingsState
+            # Passe l'état courant à game_settings_state
             self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))  # changer le state
-
+        
+        # Vérification du clique de la souris sur le bouton
         if tech_tree_button().click(mouse_x,mouse_y):
             from .tech_tree_state import TechTreeState
             # Définie l'état courant à TechTreeState

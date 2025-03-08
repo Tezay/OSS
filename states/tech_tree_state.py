@@ -21,14 +21,16 @@ class TechTreeState(BaseState):
 
     def update(self, dt, actions,pos):
 
-        # Récupération des coordonnées de la souris
+        # Récupération des coordonnées de la souris dans un tuple
         mouse_x, mouse_y = pos
+        # Vérification du clique de la souris sur le bouton
         if return_button().click(mouse_x,mouse_y):
             from states.game_state import GameState
             new_game_state = GameState(self.state_manager)
             # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
             new_game_state.game = self.game
-            self.state_manager.set_state(new_game_state)     #changer le state)
+            # Passe l'état courant à game_state
+            self.state_manager.set_state(new_game_state)
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))

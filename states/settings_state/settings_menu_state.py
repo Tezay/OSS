@@ -20,20 +20,23 @@ class MenuSettingsState(BaseState):
             self.state_manager.set_state(MenuState(self.state_manager))
 
     def update(self, dt, actions,pos):
-
-        mouse_x,mouse_y=pos
-
+        # Récupération des coordonnées de la souris dans un tuple
+        mouse_x, mouse_y = pos
+        # Vérification du clique de la souris sur le bouton
         if return_button().click(mouse_x,mouse_y):
             from states.menu_state import MenuState
-            self.state_manager.set_state(MenuState(self.state_manager))     #changer le state
+            # Passe l'état courant à menu_state
+            self.state_manager.set_state(MenuState(self.state_manager))
 
+        # Vérification du clique de la souris sur le boutons
         if resolution_screen_button().click(mouse_x,mouse_y):
             from .settings_menu_resolution_state import MenuSettingsResolutionState
-            self.state_manager.set_state(MenuSettingsResolutionState(self.state_manager))     #changer le state
+            # Passe l'état courant à menu_settings_resulutions_state
+            self.state_manager.set_state(MenuSettingsResolutionState(self.state_manager))
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
-        return_button().draw()
 
         # Dessin des boutons relatifs à l'état settings_menu_state (avec la méthode .draw() de la classe Button)
+        return_button().draw()
         resolution_screen_button().draw()
