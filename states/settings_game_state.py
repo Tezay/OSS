@@ -1,5 +1,5 @@
 import pygame
-from buttons.button import return_button
+from buttons.button import*
 from .base_state import BaseState
 
 
@@ -35,11 +35,16 @@ class GameSettingsState(BaseState):
             new_game_state.game = self.game
             self.state_manager.set_state(new_game_state)     #changer le state)
 
+        if quit_button().click(mouse_x,mouse_y):       #verifie si il y a un clique sur le bouton de quiter le jeu
+            #permet de quitter le programe dans le main via le bouton
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
+
         
 
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
         return_button().draw()
+        quit_button().draw()
 
         pass

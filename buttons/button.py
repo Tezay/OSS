@@ -11,7 +11,7 @@ font=pygame.font.Font(None,36)
 
 
 class Button():
-    def __init__(self,x,y,width,height,color,text,dif_hoover,file,font="Arial",text_color=(0,0,0),text_size=8):
+    def __init__(self,x,y,width,height,color,text,dif_hoover,file,font="Arial",text_color=(255,255,255),text_size=8):
         self.x=x
         self.y=y
         self.width=width
@@ -44,7 +44,7 @@ class Button():
 
         # Écrire le texte
         font = pygame.font.SysFont("Arial", 24)  # Police de caractères par défaut
-        text = font.render(self.text, True, (0, 0, 0))  # Texte à afficher
+        text = font.render(self.text, True, self.text_color)  # Texte à afficher
 
         # Calculer la position du texte pour qu'il soit centré sur le bouton
         text_rect = text.get_rect()
@@ -100,6 +100,8 @@ def style_image(name):
 
 
 
+
+
 """def launch_button():
     return Button(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/button.png")
             #POUR CHANGER LA POSITION: CHANGER LA 1 ET 2,           POUR LA TAILLE :3 ET 4
@@ -115,26 +117,40 @@ def return_button():
     return Button(WINDOW_WIDTH-20, 0, 20, 20, (255, 255, 255), "retour arriere",0,"assets/button.png")"""
 
 def tech_tree_button():
-    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 255, 255), "arbre technologique",30,"assets/button.png")
+    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "arbre technologique",30,"assets/button.png")
 def test():
-    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 255, 255), "",30,"assets/button.png")
+    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "",30,"assets/button.png")
+
 def resolution_screen_button():
-    return Button(WINDOW_WIDTH//15, WINDOW_HEIGHT//10, WINDOW_WIDTH // 2, WINDOW_WIDTH//12, (255, 255, 255), "résolution",30,"assets/button.png")
+    return Button(900,350,button_size_widht, button_size_height, (255, 255, 255), "résolution",30,"assets/button.png")
 
 
 def launch_button():
-    return Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, 200, 50, (255, 0, 0), "Bienvenue dans OSS", 20, "assets/button.png")
+    return Button(350,460, button_size_widht, button_size_height, (255, 0, 0), "lancer le jeu", 20, "assets/button.png")
 
 def menu_settings_button():
-    return Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 100, 100, 50, (255, 0, 0), "Paramètres", 0, "assets/button.png")
+    return Button(650,370, button_size_widht, button_size_height, (255, 0, 0), "Paramètres", 0, "assets/button.png")
 
 def game_settings_button():
-    return Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 200, 100, 50, (255, 0, 0), "Paramètres jeu", 30, "assets/button.png")
+    return Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 200, button_size_widht, button_size_height, (255, 0, 0), "Paramètres jeu", 30, "assets/button.png")
 
 def quit_button():
-    return Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 300, 100, 50, (255, 0, 0), "Quitter", 20, "assets/button.png")
+    return Button(650,460, button_size_widht, button_size_height, (255, 0, 0), "Quitter", 20, "assets/button.png")
 
 def return_button():
-    return Button(WINDOW_WIDTH-20, 0, 20, 20, (255, 255, 255), "Retour", 0, "assets/button.png")
+    return Button(735, 585, button_size_widht, button_size_height, (255, 255, 255), "Retour", 0, "assets/button.png")
+
+def full_screen_button():
+    return Button(250,130, button_size_widht, button_size_height, (255, 255, 255), "plein ecran", 0, "assets/button.png")
+
+def resolution_1280x720_button():
+    return Button(250,200, button_size_widht, button_size_height, (255, 255, 255), "1280x720", 0, "assets/button.png")
+
+def resolution_1920x1080_button():
+    return Button(250,270, button_size_widht, button_size_height, (255, 255, 255), "1920x1080", 0, "assets/button.png")
+
+def resolution_1920x1200_button():
+    return Button(250,340, button_size_widht, button_size_height, (255, 255, 255), "1920x1200", 0, "assets/button.png")
+
 
 
