@@ -24,7 +24,7 @@ class MenuState(BaseState):
 
         mouse_x,mouse_y=pos
 
-        if lounch().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de lounch
+        if launch().click(mouse_x,mouse_y):     #verifie si il y a un clique sur le bouton de launch
             self.state_manager.set_state(GameState(self.state_manager))     #changer le state
 
         if menu_settings().click(mouse_x,mouse_y):      #verifie si il y a un clique sur le bouton de parametre
@@ -50,7 +50,7 @@ class MenuState(BaseState):
         else:
             screen.blit(menu_settings().normal_picture("picture"), menu_settings().normal_picture("rect"))
 
-        style_image(lounch)         #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
+        style_image(launch)         #demander a cousseau si besois d'aide wallah je suis programmeur pas prof de français
 
         style_image(quit)       #pareil wallah
 
