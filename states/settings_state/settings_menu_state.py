@@ -1,5 +1,5 @@
 import pygame
-from buttons.button import return_button,style_image,resolution_screen_button
+from buttons import return_button,style_image,resolution_screen_button
 from ..base_state import BaseState
 
 

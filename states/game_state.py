@@ -2,7 +2,8 @@ import pygame
 from .base_state import BaseState
 from game import Game
 from config import KEY_BINDINGS
-from buttons.button import *
+from buttons import *
+from spaceship import Spaceship
 
 
 # Classe enfant de BaseState
@@ -18,14 +19,23 @@ class GameState(BaseState):
 
     def handle_event(self, event,pos):
         if event.type == pygame.KEYDOWN:
+            # Vérification de la touche associée au menu pause (si préssée, change le state à pause_state)
             if event.key == KEY_BINDINGS["pause"]:
                 from .pause_state import PauseState
                 setting_quit=1 # wtf ?
                 self.state_manager.set_state(PauseState(self.state_manager, self.game))
 
+            # Vérification de la touche associée au déplacement du vaisseau (pour le test)
+            if event.key == KEY_BINDINGS["spaceship_move"]:
+                # Test de déplacement vers le haut
+                self.game.spaceship.move(0, -10)
+            
+
     def update(self, dt, actions,pos):
+
         # Récupération des coordonnées de la souris dans un tuple
         mouse_x, mouse_y = pos
+
         # Vérification du clique de la souris sur le bouton
         if game_settings_button().click(mouse_x, mouse_y):
             from .settings_state.settings_game_state import GameSettingsState
@@ -43,6 +53,8 @@ class GameState(BaseState):
         self.game.update(dt, actions)
         
     def draw(self, screen,pos):
+
+        # Dessin du jeu (espace 2d avec planètes et vaisseau)
         self.game.draw(screen)
 
         # Dessin des boutons relatifs à l'état game_state (avec la méthode .draw() de la classe Button)

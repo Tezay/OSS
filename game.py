@@ -6,10 +6,13 @@ from config import (
     DEBUG_MODE,
     DEFAULT_SEED,
     NUMBER_OF_PLANETS,
+    SPACESHIP_DEFAULT_SPEED,
+    SPACESHIP_TEXTURE_DEFAULT_PATH,
     FPS
 )
 from camera import Camera
 from map_generator import generate_map
+from spaceship import Spaceship
 
 class Game:
     """
@@ -35,22 +38,16 @@ class Game:
         self.world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
         self.world.fill((20, 20, 64))
 
-        # Création d'un vaisseau pour l'exemple
-        # C'est juste pour illustrer, faudra faire un truc plus tard
-        self.ship_rect = pygame.Rect(WORLD_WIDTH // 2, WORLD_HEIGHT // 2, 40, 40)
-        self.ship_color = (255, 255, 0)
-        pygame.draw.rect(self.world, self.ship_color, self.ship_rect)
+        # Test création du vaisseau
+        self.spaceship = Spaceship(WORLD_WIDTH//2, WORLD_HEIGHT//2, 40, 40, SPACESHIP_TEXTURE_DEFAULT_PATH, SPACESHIP_DEFAULT_SPEED)
 
         # Création de la caméra (à partir de la classe dédiée)
         self.camera = Camera(WORLD_WIDTH, WORLD_HEIGHT)
         # Par défaut la caméra est centrée sur le vaisseau
-        # Si le mode debug est désactivé, on fourni une cible à la caméra
+        # Si le mode debug est désactivé, fournir une cible à la caméra
         if not DEBUG_MODE:
-            # Suivi du vaisseau
-            class Target:
-                def __init__(self, rect):
-                    self.rect = rect
-            self.camera.set_target(Target(self.ship_rect))
+            # Le vaisseau est défini comme cible de la caméra
+                self.camera.set_target(self.spaceship)
 
     def update(self, dt, actions):
         """
@@ -68,16 +65,17 @@ class Game:
         # "Nettoyage" du fond (dans self.world) si besoin
         self.world.fill((0, 0, 50))
 
-        # Dessin du vaisseau
-        pygame.draw.rect(self.world, self.ship_color, self.ship_rect)
-
         # Dessin des planètes
         for planet in self.planets:
             pygame.draw.circle(self.world, planet.color, (planet.x, planet.y), planet.radius)
 
+        # Dessin du vaisseau
+        self.spaceship.draw(self.world)
+
         # -- Affichage caméra -- #
         view_surface, scaled_view = self._get_camera_view()
         screen.blit(scaled_view, (0, 0))
+
 
         # En mode debug, affichage d'infos
         if DEBUG_MODE:

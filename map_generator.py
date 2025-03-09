@@ -51,7 +51,7 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
             color = random.choice(PLANET_COLORS)
 
             # Vérifier la distance par rapport aux planètes déjà générées
-            if can_place_planet(x, y, radius, planets):
+            if can_place_planet(x, y, radius, planets, world_width, world_height):
                 # Si la planète peut être placée, créer un nouvel objet planet avec les paramètres définis
                 planet = Planet(x, y, radius, mass, color)
                 # Ajouter cet objet à la liste des planètes
@@ -65,16 +65,23 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
     return planets
 
 
-def can_place_planet(x, y, radius, existing_planets):
+def can_place_planet(x, y, radius, existing_planets, world_width, world_height):
     """
-    Vérifie si on peut placer une nouvelle planète (x, y, radius) 
-    en respectant la distance minimale par rapport aux planètes existantes.
+    Vérifie si on peut placer une nouvelle planète (x, y, radius)
+    en respectant la distance minimale par rapport aux planètes existantes
+    et en évitant la zone de 400px autour du centre du monde.
     """
+    # Définition du centre du monde
+    center_x, center_y = world_width//2, world_height//2
+    # Vérification de la distance par rapport au centre du monde
+    if math.sqrt((x - center_x) ** 2 + (y - center_y) ** 2) < 400:
+        return False
+    
+    # Vérification de la distance par rapport aux autres planètes
     for planet in existing_planets:
-        # Calcul de la distance entre deux planètes (par rapport à leur centre)
-        dist_centers = math.sqrt((planet.x - x)**2 + (planet.y - y)**2)
-        # On prend en compte le rayon des deux planètes dans le calcul
+        dist_centers = math.sqrt((planet.x - x) ** 2 + (planet.y - y) ** 2)
         min_required = planet.radius + radius + PLANET_MIN_DISTANCE
         if dist_centers < min_required:
             return False
+    
     return True

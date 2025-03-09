@@ -1,5 +1,5 @@
 import pygame
-from buttons.button import*
+from buttons import*
 from ..base_state import BaseState
 from config import WINDOW_WIDTH,WINDOW_HEIGHT
 

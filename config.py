@@ -11,6 +11,11 @@ DEBUG_MODE = True
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50
 
+# Vitesse de déplacement du vaisseau par défaut
+SPACESHIP_DEFAULT_SPEED = 1
+# Fichier de texture du vaisseau par défaut
+SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
+
 # Dimensions de la map (grande carte pour l'exploration)
 WORLD_WIDTH = 10000
 WORLD_HEIGHT = 10000
@@ -58,6 +63,7 @@ KEY_BINDINGS = {
     "zoom_out": pygame.K_x,
     "pause": pygame.K_p,       # Touche pour basculer en pause
     "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
+    "spaceship_move": pygame.K_SPACE, # Touche test pour faire avancer le vaisseau
 }
 
 # Taille des boutons (globales, afin de pouvoir les éditer dynamiquement pendant l'exécution du jeu)

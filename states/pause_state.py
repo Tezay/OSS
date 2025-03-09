@@ -1,5 +1,5 @@
 from .base_state import BaseState
-from buttons.button import *
+from buttons import *
 
 
 # Classe enfant de BaseState

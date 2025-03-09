@@ -3,8 +3,10 @@ from config import WINDOW_WIDTH, WINDOW_HEIGHT, CAMERA_SPEED, DEBUG_MODE
 
 class Camera:
     def __init__(self, world_width, world_height):
-        # La zone initiale de la caméra correspond à la taille de la fenêtre
-        self.camera_rect = pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+        # La zone initiale de la caméra correspond au centre du monde, aux dimentions de la fenêtre
+        world_center_width = world_width//2 - WINDOW_WIDTH//2
+        world_center_height = world_height//2 - WINDOW_HEIGHT//2
+        self.camera_rect = pygame.Rect(world_center_width, world_center_height, WINDOW_WIDTH, WINDOW_HEIGHT)
         self.world_width = world_width
         self.world_height = world_height
         self.target = None
@@ -24,11 +26,14 @@ class Camera:
         """
         On reçoit 'actions', un dict contenant l'état des touches.
         """
+        # Si la caméra a une cible, et que le mode debug est désactivé, centrer la caméra sur la cible
         if self.target and not DEBUG_MODE:
-            # Caméra centrée sur la cible
-            x = self.target.rect.centerx - WINDOW_WIDTH // 2
-            y = self.target.rect.centery - WINDOW_HEIGHT // 2
+            # Caméra centrée sur les coordonnées de la cible
+            x = self.target.rect.x - WINDOW_WIDTH // 2
+            y = self.target.rect.y - WINDOW_HEIGHT // 2
             self.camera_rect = pygame.Rect(x, y, WINDOW_WIDTH, WINDOW_HEIGHT)
+
+            # Si le mode debug est activé, la caméra n'est pas centrée sur la cible
         elif DEBUG_MODE:
             # Déplacement manuel de la caméra
             if actions.get("camera_left"):
