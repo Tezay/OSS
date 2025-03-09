@@ -3,10 +3,9 @@ import math
 from config import*
 
 
+# Ca c'est ghetto, faut faire autrements
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("interface")
-font=pygame.font.Font(None,36)
 
 
 class Button():

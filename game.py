@@ -6,7 +6,6 @@ from config import (
     DEBUG_MODE,
     DEFAULT_SEED,
     NUMBER_OF_PLANETS,
-    SPACESHIP_DEFAULT_SPEED,
     SPACESHIP_TEXTURE_DEFAULT_PATH,
     FPS
 )
@@ -39,7 +38,15 @@ class Game:
         self.world.fill((20, 20, 64))
 
         # Test création du vaisseau
-        self.spaceship = Spaceship(WORLD_WIDTH//2, WORLD_HEIGHT//2, 40, 40, SPACESHIP_TEXTURE_DEFAULT_PATH, SPACESHIP_DEFAULT_SPEED)
+        self.spaceship = Spaceship(
+            x=WORLD_WIDTH//2,
+            y=WORLD_HEIGHT//2,
+            vx=0, vy=0,
+            ax=0, ay=0,
+            width=40, height=40,
+            image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
+            rotation=0
+        )
 
         # Création de la caméra (à partir de la classe dédiée)
         self.camera = Camera(WORLD_WIDTH, WORLD_HEIGHT)
@@ -57,6 +64,8 @@ class Game:
         """
         # Mise à jour de la caméra (en mode debug, on bouge avec les touches)
         self.camera.update(actions)
+
+        self.spaceship.update(dt)
 
     def draw(self, screen):
         """

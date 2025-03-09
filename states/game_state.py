@@ -1,7 +1,7 @@
 import pygame
 from .base_state import BaseState
 from game import Game
-from config import KEY_BINDINGS
+from config import KEY_BINDINGS, SPACESHIP_DEFAULT_ACCELERATION
 from buttons import *
 from spaceship import Spaceship
 
@@ -25,10 +25,13 @@ class GameState(BaseState):
                 setting_quit=1 # wtf ?
                 self.state_manager.set_state(PauseState(self.state_manager, self.game))
 
-            # Vérification de la touche associée au déplacement du vaisseau (pour le test)
+            ##################### TEST #######################
+            # Vérification de la touche associée au déplacement du vaisseau
             if event.key == KEY_BINDINGS["spaceship_move"]:
-                # Test de déplacement vers le haut
-                self.game.spaceship.move(0, -10)
+                # Test de déplacement vers le haut (on applique une accélération au vaisseau)
+                self.game.spaceship.accelerate(0, -SPACESHIP_DEFAULT_ACCELERATION)
+            #################################################
+
             
 
     def update(self, dt, actions,pos):

@@ -12,7 +12,7 @@ DEBUG_MODE = True
 CAMERA_SPEED = 50
 
 # Vitesse de déplacement du vaisseau par défaut
-SPACESHIP_DEFAULT_SPEED = 1
+SPACESHIP_DEFAULT_ACCELERATION = 100
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
 
