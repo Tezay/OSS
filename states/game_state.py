@@ -34,7 +34,7 @@ class GameState(BaseState):
 
             
 
-    def update(self, dt, actions,pos):
+    def update(self, dt, actions, pos, mouse_clicked):
 
         # Récupération des coordonnées de la souris dans un tuple
         mouse_x, mouse_y = pos

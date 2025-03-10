@@ -15,22 +15,31 @@ class TechTreeState(BaseState):
         self.game=game
 
     def handle_event(self, event,pos):
-        if event==pygame.K_ESCAPE:
-            from .game_state import GameState
-            self.state_manager.set_state(GameState(self.state_manager))
+        pass
 
-    def update(self, dt, actions,pos):
+    def update(self, dt, actions, pos, mouse_clicked):
 
         # Récupération des coordonnées de la souris dans un tuple
         mouse_x, mouse_y = pos
+
         # Vérification du clique de la souris sur le bouton
-        if return_button().click(mouse_x,mouse_y):
-            from states.game_state import GameState
-            new_game_state = GameState(self.state_manager)
-            # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
-            new_game_state.game = self.game
-            # Passe l'état courant à game_state
-            self.state_manager.set_state(new_game_state)
+        if mouse_clicked:
+            if return_button().click(mouse_x,mouse_y):
+                from states.game_state import GameState
+                new_game_state = GameState(self.state_manager)
+                # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
+                new_game_state.game = self.game
+                # Passe l'état courant à game_state
+                self.state_manager.set_state(new_game_state)
+            
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_ESCAPE]:
+                from .game_state import GameState
+                new_game_state = GameState(self.state_manager)
+                # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
+                new_game_state.game = self.game
+                # Changer l'état courant à game_state
+                self.state_manager.set_state(new_game_state)
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))

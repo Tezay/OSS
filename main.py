@@ -27,6 +27,10 @@ def main():
     # Initialisation de la variable running (passe à False pour arrêter l'exécution du programme)
     running = True
 
+    mouse_clicked = False
+    mouse_pos = (0, 0)
+    previous_state = None
+
     # Création du manager d'états
     state_manager = StateManager()
     # Création de MenuState (menu de démarrage)
@@ -42,25 +46,29 @@ def main():
         # Récupération des actions (touches) via input_manager
         actions = get_actions()
 
+        # Vérifier si l'état a changé
+        if state_manager.current_state != previous_state:
+            mouse_clicked = False  # Annuler tout clic en cours lors d'un changement d'état
+            previous_state = state_manager.current_state
+        else:
+            mouse_clicked = False  # Réinitialiser l'état du clic à chaque frame
+
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pos = event.pos
-                print(pos)
-            else:
-                pos=(0,0)
+                mouse_pos = event.pos
+                mouse_clicked = True
             if event.type == pygame.QUIT:
                 running = False
-            # Délègue la gestion des événements (souris, etc.) à l'état courant
             if state_manager.current_state:
-                state_manager.current_state.handle_event(event,pos)
+                state_manager.current_state.handle_event(event, mouse_pos)
 
         # Mise à jour de l'état courant
         if state_manager.current_state:
-            state_manager.current_state.update(dt, actions,pos)
+            state_manager.current_state.update(dt, actions, mouse_pos, mouse_clicked)
 
         # Dessin de l'état courant
         if state_manager.current_state:
-            state_manager.current_state.draw(screen,pos)
+            state_manager.current_state.draw(screen, mouse_pos)
 
         # Refresh de l'affichage pygame
         pygame.display.flip()

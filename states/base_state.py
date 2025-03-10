@@ -8,7 +8,7 @@ class BaseState():
         """
         pass
 
-    def update(self, dt, actions,pos):
+    def update(self, dt, actions, pos, mouse_clicked):
         """
         Mets à jour la logique de l'état (dt = delta time, actions = dict d'input).
         """

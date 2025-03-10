@@ -28,33 +28,37 @@ class MenuSettingsResolutionState(BaseState):
             # Passe l'état courant à menu_state
             self.state_manager.set_state(MenuState(self.state_manager))
 
-    def update(self, dt, actions,pos):
+    def update(self, dt, actions, pos, mouse_clicked):
         # Définition des variables de taille de l'écran (globales)
         global WINDOW_WIDTH, WINDOW_HEIGHT,button_size_widht,button_size_height
-        mouse_x,mouse_y=pos
+
+        # Récupération des coordonnées de la souris
+        mouse_x, mouse_y = pos
+
         # Vérification du clique de la souris sur le bouton
-        if return_button().click(mouse_x,mouse_y):
-            from .settings_menu_state import MenuSettingsState
-            # Passe l'état courant à menu_settings_state
-            self.state_manager.set_state(MenuSettingsState(self.state_manager))
+        if mouse_clicked:
+            if return_button().click(mouse_x,mouse_y):
+                from .settings_menu_state import MenuSettingsState
+                # Passe l'état courant à menu_settings_state
+                self.state_manager.set_state(MenuSettingsState(self.state_manager))
 
-        if full_screen_button().click(mouse_x,mouse_y):
-            pygame.display.set_mode((MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT), pygame.FULLSCREEN)  # Activer le mode plein écran
+            if full_screen_button().click(mouse_x,mouse_y):
+                pygame.display.set_mode((MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT), pygame.FULLSCREEN)  # Activer le mode plein écran
 
-        if resolution_1280x720_button().click(mouse_x,mouse_y):
-            WINDOW_WIDTH = 1280
-            WINDOW_HEIGHT = 720
-            pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+            if resolution_1280x720_button().click(mouse_x,mouse_y):
+                WINDOW_WIDTH = 1280
+                WINDOW_HEIGHT = 720
+                pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 
-        if resolution_1920x1200_button().click(mouse_x,mouse_y):
-            WINDOW_WIDTH = 1920
-            WINDOW_HEIGHT = 1200
-            pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT)) 
-        
-        if resolution_1920x1080_button().click(mouse_x,mouse_y):
-            WINDOW_WIDTH = 1920
-            WINDOW_HEIGHT = 1080
-            pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))  
+            if resolution_1920x1200_button().click(mouse_x,mouse_y):
+                WINDOW_WIDTH = 1920
+                WINDOW_HEIGHT = 1200
+                pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT)) 
+            
+            if resolution_1920x1080_button().click(mouse_x,mouse_y):
+                WINDOW_WIDTH = 1920
+                WINDOW_HEIGHT = 1080
+                pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))  
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))

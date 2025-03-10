@@ -1,6 +1,7 @@
 import pygame
 import math
 from config import*
+import time
 
 
 # Ca c'est ghetto, faut faire autrements
@@ -9,11 +10,12 @@ screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 
 class Button():
-    def __init__(self,x,y,width,height,color,text,dif_hoover,file,font="Arial",text_color=(255,255,255),text_size=8):
-        self.x=x
-        self.y=y
+    def __init__(self,coord,width,height,color,text,dif_hoover,file,font="Arial",text_color=(255,255,255),text_size=8):
+        self.x=coord[0]
+        self.y=coord[1]
         self.width=width
         self.height=height
+        self.button_rect = pygame.Rect(coord[0], coord[1], width, height)
         self.color=color
         self.text=text
         self.dif_hoover=dif_hoover
@@ -54,7 +56,7 @@ class Button():
 
     def click(self,mouse_x,mouse_y):
         # Vérifie si les coordonnées de la position de la souris sont comprisent dans les coordonnées du bouton
-        if self.x< mouse_x < self.x+self.width and self.y< mouse_y < self.y+self.height:
+        if self.button_rect.collidepoint(mouse_x, mouse_y):
             return True
 
     def circle_click(self,button_center,button_radius,mouse_x,mouse_y):
@@ -120,42 +122,59 @@ def return_button():
 # Pour afficher un bouton, utiliser .draw() sur un l'appel
 ########################
 
+# Grille pour visualiser la position des boutons (mode debug)
+def grille():
+    matrice_coord=[]
+    mat=[]
+    pygame.init()
+    info = pygame.display.Info()
+    WINDOW_WIDTH=info.current_w
+    WINDOW_HEIGHT=info.current_h
+    for i in range(0,WINDOW_WIDTH,WINDOW_WIDTH//60):
+        for j in range(0,WINDOW_HEIGHT,WINDOW_HEIGHT//36):
+            pygame.draw.rect(screen,(255,0,0),(i,j,WINDOW_WIDTH//30,WINDOW_WIDTH//30),1)
+            mat.append((j,i))
+        matrice_coord.append(mat)
+        mat=[]
+    return matrice_coord
+
+coord_boutons=grille()
+    
 
 def tech_tree_button():
-    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "Arbre technologique",30,"assets/button.png")
+    return Button(coord_boutons[30][15], button_size_widht, button_size_height, (255, 255, 255), "Arbre technologique",30,"assets/button.png")
 
 def test():
-    return Button(WINDOW_WIDTH//8, WINDOW_HEIGHT//10, button_size_widht, button_size_height, (255, 255, 255), "Bouton test",30,"assets/button.png")
+    return Button(coord_boutons[30][18], button_size_widht, button_size_height, (255, 255, 255), "Bouton test",30,"assets/button.png")
 
 def resolution_screen_button():
-    return Button(900,350,button_size_widht, button_size_height, (255, 255, 255), "Résolution",30,"assets/button.png")
+    return Button(coord_boutons[20][20],button_size_widht, button_size_height, (255, 255, 255), "Résolution",30,"assets/button.png")
 
 def launch_button():
-    return Button(350,460, button_size_widht, button_size_height, (255, 0, 0), "Lancer le jeu", 20, "assets/button.png")
+    return Button(coord_boutons[10][2], button_size_widht, button_size_height, (255, 0, 0), "Lancer le jeu", 20, "assets/button.png")
 
 def menu_settings_button():
-    return Button(650,370, button_size_widht, button_size_height, (255, 0, 0), "Paramètres", 0, "assets/button.png")
+    return Button(coord_boutons[20][2], button_size_widht, button_size_height, (255, 0, 0), "Paramètres", 0, "assets/button.png")
 
 def game_settings_button():
-    return Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 200, button_size_widht, button_size_height, (255, 0, 0), "Paramètres jeu", 30, "assets/button.png")
+    return Button(coord_boutons[3][5], button_size_widht, button_size_height, (255, 0, 0), "Paramètres jeu", 30, "assets/button.png")
 
 def quit_button():
-    return Button(650,460, button_size_widht, button_size_height, (255, 0, 0), "Quitter", 20, "assets/button.png")
+    return Button(coord_boutons[30][2],button_size_widht, button_size_height, (255, 0, 0), "Quitter", 20, "assets/button.png")
 
 def return_button():
-    return Button(735, 585, button_size_widht, button_size_height, (255, 255, 255), "Retour", 0, "assets/button.png")
+    return Button(coord_boutons[25][10], button_size_widht, button_size_height, (255, 255, 255), "Retour", 0, "assets/button.png")
 
 def full_screen_button():
-    return Button(250,130, button_size_widht, button_size_height, (255, 255, 255), "Plein ecran", 0, "assets/button.png")
+    return Button(coord_boutons[10][25], button_size_widht, button_size_height, (255, 255, 255), "Plein ecran", 0, "assets/button.png")
 
 def resolution_1280x720_button():
-    return Button(250,200, button_size_widht, button_size_height, (255, 255, 255), "1280x720", 0, "assets/button.png")
+    return Button(coord_boutons[15][25], button_size_widht, button_size_height, (255, 255, 255), "1280x720", 0, "assets/button.png")
 
 def resolution_1920x1080_button():
-    return Button(250,270, button_size_widht, button_size_height, (255, 255, 255), "1920x1080", 0, "assets/button.png")
+    return Button(coord_boutons[20][25], button_size_widht, button_size_height, (255, 255, 255), "1920x1080", 0, "assets/button.png")
 
 def resolution_1920x1200_button():
-    return Button(250,340, button_size_widht, button_size_height, (255, 255, 255), "1920x1200", 0, "assets/button.png")
-
+    return Button(coord_boutons[25][25], button_size_widht, button_size_height, (255, 255, 255), "1920x1200", 0, "assets/button.png")
 
 
