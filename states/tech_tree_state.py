@@ -14,7 +14,7 @@ class TechTreeState(BaseState):
         self.state_manager = state_manager
         self.game=game
 
-    def handle_event(self, event,pos):
+    def handle_event(self, event, pos):
         pass
 
     def update(self, dt, actions, pos, mouse_clicked):

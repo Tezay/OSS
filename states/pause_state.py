@@ -24,7 +24,7 @@ class PauseState(BaseState):
                 new_game_state.game = self.game
                 self.state_manager.set_state(new_game_state)
 
-    def update(self, dt, actions,pos):
+    def update(self, dt, actions, pos, mouse_clicked):
         # Pas besoin de surveiller actions["pause"] ici
         pass
 

@@ -64,6 +64,8 @@ KEY_BINDINGS = {
     "pause": pygame.K_p,       # Touche pour basculer en pause
     "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
     "spaceship_move": pygame.K_SPACE, # Touche test pour faire avancer le vaisseau
+    "spaceship_deceleration" : pygame.K_RSHIFT, # Touche test pour faire décélérer le vaisseau
+    "spaceship_stop" : pygame.K_0 # Touche test pour arrêter le mouvement du vaisseau
 }
 
 # Taille des boutons (globales, afin de pouvoir les éditer dynamiquement pendant l'exécution du jeu)

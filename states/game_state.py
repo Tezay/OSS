@@ -30,6 +30,15 @@ class GameState(BaseState):
             if event.key == KEY_BINDINGS["spaceship_move"]:
                 # Test de déplacement vers le haut (on applique une accélération au vaisseau)
                 self.game.spaceship.accelerate(0, -SPACESHIP_DEFAULT_ACCELERATION)
+            
+            if event.key == KEY_BINDINGS["spaceship_deceleration"]:
+                # Test décélération du vaisseau (appliquer accélération inverse)
+                self.game.spaceship.accelerate(0, SPACESHIP_DEFAULT_ACCELERATION)
+
+            if event.key == KEY_BINDINGS["spaceship_stop"]:
+                # Test pour arrêter le déplacement du vaisseau instantanément
+                self.game.spaceship.vx = 0
+                self.game.spaceship.vy = 0
             #################################################
 
             
