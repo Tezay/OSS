@@ -12,6 +12,7 @@ from config import (
 from camera import Camera
 from map_generator import generate_map
 from spaceship import Spaceship
+from hud import Hud
 
 class Game:
     """
@@ -42,11 +43,13 @@ class Game:
             x=WORLD_WIDTH//2,
             y=WORLD_HEIGHT//2,
             vx=0, vy=0,
-            ax=0, ay=0,
-            width=40, height=40,
+            width=30, height=30,
             image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
-            rotation=0
+            mass=10
         )
+
+        # Création de l'HUD
+        self.hud = Hud()
 
         # Création de la caméra (à partir de la classe dédiée)
         self.camera = Camera(WORLD_WIDTH, WORLD_HEIGHT)
@@ -65,7 +68,8 @@ class Game:
         # Mise à jour de la caméra (en mode debug, on bouge avec les touches)
         self.camera.update(actions)
 
-        self.spaceship.update(dt)
+        # Mise à jour de l'HUD
+        self.hud.update(self.spaceship.vx, self.spaceship.vy)
 
     def draw(self, screen):
         """
@@ -85,6 +89,8 @@ class Game:
         view_surface, scaled_view = self._get_camera_view()
         screen.blit(scaled_view, (0, 0))
 
+        # Dessin de l'HUD
+        self.hud.draw(screen)
 
         # En mode debug, affichage d'infos
         if DEBUG_MODE:

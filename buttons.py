@@ -177,4 +177,6 @@ def resolution_1920x1080_button():
 def resolution_1920x1200_button():
     return Button(coord_boutons[25][25], button_size_widht, button_size_height, (255, 255, 255), "1920x1200", 0, "assets/button.png")
 
+def resolution_2560x1080_button():
+    return Button(coord_boutons[30][25], button_size_widht, button_size_height, (255, 255, 255), "2560x1080", 0, "assets/button.png")
 

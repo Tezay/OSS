@@ -11,8 +11,10 @@ DEBUG_MODE = True
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50
 
-# Vitesse de déplacement du vaisseau par défaut
-SPACESHIP_DEFAULT_ACCELERATION = 100
+# Vaisseau
+SPACESHIP_ROTATION_SPEED = 90 # degré/seconde
+SPACESHIP_THRUST_FORCE = 1000 # force en Newton appliquée pendant l'appui
+SPACESHIP_MAX_SPEED = 200
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
 
@@ -22,7 +24,7 @@ WORLD_HEIGHT = 10000
 
 # Paramètres de seed et de nombre de planètes
 DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
-NUMBER_OF_PLANETS = 50  # Nombre de planètes à générer par défaut.
+NUMBER_OF_PLANETS = 500  # Nombre de planètes à générer par défaut.
 
 # --- Paramètres de distance pour la génération des planètes ---
 PLANET_MIN_DISTANCE = 400       # Distance minimale entre les centres de deux planètes
@@ -63,9 +65,12 @@ KEY_BINDINGS = {
     "zoom_out": pygame.K_x,
     "pause": pygame.K_p,       # Touche pour basculer en pause
     "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
+    # Touches de tests déplacement vaisseau :
     "spaceship_move": pygame.K_SPACE, # Touche test pour faire avancer le vaisseau
-    "spaceship_deceleration" : pygame.K_RSHIFT, # Touche test pour faire décélérer le vaisseau
-    "spaceship_stop" : pygame.K_0 # Touche test pour arrêter le mouvement du vaisseau
+    "spaceship_deceleration": pygame.K_RSHIFT, # Touche test pour faire décélérer le vaisseau
+    "spaceship_stop": pygame.K_0, # Touche test pour arrêter le mouvement du vaisseau
+    "spaceship_rotate_left": pygame.K_q,
+    "spaceship_rotate_right": pygame.K_d
 }
 
 # Taille des boutons (globales, afin de pouvoir les éditer dynamiquement pendant l'exécution du jeu)

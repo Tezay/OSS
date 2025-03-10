@@ -58,7 +58,12 @@ class MenuSettingsResolutionState(BaseState):
             if resolution_1920x1080_button().click(mouse_x,mouse_y):
                 WINDOW_WIDTH = 1920
                 WINDOW_HEIGHT = 1080
-                pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))  
+                pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+
+            if resolution_2560x1080_button().click(mouse_x,mouse_y):
+                WINDOW_WIDTH = 2560
+                WINDOW_HEIGHT = 1080
+                pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
@@ -69,3 +74,4 @@ class MenuSettingsResolutionState(BaseState):
         resolution_1280x720_button().draw()
         resolution_1920x1200_button().draw()
         resolution_1920x1080_button().draw()
+        resolution_2560x1080_button().draw()

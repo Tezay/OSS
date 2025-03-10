@@ -1,8 +1,9 @@
 import pygame
-
+import math
+from config import SPACESHIP_MAX_SPEED
 
 class Spaceship:
-    def __init__(self, x, y, vx, vy, ax, ay, width, height, image_path, rotation):
+    def __init__(self, x, y, vx, vy, width, height, image_path, mass=1.0):
         """
         :param x: Position en x du vaisseau (coin supérieur gauche)
         :param y: Position en y du vaisseau (coin supérieur gauche)
@@ -13,63 +14,95 @@ class Spaceship:
         :param width: Largeur du vaisseau
         :param height: Hauteur du vaisseau
         :param image_path: Chemin vers l'image à utiliser comme texture
-        :param rotation: Rotation du vaisseau
         """
-        # Charge l'image et la redimensionne
-        self.image = pygame.image.load(image_path)
-        self.image = pygame.transform.scale(self.image, (width, height))
+        # Charger l'image d'origine du vaisseau (sans rotation)
+        self.original_image = pygame.image.load(image_path).convert_alpha()
+        self.original_image = pygame.transform.scale(self.original_image, (width, height))
 
-        # Stock la position sous forme de float
+        # Angle du vaisseau en degrés : 0 = vaisseau pointe vers le haut
+        self.angle = 0.0
+
+        # Stocker la version "rotationnée" actuelle de l'image
+        self.image = self.original_image
+
+        # Position
         self.x = float(x)
         self.y = float(y)
-
-        # On stocke la vitesse
+        # Vitesse
         self.vx = float(vx)
         self.vy = float(vy)
+        # Masse
+        self.mass = float(mass)
 
-        # On stocke l'accélération
-        self.ax = float(ax)
-        self.ay = float(ay)
+        # Forces cumulées (remises à zéro chaque frame)
+        self.force_x = 0.0
+        self.force_y = 0.0
 
-        # Création d'un rect pour gérer la détection de collisions ou le rendu
-        # Note : pas utilisé comme source de vérité sur la position (c'est x,y qui priment)
+        # Création du rect et centré sur (x, y)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
-        # Facteur de friction (décélération naturelle)
-        # Mettre friction=1.0 pour aucune friction
-        self.friction = 0.98
+    def add_force(self, fx, fy):
+        """Ajoute une force (en Newton) au vaisseau."""
+        self.force_x += fx
+        self.force_y += fy
 
-    def accelerate(self, ax, ay):
+    def rotate(self, degrees):
         """
-        Modifie l'accélération courante du vaisseau.
-        ax, ay : composantes d'accélération (en pixels/s²).
+        Fait tourner l'angle du vaisseau (en degrés).
         """
-        self.ax = ax
-        self.ay = ay
+        self.angle += degrees
+        # S'assure que l'angle reste entre 0 et 360
+        self.angle %= 360
 
-    def update(self, dt):
+    def update_physics(self, dt):
         """
-        Mises à jour de la vitesse et de la position en fonction de l'accélération.
-        dt : temps écoulé depuis la dernière frame (secondes).
+        Met à jour la position et la vitesse du vaisseau en tenant compte
+        de la somme des forces extérieures, puis remet cette somme à zéro.
         """
-        # Mise à jour la vitesse en tenant compte de l'accélération
-        self.vx += self.ax * dt
-        self.vy += self.ay * dt
+        # Calcul de l’accélération (F = m*a => a = F/m)
+        ax = (self.force_x / self.mass)
+        ay = (self.force_y / self.mass)
 
-        # Application de la friction
-        self.vx *= self.friction
-        self.vy *= self.friction
+        # Mise à jour des vitesses
+        self.vx += ax * dt
+        self.vy += ay * dt
 
-        # Mise à jour la position
+        # Limitation de la vitesse max
+        speed = math.sqrt(self.vx**2 + self.vy**2)
+        if speed > SPACESHIP_MAX_SPEED:
+            # Normalisation de la vitesse
+            scale = SPACESHIP_MAX_SPEED / speed
+            self.vx *= scale
+            self.vy *= scale
+
+        # Mise à jour de la position
         self.x += self.vx * dt
         self.y += self.vy * dt
 
-        # Mise à jour le rect pour le dessin / collisions
+        # Remise à zéro de la somme des forces pour la frame suivante
+        self.force_x = 0.0
+        self.force_y = 0.0
+
+        # Mise à jour du rect pour affichage/collisions
+        self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
+
+    def update_image_angle(self):
+        """
+        Met à jour l'image en fonction de l'angle courant.
+        (appeler après avoir modifié self.angle)
+        """
+        # On pivote l’image autour de son centre.
+        # Par défaut rotate() tourne dans sens antihoraire : -self.angle pour avoir angle=0 <=> vaisseau vers le haut
+        self.image = pygame.transform.rotate(self.original_image, -self.angle)
+        # Recalcul du rect pour que le centre
+        #old_center = self.rect.center
+        #self.rect = self.image.get_rect()
+        #self.rect.center = old_center
 
     def draw(self, surface):
         """
-        Dessine le vaisseau sur la surface Pygame fournie.
+        Dessine le vaisseau.
         """
         surface.blit(self.image, self.rect)
