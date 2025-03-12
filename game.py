@@ -25,18 +25,22 @@ class Game:
     - Méthodes update() et draw()
     """
     def __init__(self):
-        # Génération de la seed si aucune est spécifiée par défaut
-        print("la seed est",config.custom_seed)
-        #verifier que l'uttilisateur n'a pas renter de seed custom, dans le menu, si oui, la met directement
+
+        # Vérification si une custom_seed est toujours à None dans le module config
         if config.custom_seed is None:
+            # Si c'est le cas, vérifie si DEFAULT_SEED est à None
             if DEFAULT_SEED is None:
+                # Génère une seed aléatoire
                 self.seed = random.randint(0, 999999999)
             else:
+                # Sinon définie la seed à DEFAULT_SEED
                 self.seed = DEFAULT_SEED
         else:
+            # Sinon définie la seed à custom_seed
             self.seed=config.custom_seed
         
         print(f"Seed: {self.seed}")
+        
         # Génération des planètes
         self.planets = generate_map(self.seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
         print("Map generated.")

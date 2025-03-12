@@ -91,7 +91,5 @@ class GameState(BaseState):
         
     def draw(self, screen, pos):
 
-        # Dessin du jeu (espace 2d avec planètes et vaisseau)
+        # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
         self.game.draw(screen)
-
-        # Dessin des boutons relatifs à l'état game_state (avec la méthode .draw() de la classe Button)
