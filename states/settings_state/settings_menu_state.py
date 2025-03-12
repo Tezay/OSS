@@ -1,5 +1,5 @@
 import pygame
-from buttons import return_button,style_image,resolution_screen_button,seed_button
+from buttons import return_button,resolution_screen_button,seed_button
 from ..base_state import BaseState
 
 # Classe enfant de BaseState
