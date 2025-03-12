@@ -86,7 +86,7 @@ class Game:
             x=WORLD_WIDTH//2,
             y=WORLD_HEIGHT//2,
             vx=0, vy=0,
-            width=30, height=30,
+            width=20, height=20,
             image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
             mass=10
         )

@@ -8,7 +8,7 @@
         "max_mass": "3e4",
         "min_radius": 60,
         "max_radius": 80,
-        "texture": []
+        "texture": ["desert_01", "desert_02", "desert_03", "desert_04"]
       },
       {
         "planet_type": "volcanic",
@@ -18,47 +18,27 @@
         "max_mass": "5e4",
         "min_radius": 65,
         "max_radius": 85,
-        "texture": []
+        "texture": ["volcanic_01", "volcanic_02", "volcanic_03", "volcanic_04"]
       },
       {
         "planet_type": "ice",
         "name": "Planète Glacée",
-        "spawn_rate": 7,
+        "spawn_rate": 6,
         "min_mass": "1e3",
         "max_mass": "2e4",
         "min_radius": 50,
         "max_radius": 70,
-        "texture": []
+        "texture": ["ice_01", "ice_02", "ice_03", "ice_04", "ice_05", "ice_06"]
       },
       {
-        "planet_type": "aquatic",
-        "name": "Planète Aquatique",
+        "planet_type": "oceanic",
+        "name": "Planète Océanique",
         "spawn_rate": 6,
         "min_mass": "1e3",
         "max_mass": "3e4",
         "min_radius": 60,
         "max_radius": 80,
-        "texture": []
-      },
-      {
-        "planet_type": "cryo_ocean",
-        "name": "Planète Océan cryogénique",
-        "spawn_rate": 3,
-        "min_mass": "5e2",
-        "max_mass": "1e4",
-        "min_radius": 50,
-        "max_radius": 70,
-        "texture": []
-      },
-      {
-        "planet_type": "lava",
-        "name": "Planète Lave",
-        "spawn_rate": 4,
-        "min_mass": "2e3",
-        "max_mass": "5e4",
-        "min_radius": 65,
-        "max_radius": 85,
-        "texture": []
+        "texture": ["oceanic_01", "oceanic_02", "oceanic_03", "oceanic_04", "oceanic_05", "oceanic_06", "oceanic_07"]
       },
       {
         "planet_type": "dust",
@@ -68,7 +48,7 @@
         "max_mass": "2e4",
         "min_radius": 50,
         "max_radius": 70,
-        "texture": []
+        "texture": ["dust_01", "dust_02", "dust_03", "dust_04", "dust_05", "dust_06"]
       },
       {
         "planet_type": "bioluminescent",
@@ -93,17 +73,17 @@
       {
         "planet_type": "gaseous_orange",
         "name": "Planète Gazeuse orange",
-        "spawn_rate": 6,
+        "spawn_rate": 3,
         "min_mass": "5e4",
         "max_mass": "3e5",
         "min_radius": 150,
         "max_radius": 200,
-        "texture": []
+        "texture": ["gaseous_orange_01", "gaseous_orange_02", "gaseous_orange_03", "gaseous_orange_04"]
       },
       {
         "planet_type": "gaseous_blue",
         "name": "Planète Gazeuse bleue",
-        "spawn_rate": 6,
+        "spawn_rate": 3,
         "min_mass": "5e4",
         "max_mass": "3e5",
         "min_radius": 150,
@@ -113,22 +93,22 @@
       {
         "planet_type": "gaseous_green",
         "name": "Planète Gazeuse verte",
-        "spawn_rate": 5,
-        "min_mass": "3e4",
-        "max_mass": "2e5",
-        "min_radius": 140,
-        "max_radius": 190,
-        "texture": []
-      },
-      {
-        "planet_type": "gaseous_violet",
-        "name": "Planète Gazeuse violette",
         "spawn_rate": 3,
         "min_mass": "3e4",
         "max_mass": "2e5",
         "min_radius": 140,
         "max_radius": 190,
-        "texture": ["gaseous_violet_01"]
+        "texture": ["gaseous_green_01", "gaseous_green_02", "gaseous_green_03", "gaseous_green_04", "gaseous_green_05", "gaseous_green_06", "gaseous_green_07"]
+      },
+      {
+        "planet_type": "gaseous_violet",
+        "name": "Planète Gazeuse violette",
+        "spawn_rate": 2,
+        "min_mass": "3e4",
+        "max_mass": "2e5",
+        "min_radius": 140,
+        "max_radius": 190,
+        "texture": ["gaseous_violet_01", "gaseous_violet_02", "gaseous_violet_03", "gaseous_violet_04", "gaseous_violet_05", "gaseous_violet_06", "gaseous_violet_07", "gaseous_violet_08"]
       },
       {
         "planet_type": "crystalline",
@@ -208,7 +188,7 @@
         "max_mass": "1e3",
         "min_radius": 60,
         "max_radius": 60,
-        "texture": ["habitable_01", "habitable_02"]
+        "texture": ["habitable_01", "habitable_02", "habitable_03", "habitable_04", "habitable_05"]
       }
     ]
   }
