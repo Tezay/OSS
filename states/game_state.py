@@ -95,5 +95,3 @@ class GameState(BaseState):
         self.game.draw(screen)
 
         # Dessin des boutons relatifs à l'état game_state (avec la méthode .draw() de la classe Button)
-        game_settings_button().draw()
-        tech_tree_button().draw()

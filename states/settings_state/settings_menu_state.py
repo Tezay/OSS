@@ -1,5 +1,5 @@
 import pygame
-from buttons import return_button,style_image,resolution_screen_button
+from buttons import return_button,style_image,resolution_screen_button,seed_button
 from ..base_state import BaseState
 
 # Classe enfant de BaseState
@@ -35,6 +35,12 @@ class MenuSettingsState(BaseState):
                 from .settings_menu_resolution_state import MenuSettingsResolutionState
                 # Passe l'état courant à menu_settings_resulutions_state
                 self.state_manager.set_state(MenuSettingsResolutionState(self.state_manager))
+            
+            if seed_button().click(mouse_x,mouse_y):
+                from .settings_menu_seed_state import MenuSettingsSeedState
+                # Passe l'état courant à menu_settings_seed_state
+                self.state_manager.set_state(MenuSettingsSeedState(self.state_manager))
+
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
@@ -42,3 +48,4 @@ class MenuSettingsState(BaseState):
         # Dessin des boutons relatifs à l'état settings_menu_state (avec la méthode .draw() de la classe Button)
         return_button().draw()
         resolution_screen_button().draw()
+        seed_button().draw()

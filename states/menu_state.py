@@ -51,7 +51,8 @@ class MenuState(BaseState):
 
         # Dessin des boutons relatifs à l'état menu_state (avec la méthode .draw() de la classe Button)
         if DEBUG_MODE: # Pour test
-            grille()
+            #quand grille prend le parametre True, une grille sera afficher a l'ecran(non afficher a False)
+            grille(True)
         launch_button().draw()
         menu_settings_button().draw()
         quit_button().draw()

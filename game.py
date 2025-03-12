@@ -13,6 +13,8 @@ from camera import Camera
 from map_generator import generate_map
 from spaceship import Spaceship
 from hud import Hud
+from states.settings_state.settings_menu_seed_state import custom_seed
+import config
 
 class Game:
     """
@@ -24,10 +26,15 @@ class Game:
     """
     def __init__(self):
         # Génération de la seed si aucune est spécifiée par défaut
-        if DEFAULT_SEED is None:
-            self.seed = random.randint(0, 999999999)
+        print("la seed est",config.custom_seed)
+        #verifier que l'uttilisateur n'a pas renter de seed custom, dans le menu, si oui, la met directement
+        if config.custom_seed is None:
+            if DEFAULT_SEED is None:
+                self.seed = random.randint(0, 999999999)
+            else:
+                self.seed = DEFAULT_SEED
         else:
-            self.seed = DEFAULT_SEED
+            self.seed=config.custom_seed
         
         print(f"Seed: {self.seed}")
         # Génération des planètes

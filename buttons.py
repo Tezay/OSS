@@ -67,55 +67,6 @@ class Button():
             print("Bouton circulaire cliqué")
 
 
-"""
-    def normal_picture(self,objet):
-        picture = pygame.image.load(self.file)
-        picture = pygame.transform.scale(picture, (self.width, self.height))
-        button_rect = picture.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
-        if objet=="picture":
-            return picture
-        elif objet=="rect":
-            return button_rect
-
-    def hoover_picture(self,objet):
-        picture = pygame.image.load(self.file)
-        picture = pygame.transform.scale(picture, (self.width+self.dif_hoover,self.height+self.dif_hoover ))
-        button_rect = picture.get_rect(center=(self.x+self.width // 2,self.y+self.height // 2))
-        if objet=="picture":
-            return picture
-        elif objet=="rect":
-            return button_rect
-        return
-"""
-
-
-# Sert plus à rien ??
-def style_image(name):
-    if name().normal_picture("rect").collidepoint(pygame.mouse.get_pos()):
-        return name().draw()
-    else:
-        return screen.blit(name().normal_picture("picture"), name().normal_picture("rect"))
-
-
-"""
-def launch_button():
-    return Button(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/button.png")
-            #POUR CHANGER LA POSITION: CHANGER LA 1 ET 2,           POUR LA TAILLE :3 ET 4
-
-def menu_settings_button():
-    return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"parametre", 0, "assets/button.png")
-
-def game_settings_button():
-    return Button(WINDOW_WIDTH // 1.5, WINDOW_HEIGHT // 2, WINDOW_WIDTH // 15, WINDOW_WIDTH//15, (255, 0, 0),"parametre", 30, "assets/button.png")
-
-def quit_button():
-    return Button(WINDOW_WIDTH // 8, WINDOW_HEIGHT // 8, WINDOW_WIDTH // 4, WINDOW_WIDTH//4, (255, 0, 0),"Bienvenue dans OSS", 20, "assets/button.png")
-
-def return_button():
-    return Button(WINDOW_WIDTH-20, 0, 20, 20, (255, 255, 255), "retour arriere",0,"assets/button.png")
-"""
-
-
 ########################
 # Toutes les fonctions relatives aux boutons du jeu
 # Return à chaque fois un objet de la classe Button (avec les paramètres dédiés)
@@ -123,26 +74,47 @@ def return_button():
 ########################
 
 # Grille pour visualiser la position des boutons (mode debug)
-def grille():
+#renvoi une matrice de 61x36 (longeur,hauteur) de tupple de coordoné(hauteur en indice0, largeur en indice 1)
+#draw est un booléen qui dit si la grille sera dessiner a l'ecran ou non
+def grille(draw):
     matrice_coord=[]
     mat=[]
     pygame.init()
     info = pygame.display.Info()
+    #prend la taille actuel de l'ecran
     WINDOW_WIDTH=info.current_w
     WINDOW_HEIGHT=info.current_h
+    compt_x=0
+    compt_y=0
+    font = pygame.font.Font(None, 24)
+    #divise l'ecran en carré (60x36)
     for i in range(0,WINDOW_WIDTH,WINDOW_WIDTH//60):
         for j in range(0,WINDOW_HEIGHT,WINDOW_HEIGHT//36):
-            pygame.draw.rect(screen,(255,0,0),(i,j,WINDOW_WIDTH//30,WINDOW_WIDTH//30),1)
+            #si le parametre de la fonction est True, on dessine la grille
+            if draw==True:
+                pygame.draw.rect(screen,(64,64,64,128),(i,j,WINDOW_WIDTH//30,WINDOW_WIDTH//30),1)
+                txt_y=font.render(str(compt_y), True, (255, 255, 255))
+                screen.blit(txt_y, (i, j))
             mat.append((j,i))
+            #arreter le compteur de ligne a 35
+            if compt_y==35 or compt_y=="":
+                compt_y=""
+            else:
+                compt_y+=1
+                #dessiner les numero
+        if draw==True:
+            txt_x=font.render(str(compt_x), True, (255, 255, 255))
+            screen.blit(txt_x, (i, j))
         matrice_coord.append(mat)
         mat=[]
+        compt_x+=1
     return matrice_coord
 
-coord_boutons=grille()
+coord_boutons=grille(False)
     
 
 def tech_tree_button():
-    return Button(coord_boutons[30][15], button_size_widht, button_size_height, (255, 255, 255), "Arbre technologique",30,"assets/button.png")
+    return Button(coord_boutons[10][15], button_size_widht, button_size_height, (255, 255, 255), "Arbre technologique",30,"assets/button.png")
 
 def test():
     return Button(coord_boutons[30][18], button_size_widht, button_size_height, (255, 255, 255), "Bouton test",30,"assets/button.png")
@@ -157,7 +129,7 @@ def menu_settings_button():
     return Button(coord_boutons[20][2], button_size_widht, button_size_height, (255, 0, 0), "Paramètres", 0, "assets/button.png")
 
 def game_settings_button():
-    return Button(coord_boutons[3][5], button_size_widht, button_size_height, (255, 0, 0), "Paramètres jeu", 30, "assets/button.png")
+    return Button(coord_boutons[30][10], button_size_widht, button_size_height, (255, 0, 0), "Paramètres jeu", 30, "assets/button.png")
 
 def quit_button():
     return Button(coord_boutons[30][2],button_size_widht, button_size_height, (255, 0, 0), "Quitter", 20, "assets/button.png")
@@ -180,3 +152,5 @@ def resolution_1920x1200_button():
 def resolution_2560x1080_button():
     return Button(coord_boutons[30][25], button_size_widht, button_size_height, (255, 255, 255), "2560x1080", 0, "assets/button.png")
 
+def seed_button():
+    return Button(coord_boutons[10][10], button_size_widht, button_size_height, (255, 255, 255), "seed", 0, "assets/button.png")

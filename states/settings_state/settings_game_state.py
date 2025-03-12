@@ -32,6 +32,15 @@ class GameSettingsState(BaseState):
                 new_game_state.game = self.game
                 # Changer l'état courant à game_state
                 self.state_manager.set_state(new_game_state)
+            if resolution_screen_button().click(mouse_x,mouse_y):
+                global resolution
+                resolution=1
+                from .settings_menu_resolution_state import MenuSettingsResolutionState
+                new_game_state = MenuSettingsResolutionState(self.state_manager)
+                # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
+                new_game_state.game = self.game
+                # Changer l'état courant à game_state
+                self.state_manager.set_state(new_game_state)
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
@@ -46,10 +55,13 @@ class GameSettingsState(BaseState):
         if quit_button().click(mouse_x,mouse_y):
             # Quitte le programme depuis le main
             pygame.event.post(pygame.event.Event(pygame.QUIT))
+        
+
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
 
         # Dessin des boutons relatifs à l'état setting_game_state (avec la méthode .draw() de la classe Button)
+        resolution_screen_button().draw()
         return_button().draw()
         quit_button().draw()
