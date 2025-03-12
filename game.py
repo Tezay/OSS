@@ -7,7 +7,7 @@ from config import (
     DEFAULT_SEED,
     NUMBER_OF_PLANETS,
     SPACESHIP_TEXTURE_DEFAULT_PATH,
-    FPS
+    DEFAULT_PLANET_TEXTURE_PATH,
 )
 from camera import Camera
 from map_generator import generate_map
@@ -15,6 +15,7 @@ from spaceship import Spaceship
 from hud import Hud
 from states.settings_state.settings_menu_seed_state import custom_seed
 import config
+
 
 class Game:
     """
@@ -44,6 +45,37 @@ class Game:
         # Génération des planètes
         self.planets = generate_map(self.seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
         print("Map generated.")
+
+        # Création d'un dictionnaire vide des textures associées à chaque planète
+        self.planet_textures = {}
+        # Itération sur chaque planète
+        for planet in self.planets:
+            # Vérification si la planète a une texture associée
+            if planet.texture != "":
+                try:
+                    # Définir le path de la texture
+                    texture_path = f"{DEFAULT_PLANET_TEXTURE_PATH + planet.texture}.png"
+                    # Convertir en image
+                    texture_image = pygame.image.load(texture_path).convert_alpha()
+                # Si erreur : mettre la texture à None
+                except pygame.error:
+                    print(f"Failed to load texture for {planet.planet_type}, using default circle.")
+                    texture_image = None
+            # Si aucune texture n'est associée à la planète, mettre à None
+            else:
+                texture_image = None
+
+            # Si la texture n'est pas définie (None)
+            if texture_image is None:
+                # Création d'une surface transparente pour dessiner le cercle
+                circle_size = planet.radius * 2  # Taille de l'image doit être au moins le diamètre de la planète
+                texture_image = pygame.Surface((circle_size, circle_size), pygame.SRCALPHA)
+
+                # Dessin du cercle au centre de la surface
+                pygame.draw.circle(texture_image, (255, 0, 255), (planet.radius, planet.radius), planet.radius)
+
+            # Ajout de la texture de la planète au dictionnaire de textures
+            self.planet_textures[planet] = texture_image
 
         # Création de la surface "monde"
         self.world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
@@ -89,9 +121,26 @@ class Game:
         # "Nettoyage" du fond (dans self.world) si besoin
         self.world.fill((0, 0, 50))
 
+
         # Dessin des planètes
         for planet in self.planets:
-            pygame.draw.circle(self.world, planet.color, (planet.x, planet.y), planet.radius)
+            # Récupérer l'image chargée à l'initialisation
+            original_texture = self.planet_textures[planet]
+
+            # Mise à l'échelle : la planète fait 2*radius en largeur/hauteur
+            diameter = planet.radius * 2
+            scaled_texture = pygame.transform.scale(
+                original_texture,
+                (diameter, diameter)
+            )
+
+            # Pour centrer l'image sur (planet.x, planet.y)
+            texture_rect = scaled_texture.get_rect()
+            texture_rect.center = (planet.x, planet.y)
+
+            # Dessiner l'image sur la surface du monde
+            self.world.blit(scaled_texture, texture_rect)
+
 
         # Dessin du vaisseau
         self.spaceship.draw(self.world)
