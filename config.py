@@ -59,3 +59,74 @@ KEY_BINDINGS = {
 global button_size_widht,button_size_height 
 button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre
 button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fenêtre
+
+
+
+# dictionaire des boutons
+# sous la forme {"nom button":{
+#                             "y":position y,"x":position x,"button_size_widht":taille button,"button_size_height":hauteur button
+#                             "color":couleur,"text": texte dans le button,"file":fichier pour l'image}}
+
+
+buttons={
+    "tech_tree":{
+        "y":15,"x":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Abre technologique","file":"assets/button.png"},
+
+    "resolution_menu_screen":{
+        "y":20,"x":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,""
+        "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
+
+    "resolution_game_screen":{
+        "y":20,"x":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
+
+    "launch":{
+        "y":2,"x":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Lancer de jeu","file":"assets/button.png"},
+
+    "menu_settings":{
+        "y":2,"x":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Paramètres","file":"assets/button.png"},
+
+    "game_settings":{
+        "y":10,"x":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Paramètre","file":"assets/button.png"},
+
+    "quit":{
+        "y":2,"x":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Quitter","file":"assets/button.png"},
+
+    "return":{
+        "y":10,"x":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"retour","file":"assets/button.png"},
+
+    "full_screen":{
+        "y":25,"x":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Plein écran","file":"assets/button.png"},
+
+    "resolution_1280x720":{
+        "y":25,"x":15,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"1280x720","file":"assets/button.png"},
+
+    "resolution_1920x1080":{
+        "y":25,"x":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"1920x1080","file":"assets/button.png"},
+
+    "resolution_1920x1200":{
+        "y":25,"x":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"1920x1200","file":"assets/button.png"},
+
+    "resolution_2560x1080":{
+        "y":25,"x":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"2560x1080","file":"assets/button.png"},
+
+    "seed":{
+        "y":10,"x":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"seed","file":"assets/button.png"},
+
+    "return_menu":{
+        "y":30,"x":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"retour au menu","file":"assets/button.png"},
+}
+

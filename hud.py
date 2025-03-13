@@ -1,7 +1,7 @@
 import pygame
 import math
 from buttons import *
-from config import DEBUG_MODE
+from config import*
 
 
 # Classe pour gérer l'interface dans le jeu
@@ -34,12 +34,17 @@ class Hud:
         # les coordonées sont sous forme de tupple (indice 0 pour la coordoné en hauteur, et 1 pour la largeur).
         # pour la taille du hud, on prend un carré de la grille ou l'on veux que le hud finisse, et on y soustrait la coordoné de base, de meme pour la hauteur.
         
-        # Dessin de la mini map
-        pygame.draw.rect(screen,(0,0,255),(coord[52][1][1],coord[52][1][0],coord[60][0][1]-coord[52][1][1],coord[52][9][0]-coord[52][1][0]))          
-        # Dessin de l'HUD
-        pygame.draw.rect(screen,(0,255,0),(coord[10][30][1],coord[10][30][0],coord[50][30][1]-coord[10][30][1],coord[10][35][0]-coord[10][30][0]+20))    
+        #parametre de hud_draw:(carré en x, carré en y, carré de fin en x, carré de fin en y)
 
-        game_settings_button().draw()
-        tech_tree_button().draw()
+        # Dessin de la mini map
+        coord_minimap=hud_draw(52,1,60,9)
+        pygame.draw.rect(screen,(0,0,255),coord_minimap)          
+        # Dessin de l'HUD
+        coord_hud=hud_draw(10,30,50,35)
+        pygame.draw.rect(screen,(255,0,0),coord_hud)
+
+
+        draw_buttons("game_settings")
+        draw_buttons("tech_tree")
 
         #pygame.display.flip()

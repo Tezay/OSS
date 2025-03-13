@@ -5,7 +5,6 @@ from config import*
 import config
 
 
-
 coord=grille(False)
 
 
@@ -23,6 +22,7 @@ class MenuSettingsSeedState(BaseState):
         self.active=False
         self.text = ""
         self.font = pygame.font.Font(None, 36)
+        self.txt=""
         #la variable coord est une matrice contenant toutes les coordonées des carrées de la grille de 60 par 35.
         # les coordonées sont sous forme de tupple (indice 0 pour la coordoné en hauteur, et 1 pour la largeur).
         self.input_box = pygame.Rect(coord[6][6][0], coord[6][6][1], 600, 50)                  
@@ -47,7 +47,12 @@ class MenuSettingsSeedState(BaseState):
                         if 0<=int(self.text)<=999999999:
                             #changer custom seed du module config afin de le reutiliser dans game pour prendre la seed rentrée par l'uttilisateur
                             config.custom_seed=int(self.text)
+                            self.txt="seed: "+str(config.custom_seed)
+                        else:
+                            self.txt="seed trop longue"
+                            self.text=""
                     else:
+                        self.txt="seed invalide"
                         self.text=""
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]  # Supprimer le dernier caractère
@@ -62,7 +67,7 @@ class MenuSettingsSeedState(BaseState):
 
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
-            if return_button().click(mouse_x,mouse_y):
+            if click_button("return",pos):
                 from .settings_menu_state import MenuSettingsState
                 # Passe l'état courant à menu_state
                 self.state_manager.set_state(MenuSettingsState(self.state_manager))
@@ -80,12 +85,14 @@ class MenuSettingsSeedState(BaseState):
         text_surface = self.font.render(self.text, True, (255, 255, 255))
         screen.blit(text_surface, (self.input_box.x + 5, self.input_box.y + 5))
 
-        text_surf = self.font.render(str(config.custom_seed), True, (255, 255, 255))
+        
+
+        text_surf = self.font.render(self.txt, True, (255, 255, 255))
         screen.blit(text_surf,(coord[10][6][0], coord[10][6][1]))
 
        
         # Dessin des boutons relatifs à l'état settings_menu_state (avec la méthode .draw() de la classe Button)
 
-        return_button().draw()
+        draw_buttons("return")
 
 

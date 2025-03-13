@@ -10,7 +10,7 @@ screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 
 class Button():
-    def __init__(self,coord,width,height,color,text,dif_hoover,file,font="Arial",text_color=(255,255,255),text_size=8):
+    def __init__(self,coord,width,height,color,text,file,font="Arial",text_color=(255,255,255),text_size=8):
         self.x=coord[0]
         self.y=coord[1]
         self.width=width
@@ -18,7 +18,6 @@ class Button():
         self.button_rect = pygame.Rect(coord[0], coord[1], width, height)
         self.color=color
         self.text=text
-        self.dif_hoover=dif_hoover
         self.file=file
         self.font = font
         self.text_color = text_color
@@ -110,47 +109,37 @@ def grille(draw):
         compt_x+=1
     return matrice_coord
 
-coord_boutons=grille(False)
-    
 
-def tech_tree_button():
-    return Button(coord_boutons[10][15], button_size_widht, button_size_height, (255, 255, 255), "Arbre technologique",30,"assets/button.png")
+coord_buttons=grille(False)
 
-def test():
-    return Button(coord_boutons[30][18], button_size_widht, button_size_height, (255, 255, 255), "Bouton test",30,"assets/button.png")
+def hud_draw(x,y,x_fin,y_fin):
+    pygame_x=coord_buttons[x][y][1]                 #extraction de la premiere coordoné (en x) via la grille de coordoné
+    pygame_y=coord_buttons[x][y][0]                 #extraction de la deuxième coordoné (en y) via la grille de coordoné
+    pygame_x_end=coord_buttons[x_fin][y][1]-pygame_x    #definition de la taille en x
+    pygame_y_end=coord_buttons[x][y_fin][0]-pygame_y    #definition de la taille en y
+    return(pygame_x,pygame_y,pygame_x_end,pygame_y_end)
 
-def resolution_screen_button():
-    return Button(coord_boutons[20][20],button_size_widht, button_size_height, (255, 255, 255), "Résolution",30,"assets/button.png")
 
-def launch_button():
-    return Button(coord_boutons[10][2], button_size_widht, button_size_height, (255, 0, 0), "Lancer le jeu", 20, "assets/button.png")
 
-def menu_settings_button():
-    return Button(coord_boutons[20][2], button_size_widht, button_size_height, (255, 0, 0), "Paramètres", 0, "assets/button.png")
+def draw_buttons(name):
+    button=buttons[name]            #extraire le dictionaire associé au bouton voulue
+    x=coord_buttons[button["x"]][button["y"]][0]    #x sur la grille    
+    y=coord_buttons[button["x"]][button["y"]][1]    #y sur la grille
+    widht=button["button_size_widht"]               #taillee du bouton
+    height=button["button_size_height"]             #hauteur du bouton
+    color=button["color"]                           #couleur du texte
+    text=button["text"]                             #texte
+    file=button["file"]                             #image a dessiner
+    return Button((x,y),widht,height,color,text,file).draw()
 
-def game_settings_button():
-    return Button(coord_boutons[30][10], button_size_widht, button_size_height, (255, 0, 0), "Paramètres jeu", 30, "assets/button.png")
 
-def quit_button():
-    return Button(coord_boutons[30][2],button_size_widht, button_size_height, (255, 0, 0), "Quitter", 20, "assets/button.png")
-
-def return_button():
-    return Button(coord_boutons[25][10], button_size_widht, button_size_height, (255, 255, 255), "Retour", 0, "assets/button.png")
-
-def full_screen_button():
-    return Button(coord_boutons[10][25], button_size_widht, button_size_height, (255, 255, 255), "Plein ecran", 0, "assets/button.png")
-
-def resolution_1280x720_button():
-    return Button(coord_boutons[15][25], button_size_widht, button_size_height, (255, 255, 255), "1280x720", 0, "assets/button.png")
-
-def resolution_1920x1080_button():
-    return Button(coord_boutons[20][25], button_size_widht, button_size_height, (255, 255, 255), "1920x1080", 0, "assets/button.png")
-
-def resolution_1920x1200_button():
-    return Button(coord_boutons[25][25], button_size_widht, button_size_height, (255, 255, 255), "1920x1200", 0, "assets/button.png")
-
-def resolution_2560x1080_button():
-    return Button(coord_boutons[30][25], button_size_widht, button_size_height, (255, 255, 255), "2560x1080", 0, "assets/button.png")
-
-def seed_button():
-    return Button(coord_boutons[10][10], button_size_widht, button_size_height, (255, 255, 255), "seed", 0, "assets/button.png")
+def click_button(name,mouse_pos):
+    button=buttons[name]
+    x=coord_buttons[button["x"]][button["y"]][0]
+    y=coord_buttons[button["x"]][button["y"]][1]
+    widht=button["button_size_widht"]
+    height=button["button_size_height"]
+    color=button["color"]
+    text=button["text"]
+    file=button["file"]
+    return Button((x,y),widht,height,color,text,file).click(mouse_pos[0],mouse_pos[1])

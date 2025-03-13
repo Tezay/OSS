@@ -31,18 +31,18 @@ class MenuState(BaseState):
 
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
-            if launch_button().click(mouse_x,mouse_y):
+            if click_button("launch",pos): 
                 # Passe l'état courant à game_state
                 self.state_manager.set_state(GameState(self.state_manager))
 
             # Vérification du clique de la souris sur le bouton
-            if menu_settings_button().click(mouse_x,mouse_y):
+            if click_button("menu_settings",pos):
                 setting_quit = 2
                 # Passe l'état courant à menu_settings_state
                 self.state_manager.set_state(MenuSettingsState(self.state_manager))
 
             # Vérification du clique de la souris sur le bouton
-            if quit_button().click(mouse_x,mouse_y):
+            if click_button("quit",pos):
                 #permet de quitter le programe dans le main via le bouton
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
 
@@ -54,6 +54,8 @@ class MenuState(BaseState):
             grille(True)
 
         # Dessin des boutons relatifs à l'état menu_state (avec la méthode .draw() de la classe Button)
-        launch_button().draw()
-        menu_settings_button().draw()
-        quit_button().draw()
+
+        draw_buttons("launch")
+        draw_buttons("menu_settings")
+        draw_buttons("quit")
+

@@ -15,7 +15,14 @@ class TechTreeState(BaseState):
         self.game=game
 
     def handle_event(self, event, pos):
-        pass
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            from .game_state import GameState
+            new_game_state = GameState(self.state_manager)
+            # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
+            new_game_state.game = self.game
+            # Changer l'état courant à game_state
+            self.state_manager.set_state(new_game_state)
 
     def update(self, dt, actions, pos, mouse_clicked):
 
@@ -24,7 +31,7 @@ class TechTreeState(BaseState):
 
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
-            if return_button().click(mouse_x,mouse_y):
+            if click_button("return",pos):
                 from states.game_state import GameState
                 new_game_state = GameState(self.state_manager)
                 # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
@@ -32,19 +39,11 @@ class TechTreeState(BaseState):
                 # Passe l'état courant à game_state
                 self.state_manager.set_state(new_game_state)
             
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_ESCAPE]:
-                from .game_state import GameState
-                new_game_state = GameState(self.state_manager)
-                # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
-                new_game_state.game = self.game
-                # Changer l'état courant à game_state
-                self.state_manager.set_state(new_game_state)
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
-        return_button().draw()
+
 
         # Dessin des boutons relatifs à l'état tech_tree_state (avec la méthode .draw() de la classe Button)
-        # Bouton test
-        test().draw()
+
+        draw_buttons("return")

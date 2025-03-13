@@ -2,6 +2,8 @@ import pygame
 from buttons import*
 from ..base_state import BaseState
 from config import WINDOW_WIDTH,WINDOW_HEIGHT
+from game import Game
+
 
 
 global MAX_WINDOW_HEIGHT, MAX_WINDOW_WIDTH
@@ -17,17 +19,18 @@ MAX_WINDOW_HEIGHT=info.current_h
 # - handles_event : surveille les événements (touches clavier)
 # - update : update la logique relative à l'état en cours
 # - draw : déssine l'état courant
-class MenuSettingsResolutionState(BaseState):
+class GameSettingsResolutionState(BaseState):
     def __init__(self, state_manager):
         super().__init__()
         self.state_manager = state_manager
+        self.game=Game()
 
     def handle_event(self, event,pos):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
-            from .settings_menu_state import MenuSettingsState
-            # Passe l'état courant à setting_menu_state
-            self.state_manager.set_state(MenuSettingsState(self.state_manager))
+            from .settings_game_state import GameSettingsState
+            # Passe l'état courant à setting_game_state
+            self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))
 
     def update(self, dt, actions, pos, mouse_clicked):
         # Définition des variables de taille de l'écran (globales)
@@ -39,10 +42,9 @@ class MenuSettingsResolutionState(BaseState):
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
             if click_button("return",pos):
-                from .settings_menu_state import MenuSettingsState
                 from .settings_game_state import GameSettingsState
-                # Passe l'état courant à menu_settings_state
-                self.state_manager.set_state(MenuSettingsState(self.state_manager))
+                # Passe l'état courant à game_settings_state
+                self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))
                 
             if click_button("full_screen",pos):
                 pygame.display.set_mode((MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT), pygame.FULLSCREEN)  # Activer le mode plein écran

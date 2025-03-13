@@ -39,7 +39,6 @@ class Game:
         else:
             # Sinon définie la seed à custom_seed
             self.seed=config.custom_seed
-        
         print(f"Seed: {self.seed}")
         
         # Génération des planètes
