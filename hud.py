@@ -37,7 +37,7 @@ class Hud:
         #parametre de hud_draw:(carré en x, carré en y, carré de fin en x, carré de fin en y)
 
         # Dessin de la mini map
-        coord_minimap=hud_draw(52,1,60,9)
+        coord_minimap=hud_draw(52,1,59,9)
         pygame.draw.rect(screen,(0,0,255),coord_minimap)          
         # Dessin de l'HUD
         coord_hud=hud_draw(10,30,50,35)

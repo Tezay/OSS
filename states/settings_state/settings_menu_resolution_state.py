@@ -67,6 +67,7 @@ class MenuSettingsResolutionState(BaseState):
                 WINDOW_HEIGHT = 1080
                 pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 
+
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
 

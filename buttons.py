@@ -110,9 +110,9 @@ def grille(draw):
     return matrice_coord
 
 
-coord_buttons=grille(False)
 
 def hud_draw(x,y,x_fin,y_fin):
+    coord_buttons=grille(False)
     pygame_x=coord_buttons[x][y][1]                 #extraction de la premiere coordoné (en x) via la grille de coordoné
     pygame_y=coord_buttons[x][y][0]                 #extraction de la deuxième coordoné (en y) via la grille de coordoné
     pygame_x_end=coord_buttons[x_fin][y][1]-pygame_x    #definition de la taille en x
@@ -122,9 +122,10 @@ def hud_draw(x,y,x_fin,y_fin):
 
 
 def draw_buttons(name):
+    coord_buttons=grille(False)
     button=buttons[name]            #extraire le dictionaire associé au bouton voulue
-    x=coord_buttons[button["x"]][button["y"]][0]    #x sur la grille    
-    y=coord_buttons[button["x"]][button["y"]][1]    #y sur la grille
+    x=coord_buttons[button["y"]][button["x"]][0]    #x sur la grille    
+    y=coord_buttons[button["y"]][button["x"]][1]    #y sur la grille
     widht=button["button_size_widht"]               #taillee du bouton
     height=button["button_size_height"]             #hauteur du bouton
     color=button["color"]                           #couleur du texte
@@ -134,9 +135,10 @@ def draw_buttons(name):
 
 
 def click_button(name,mouse_pos):
+    coord_buttons=grille(False)
     button=buttons[name]
-    x=coord_buttons[button["x"]][button["y"]][0]
-    y=coord_buttons[button["x"]][button["y"]][1]
+    x=coord_buttons[button["y"]][button["x"]][0]
+    y=coord_buttons[button["y"]][button["x"]][1]
     widht=button["button_size_widht"]
     height=button["button_size_height"]
     color=button["color"]

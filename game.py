@@ -17,7 +17,7 @@ from states.settings_state.settings_menu_seed_state import custom_seed
 import config
 
 
-class Game:
+class Game():
     """
     Classe qui gère la logique du "jeu en cours" :
     - Génération et stockage de la map
