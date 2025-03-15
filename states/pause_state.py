@@ -15,13 +15,13 @@ class PauseState(BaseState):
         self.font = pygame.font.Font(None, 50)
 
     def handle_event(self, event,pos):
-        # On ne regarde pas "actions", on regarde les events
+        # Gestion des événements ponctuels
         if event.type == pygame.KEYDOWN:
             if event.key == KEY_BINDINGS["pause"]:
                 from .game_state import GameState
-                new_game_state = GameState(self.state_manager)
-                # On réutilise l'objet self.game (même partie) pour ne pas redémarrer la map
-                new_game_state.game = self.game
+                # On passe existing_game=self.game pour réutiliser l’instance
+                new_game_state = GameState(self.state_manager, existing_game=self.game)
+                # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
 
     def update(self, dt, actions, pos, mouse_clicked):

@@ -17,46 +17,54 @@ import config
 # - update : update la logique relative à l'état en cours
 # - draw : déssine l'état courant
 class GameState(BaseState):
-    def __init__(self, state_manager):
+    def __init__(self, state_manager, existing_game=None):
         super().__init__()
         self.state_manager = state_manager
 
-        # Création de Game (ne génère rien)
-        self.game = Game()
-
-        # Selection de la seed
-        if config.custom_seed is None:
-            if DEFAULT_SEED is None:
-                seed = random.randint(0, 999999999)
-            else:
-                seed = DEFAULT_SEED
+        # Vérification si un état game déjà crée a été transmis en paramètre
+        # Note : Permet d'éviter de regénérer entièrement la map lors de changement d'état
+        if existing_game is not None:
+            # Réutilisation de l'existant (même map, même vaisseau, etc.)
+            self.game = existing_game
+            
+        # Sinon création d'un nouveau Game + nouvelle map + nouveau vaisseau
         else:
-            seed = config.custom_seed
-        print(f"Seed: {seed}")
+            # Création de la classe Game
+            self.game = Game()
 
-        # Génération de la map
-        planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
-        print("Map generated.")
+            # Selection de la seed
+            if config.custom_seed is None:
+                if DEFAULT_SEED is None:
+                    seed = random.randint(0, 999999999)
+                else:
+                    seed = DEFAULT_SEED
+            else:
+                seed = config.custom_seed
+            print(f"Seed: {seed}")
 
-        # Injecter ces planètes dans Game
-        self.game.set_planets(planets)
+            # Génération de la map
+            planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
+            print("Map generated.")
 
-        # Création du vaisseau
-        spaceship = Spaceship(
-            x=WORLD_WIDTH//2,
-            y=WORLD_HEIGHT//2,
-            vx=0, vy=0,
-            width=20, height=20,
-            image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
-            mass=10
-        )
-        self.game.set_spaceship(spaceship)
+            # Injecter ces planètes dans Game
+            self.game.set_planets(planets)
 
-        # Création de la caméra
-        camera = Camera(WORLD_WIDTH, WORLD_HEIGHT)
-        if not DEBUG_MODE:
-            camera.set_target(spaceship)
-        self.game.set_camera(camera)
+            # Création du vaisseau
+            spaceship = Spaceship(
+                x=WORLD_WIDTH//2,
+                y=WORLD_HEIGHT//2,
+                vx=0, vy=0,
+                width=20, height=20,
+                image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
+                mass=10
+            )
+            self.game.set_spaceship(spaceship)
+
+            # Création de la caméra
+            camera = Camera(WORLD_WIDTH, WORLD_HEIGHT)
+            if not DEBUG_MODE:
+                camera.set_target(spaceship)
+            self.game.set_camera(camera)
 
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels

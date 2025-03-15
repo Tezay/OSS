@@ -18,10 +18,9 @@ class TechTreeState(BaseState):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             from .game_state import GameState
-            new_game_state = GameState(self.state_manager)
-            # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
-            new_game_state.game = self.game
-            # Changer l'état courant à game_state
+            # On passe existing_game=self.game pour réutiliser l’instance
+            new_game_state = GameState(self.state_manager, existing_game=self.game)
+            # Change l'état courant à GameState
             self.state_manager.set_state(new_game_state)
 
     def update(self, dt, actions, pos, mouse_clicked):
@@ -33,10 +32,9 @@ class TechTreeState(BaseState):
         if mouse_clicked:
             if click_button("return",pos):
                 from states.game_state import GameState
-                new_game_state = GameState(self.state_manager)
-                # Réinitialisation de l'objet self.game pour ne pas réinitialiser la map
-                new_game_state.game = self.game
-                # Passe l'état courant à game_state
+                # On passe existing_game=self.game pour réutiliser l’instance
+                new_game_state = GameState(self.state_manager, existing_game=self.game)
+                # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
             
 
