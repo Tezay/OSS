@@ -1,24 +1,53 @@
 import random
 import math
+import pygame
+import os
 
 from json_manager import get_planet_types, get_planet_data
-from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS
+from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS, DEFAULT_PLANET_TEXTURE_PATH
 
+# Dictionnaire pour cacher/mettre en mémoire les images
+PLANET_IMAGE_CACHE = {}
 
 class Planet:
     """
     Classe représentant une planète dans le monde.
     """
     def __init__(self, x, y, radius, mass, texture, planet_type):
-        # Définir les caractéristiques d'une planète
         self.x = x
         self.y = y
         self.radius = radius
         self.mass = mass
+        # Nom de la texture
         self.texture = texture
+        # Chemin d'accès de la texture
+        self.texture_path = os.path.join(DEFAULT_PLANET_TEXTURE_PATH, f"{self.texture}.png")
+
         self.planet_type = planet_type
 
-def __repr__(self):
+        self.rect = pygame.Rect(0, 0, radius*2, radius*2)
+        self.rect.center = (x, y)
+        
+    def draw(self, world_surface):
+        """
+        Dessine la planète en tenant compte de la caméra (pour le décalage).
+        """
+        # Charger l'image de la texture
+        planet_image = pygame.image.load(self.texture_path).convert_alpha()
+        planet_image = pygame.transform.scale(
+            planet_image, 
+            (self.radius*2, self.radius*2)
+        )
+
+        # On calcule un rect dont le center est (self.x, self.y)
+        draw_rect = planet_image.get_rect()
+        draw_rect.center = (self.x, self.y)
+
+        # Blit dans la surface world
+        world_surface.blit(planet_image, draw_rect)
+
+    # Méthode pour renvoyer tous les attribus d'une planète
+    def __repr__(self):
         return (f"Planet(x={self.x}, y={self.y}, radius={self.radius}, mass={self.mass}, texture={self.texture}, type={self.planet_type})")
 
 
@@ -69,7 +98,7 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
             mass = random.uniform(float(planet_data["min_mass"]), float(planet_data["max_mass"]))
             
             # Choisir une texture aléatoire parmi la liste de textures disponibles
-            texture = ""
+            texture = "default"
             if planet_data["texture"]:
                 texture = random.choice(planet_data["texture"])
 
@@ -91,12 +120,12 @@ def can_place_planet(x, y, radius, existing_planets, world_width, world_height):
     """
     Vérifie si on peut placer une nouvelle planète (x, y, radius)
     en respectant la distance minimale par rapport aux planètes existantes
-    et en évitant la zone de 400px autour du centre du monde.
+    et en évitant la zone de PLANET_MIN_DISTANCE autour du centre du monde.
     """
     # Définition du centre du monde
     center_x, center_y = world_width//2, world_height//2
     # Vérification de la distance par rapport au centre du monde
-    if math.sqrt((x - center_x) ** 2 + (y - center_y) ** 2) < 400:
+    if math.sqrt((x - center_x) ** 2 + (y - center_y) ** 2) < PLANET_MIN_DISTANCE:
         return False
     
     # Vérification de la distance par rapport aux autres planètes

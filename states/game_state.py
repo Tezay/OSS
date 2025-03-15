@@ -1,9 +1,14 @@
 import pygame
 import math
+import random
 from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED
 from .base_state import BaseState
 from buttons import *
 from game import Game
+from map_generator import generate_map
+from spaceship import Spaceship
+from camera import Camera
+import config
 
 
 # Classe enfant de BaseState
@@ -15,7 +20,43 @@ class GameState(BaseState):
     def __init__(self, state_manager):
         super().__init__()
         self.state_manager = state_manager
-        self.game=Game()
+
+        # Création de Game (ne génère rien)
+        self.game = Game()
+
+        # Selection de la seed
+        if config.custom_seed is None:
+            if DEFAULT_SEED is None:
+                seed = random.randint(0, 999999999)
+            else:
+                seed = DEFAULT_SEED
+        else:
+            seed = config.custom_seed
+        print(f"Seed: {seed}")
+
+        # Génération de la map
+        planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
+        print("Map generated.")
+
+        # Injecter ces planètes dans Game
+        self.game.set_planets(planets)
+
+        # Création du vaisseau
+        spaceship = Spaceship(
+            x=WORLD_WIDTH//2,
+            y=WORLD_HEIGHT//2,
+            vx=0, vy=0,
+            width=20, height=20,
+            image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
+            mass=10
+        )
+        self.game.set_spaceship(spaceship)
+
+        # Création de la caméra
+        camera = Camera(WORLD_WIDTH, WORLD_HEIGHT)
+        if not DEBUG_MODE:
+            camera.set_target(spaceship)
+        self.game.set_camera(camera)
 
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels
@@ -82,9 +123,6 @@ class GameState(BaseState):
             fx = SPACESHIP_THRUST_FORCE * math.sin(rad)
             fy = -SPACESHIP_THRUST_FORCE * math.cos(rad)
             self.game.spaceship.add_force(fx, fy)
-
-        # Update de la physique du vaisseau
-        self.game.spaceship.update_physics(dt)
 
         # Update de GameState
         self.game.update(dt, actions)

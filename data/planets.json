@@ -58,7 +58,7 @@
         "max_mass": "1e4",
         "min_radius": 50,
         "max_radius": 70,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "alien",
@@ -68,7 +68,7 @@
         "max_mass": "3e4",
         "min_radius": 60,
         "max_radius": 80,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "gaseous_orange",
@@ -88,7 +88,7 @@
         "max_mass": "3e5",
         "min_radius": 150,
         "max_radius": 200,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "gaseous_green",
@@ -118,7 +118,7 @@
         "max_mass": "3e4",
         "min_radius": 60,
         "max_radius": 80,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "jungle",
@@ -128,7 +128,7 @@
         "max_mass": "2e4",
         "min_radius": 50,
         "max_radius": 80,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "toxic",
@@ -138,7 +138,7 @@
         "max_mass": "3e4",
         "min_radius": 60,
         "max_radius": 80,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "mechanical_ruins",
@@ -148,7 +148,7 @@
         "max_mass": "5e4",
         "min_radius": 60,
         "max_radius": 90,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "fungal",
@@ -158,7 +158,7 @@
         "max_mass": "2e4",
         "min_radius": 50,
         "max_radius": 70,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "magnetic",
@@ -168,7 +168,7 @@
         "max_mass": "1e5",
         "min_radius": 80,
         "max_radius": 120,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "corrupted",
@@ -178,7 +178,7 @@
         "max_mass": "4e4",
         "min_radius": 60,
         "max_radius": 80,
-        "texture": []
+        "texture": ["default"]
       },
       {
         "planet_type": "habitable_planet",

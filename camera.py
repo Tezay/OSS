@@ -16,8 +16,12 @@ class Camera:
         self.MIN_ZOOM = 0.05   # dézoom maximum (affiche plus de monde)
         self.MAX_ZOOM = 3.0   # zoom maximum (affiche moins de monde)
 
+        # Initialisation des coordonnées de la caméra
+        self.x = world_center_width
+        self.y = world_center_height
+
         # Initialisation de view_rect pour éviter l'erreur si draw() est appelé avant update()
-        self.view_rect = pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+        self.view_rect = pygame.Rect(world_center_width, world_center_height, WINDOW_WIDTH, WINDOW_HEIGHT)
 
     def set_target(self, target):
         self.target = target
@@ -29,21 +33,23 @@ class Camera:
         # Si la caméra a une cible, et que le mode debug est désactivé, centrer la caméra sur la cible
         if self.target and not DEBUG_MODE:
             # Caméra centrée sur les coordonnées de la cible
-            x = self.target.rect.x - WINDOW_WIDTH // 2
-            y = self.target.rect.y - WINDOW_HEIGHT // 2
-            self.camera_rect = pygame.Rect(x, y, WINDOW_WIDTH, WINDOW_HEIGHT)
+            self.x = self.target.rect.x - WINDOW_WIDTH // 2
+            self.y = self.target.rect.y - WINDOW_HEIGHT // 2
 
             # Si le mode debug est activé, la caméra n'est pas centrée sur la cible
         elif DEBUG_MODE:
+             # Déplacement proportionnel au zoom
+            prop_camera_speed = CAMERA_SPEED / self.zoom
+
             # Déplacement manuel de la caméra
             if actions.get("camera_left"):
-                self.camera_rect.x -= CAMERA_SPEED
+                self.x -=  prop_camera_speed
             if actions.get("camera_right"):
-                self.camera_rect.x += CAMERA_SPEED
+                self.x +=  prop_camera_speed
             if actions.get("camera_up"):
-                self.camera_rect.y -= CAMERA_SPEED
+                self.y -=  prop_camera_speed
             if actions.get("camera_down"):
-                self.camera_rect.y += CAMERA_SPEED
+                self.y +=  prop_camera_speed
 
             # Gestion du zoom
             if actions.get("zoom_in"):
@@ -52,6 +58,9 @@ class Camera:
                 self.zoom -= 0.04
             # Update du zoom (avec gestion du zoom min et max)
             self.zoom = max(self.MIN_ZOOM, min(self.zoom, self.MAX_ZOOM))
+
+        # Update du camera_rect à partir des nouvelles coordonnées de la caméra (dues déplacement)
+        self.camera_rect = pygame.Rect(self.x, self.y, WINDOW_WIDTH, WINDOW_HEIGHT)
 
         # Calcul du view_rect
         center_x = self.camera_rect.x + WINDOW_WIDTH // 2

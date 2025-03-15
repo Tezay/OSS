@@ -3,31 +3,34 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
 # Nombre d'images par seconde
-FPS = 60
+FPS = 500
 
 # Paramètre pour le mode debug
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50
 
+# Distance de rendu autour du vaisseau (rayon, en pixels)
+RENDER_DISTANCE = 3000
+
 # Vaisseau
 SPACESHIP_ROTATION_SPEED = 90 # degré/seconde
 SPACESHIP_THRUST_FORCE = 1000 # force en Newton appliquée pendant l'appui
-SPACESHIP_MAX_SPEED = 200
+SPACESHIP_MAX_SPEED = 300
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
 
 # Dimensions de la map (grande carte pour l'exploration)
-WORLD_WIDTH = 10000
-WORLD_HEIGHT = 10000
+WORLD_WIDTH = 20000
+WORLD_HEIGHT = 20000
 
 # Paramètres de seed et de nombre de planètes
 DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
 custom_seed=None        #Si None, veux dire que l'uttilisateur n'a pas saisie de seed customisé
-NUMBER_OF_PLANETS = 200  # Nombre de planètes à générer par défaut.
+NUMBER_OF_PLANETS = 700  # Nombre de planètes à générer par défaut.
 
-# --- Paramètres de distance pour la génération des planètes ---
+# Paramètres de distance pour la génération des planètes
 PLANET_MIN_DISTANCE = 400       # Distance minimale entre les centres de deux planètes
 MAX_GENERATION_ATTEMPTS = 200  # Nombre max de tentatives pour placer une planète
 
@@ -66,8 +69,6 @@ button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fe
 # sous la forme {"nom button":{
 #                             "x":position x,"y":position y,"button_size_widht":taille button,"button_size_height":hauteur button
 #                             "color":couleur,"text": texte dans le button,"file":fichier pour l'image}}
-
-
 buttons={
     "tech_tree":{
         "x":15,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
