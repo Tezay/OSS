@@ -42,6 +42,9 @@ class Spaceship:
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
+        # Booléen pour stocker si le vaisseau est atterri ou non
+        self.is_landed = False
+
     def add_force(self, fx, fy):
         """Ajoute une force (en Newton) au vaisseau."""
         self.force_x += fx
@@ -60,21 +63,28 @@ class Spaceship:
         Met à jour la position et la vitesse du vaisseau en tenant compte
         de la somme des forces extérieures, puis remet cette somme à zéro.
         """
-        # Calcul de l’accélération (F = m*a => a = F/m)
-        ax = (self.force_x / self.mass)
-        ay = (self.force_y / self.mass)
 
-        # Mise à jour des vitesses
-        self.vx += ax * dt
-        self.vy += ay * dt
+        # Si le vaisseau est atteri, ne pas faire varier sa vitesse
+        if self.is_landed:
+            self.vx = 0
+            self.vy = 0
+            
+        else:
+            # Calcul de l’accélération (F = m*a => a = F/m)
+            ax = (self.force_x / self.mass)
+            ay = (self.force_y / self.mass)
 
-        # Limitation de la vitesse max
-        speed = math.sqrt(self.vx**2 + self.vy**2)
-        if speed > SPACESHIP_MAX_SPEED:
-            # Normalisation de la vitesse
-            scale = SPACESHIP_MAX_SPEED / speed
-            self.vx *= scale
-            self.vy *= scale
+            # Mise à jour des vitesses
+            self.vx += ax * dt
+            self.vy += ay * dt
+
+            # Limitation de la vitesse max
+            speed = math.sqrt(self.vx**2 + self.vy**2)
+            if speed > SPACESHIP_MAX_SPEED:
+                # Normalisation de la vitesse
+                scale = SPACESHIP_MAX_SPEED / speed
+                self.vx *= scale
+                self.vy *= scale
 
         # Mise à jour de la position
         self.x += self.vx * dt

@@ -10,6 +10,10 @@ from config import (
     SPACESHIP_TEXTURE_DEFAULT_PATH,
     DEFAULT_PLANET_TEXTURE_PATH,
     RENDER_DISTANCE,
+    G,
+    WINDOW_HEIGHT,
+    WINDOW_WIDTH,
+    MAX_LANDING_SPEED
 )
 from map_generator import generate_map
 from hud import Hud
@@ -124,12 +128,153 @@ class Game():
 
         return visible
 
+    def compute_net_forces(self, x, y, mass):
+        """
+        Calcule la somme des forces (gravité, etc.) sur un objet
+        de masse 'mass' situé à (x, y).
+        Retourne (fx_total, fy_total).
+        """
+        fx_total = 0.0
+        fy_total = 0.0
+
+        # Parcours des planètes
+        visible_planets = self.get_visible_planets()
+        for planet in visible_planets:
+            # Calcul de la gravité
+            dx = planet.x - x
+            dy = planet.y - y
+            dist = math.sqrt(dx*dx + dy*dy)
+            if dist < 1e-6:
+                continue
+            
+            # F = G*(m1*m2)/(r^2)
+            force = G * (planet.mass * mass) / (dist*dist)
+            
+            # Projection sur x,y
+            fx_total += force * (dx/dist)
+            fy_total += force * (dy/dist)
+
+        return fx_total, fy_total
+    
+    def check_collision_and_land(self, x, y, vx, vy, radius_vaisseau, dt):
+        """
+        Vérifie s'il y a collision entre le vaisseau (position x, y, rayon radius_vaisseau)
+        et une planète. 
+        - x, y, vx, vy sont les coordonnées et vitesse de l'objet
+        - dt est la durée du pas de temps qu'on vient de simuler
+        - Retourne (new_x, new_y, new_vx, new_vy, landed) 
+        où 'landed' indique si on a atterri sur une planète.
+
+        On considère l'atterrissage réussi si la vitesse < MAX_LANDING_SPEED.
+        On recalcule la position (x,y) en cas de chevauchement pour coller à la surface.
+        """
+        landed = False
+        visible_planets = self.get_visible_planets()
+        for planet in visible_planets:
+            dist_centers = math.sqrt((planet.x - x)**2 + (planet.y - y)**2)
+            collision_dist = planet.radius + radius_vaisseau
+            # Si distance entre vaisseau et planète <= rayon planète + vaisseau
+            # Alors il y a collision, et il faut regarder si le vaisseau atterri
+            if dist_centers <= collision_dist:
+
+                # Calcul de la vitesse du vaisseau
+                speed = math.sqrt(vx*vx + vy*vy)
+
+                # Seulement si on n’est PAS déjà posé :
+                if not self.spaceship.is_landed:
+                    if speed <= MAX_LANDING_SPEED:
+                        # Atterrisage
+                        landed = True
+ 
+                    else:
+                        # Collision brutale : actuellement, fait un rebond
+                        # Ou alors détruire le vaisseau ?
+                        overlap = collision_dist - dist_centers
+                        # Exerce une vitesse dans l'autre sans
+                        nx = (x - planet.x) / (dist_centers + 1e-6)
+                        ny = (y - planet.y) / (dist_centers + 1e-6)
+                        x += nx * overlap
+                        y += ny * overlap
+                        vx = -vx * 0.5
+                        vy = -vy * 0.5
+                        print("Collision with planet")
+                else:
+                    # Le vaisseau est déjà "landed"
+                    # Recaler le vaisseau pour s'assurer qu'il ne s'enfonce pas
+                    overlap = collision_dist - dist_centers
+                    nx = (x - planet.x) / (dist_centers + 1e-4)
+                    ny = (y - planet.y) / (dist_centers + 1e-4)
+                    x += nx * overlap
+                    y += ny * overlap
+
+        return (x, y, vx, vy, landed)
+
+    def predict_spaceship_trajectory(self, steps=200, dt_sim=0.08):
+        if not self.spaceship:
+            return []
+
+        sim_x = self.spaceship.x
+        sim_y = self.spaceship.y
+        sim_vx = self.spaceship.vx
+        sim_vy = self.spaceship.vy
+        sim_mass = self.spaceship.mass
+
+        points = [(sim_x, sim_y)]
+
+        for _ in range(steps):
+            fx, fy = self.compute_net_forces(sim_x, sim_y, sim_mass)
+            ax = fx / sim_mass
+            ay = fy / sim_mass
+            sim_vx += ax * dt_sim
+            sim_vy += ay * dt_sim
+            sim_x += sim_vx * dt_sim
+            sim_y += sim_vy * dt_sim
+            points.append((sim_x, sim_y))
+
+        return points
+
     def apply_gravity(self, dt):
         """
         Calcule la force gravitationnelle exercée par les planètes proches
         sur le vaisseau, et gère la collision avec la surface si besoin.
         """
-        pass
+        if not self.spaceship:
+            return
+        
+        fx, fy = self.compute_net_forces(self.spaceship.x, self.spaceship.y, self.spaceship.mass)
+        self.spaceship.add_force(fx, fy)
+
+        # Calculer la force résultante
+        fx, fy = self.compute_net_forces(self.spaceship.x, self.spaceship.y, self.spaceship.mass)
+
+        # Appliquer cette force
+        self.spaceship.add_force(fx, fy)
+        
+        # Mettre à jour la physique du vaisseau
+        self.spaceship.update_physics(dt)
+
+        # Gérer la collision (pour atterrissage)
+        radius_vaisseau = min(self.spaceship.rect.width, self.spaceship.rect.height)/2
+        new_x, new_y, new_vx, new_vy, just_landed = self.check_collision_and_land(
+            self.spaceship.x,
+            self.spaceship.y,
+            self.spaceship.vx,
+            self.spaceship.vy,
+            radius_vaisseau,
+            dt
+        )
+
+        # Appliquer les changements
+        self.spaceship.x = new_x
+        self.spaceship.y = new_y
+        self.spaceship.vx = new_vx
+        self.spaceship.vy = new_vy
+
+        # Passe l'état du vaisseau comme atterri
+        if just_landed:
+            self.spaceship.is_landed = True
+            print("Successful landing!")
+
 
     def draw(self, screen):
         """
@@ -149,6 +294,30 @@ class Game():
         # Affichage caméra
         view_surface, scaled_view = self._get_camera_view()
         screen.blit(scaled_view, (0, 0))
+
+        # Dessiner la trajectoire du vaisseau
+        if self.spaceship:
+            trajectory_points = self.predict_spaceship_trajectory()
+
+            # Tracé de la ligne en tenant compte de la caméra
+            # on stocke les points transformés
+            transformed_points = []
+            for (px, py) in trajectory_points:
+                # La position px,py doit être convertie en coords "camera offset"
+                # (comme camera.apply_rect() mais manuellement)
+                dx = px - self.camera.view_rect.x
+                dy = py - self.camera.view_rect.y
+
+                # Appliquer le zoom
+                dx *= (WINDOW_WIDTH / self.camera.view_rect.width)
+                dy *= (WINDOW_HEIGHT / self.camera.view_rect.height)
+
+                transformed_points.append((dx, dy))
+
+            # Dessin d'une polyline blanche reliant ces points
+            if len(transformed_points) > 1:
+                pygame.draw.lines(screen, (255, 255, 255), False, transformed_points, 2)
+
 
         # Dessin de l'HUD
         self.hud.draw(screen)

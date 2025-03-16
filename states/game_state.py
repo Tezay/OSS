@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED
+from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED, SPACESHIP_MASS
 from .base_state import BaseState
 from buttons import *
 from game import Game
@@ -56,7 +56,7 @@ class GameState(BaseState):
                 vx=0, vy=0,
                 width=20, height=20,
                 image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
-                mass=10
+                mass=SPACESHIP_MASS
             )
             self.game.set_spaceship(spaceship)
 
@@ -124,12 +124,23 @@ class GameState(BaseState):
 
         # Poussée continue si touche préssée
         if actions["spaceship_move"]:
+
             # Conversion de l’angle en radians
             rad = math.radians(self.game.spaceship.angle)
 
             # Application de la force en direction du vaisseau
             fx = SPACESHIP_THRUST_FORCE * math.sin(rad)
             fy = -SPACESHIP_THRUST_FORCE * math.cos(rad)
+
+            # Si le vaisseau est dans l'état atterri, lui permettre de redécoller
+            if self.game.spaceship.is_landed:
+                # Le booléen repasse à False 
+                self.game.spaceship.is_landed = False
+                # Application d'une force de poussé supplémentaire, pour facilité le décrochement du vaisseau de l'attraction gravitationnelle de la planète
+                # Arbitrairement, j'ai trouvé que 2*G permettait de donner la poussé nécessaire
+                self.game.spaceship.add_force(fx*2*G, fy*2*G)
+
+            # Application de la force au vaisseau
             self.game.spaceship.add_force(fx, fy)
 
         # Update de GameState

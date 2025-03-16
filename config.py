@@ -17,7 +17,8 @@ RENDER_DISTANCE = 3000
 # Vaisseau
 SPACESHIP_ROTATION_SPEED = 90 # degré/seconde
 SPACESHIP_THRUST_FORCE = 1000 # force en Newton appliquée pendant l'appui
-SPACESHIP_MAX_SPEED = 300
+SPACESHIP_MAX_SPEED = 200
+SPACESHIP_MASS = 50
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
 
@@ -33,6 +34,12 @@ NUMBER_OF_PLANETS = 700  # Nombre de planètes à générer par défaut.
 # Paramètres de distance pour la génération des planètes
 PLANET_MIN_DISTANCE = 400       # Distance minimale entre les centres de deux planètes
 MAX_GENERATION_ATTEMPTS = 200  # Nombre max de tentatives pour placer une planète
+
+# Constante de gravitation
+G = 4
+
+# Vitesse maximum d'atterrisage
+MAX_LANDING_SPEED = 40
 
 # Planètes
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
@@ -130,4 +137,3 @@ buttons={
         "x":30,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"retour au menu","file":"assets/button.png"},
 }
-
