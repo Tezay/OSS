@@ -17,6 +17,7 @@ from config import (
 )
 from map_generator import generate_map
 from hud import Hud
+from session_data_manager import DataManager
 
 
 class Game():
@@ -34,6 +35,7 @@ class Game():
         self.spaceship = None
         self.hud = Hud()
         self.camera = None
+        self.data_manager = DataManager()
 
         # Surface "monde" 
         self.world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
@@ -243,11 +245,16 @@ class Game():
         """
         if not self.spaceship:
             return
-    
+
         # Calculer la force résultante
         fx, fy = self.compute_net_forces(self.spaceship.x, self.spaceship.y, self.spaceship.mass)
 
         # Appliquer cette force
+        self.spaceship.add_force(fx, fy)
+
+        # Répéter la même chose une seconde fois
+        # Note : Je sais pas pourquoi, mais la trajectoire du vaisseau fonctionne mieux en faisant ça
+        fx, fy = self.compute_net_forces(self.spaceship.x, self.spaceship.y, self.spaceship.mass)
         self.spaceship.add_force(fx, fy)
         
         # Mettre à jour la physique du vaisseau

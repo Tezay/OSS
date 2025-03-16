@@ -102,7 +102,7 @@ class GameState(BaseState):
                 from .settings_state.settings_game_state import GameSettingsState
                 # Passe l'état courant à game_settings_state
                 self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))  # changer le state
-            
+
             # Vérification du clique de la souris sur le bouton
             if click_button("tech_tree",pos):
                 from .tech_tree_state import TechTreeState

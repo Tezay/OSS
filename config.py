@@ -22,6 +22,10 @@ SPACESHIP_MASS = 40
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
 
+# Fichier de données locales par défaut
+LOCAL_DATA_PATH = "local_data/"
+TECH_TREE_TEMPLATE_PATH = "data/tech_tree_state_template.json"
+
 # Dimensions de la map (grande carte pour l'exploration)
 WORLD_WIDTH = 20000
 WORLD_HEIGHT = 20000
