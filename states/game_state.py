@@ -53,7 +53,7 @@ class GameState(BaseState):
             spaceship = Spaceship(
                 x=WORLD_WIDTH//2,
                 y=WORLD_HEIGHT//2,
-                vx=0, vy=0,
+                vx=0, vy=-10, # Vitesse par défaut de 10 pixel vers le haut
                 width=20, height=20,
                 image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
                 mass=SPACESHIP_MASS
@@ -137,8 +137,10 @@ class GameState(BaseState):
                 # Le booléen repasse à False 
                 self.game.spaceship.is_landed = False
                 # Application d'une force de poussé supplémentaire, pour facilité le décrochement du vaisseau de l'attraction gravitationnelle de la planète
-                # Arbitrairement, j'ai trouvé que 2*G permettait de donner la poussé nécessaire
-                self.game.spaceship.add_force(fx*2*G, fy*2*G)
+                planet_mass = self.game.spaceship.landed_planet.mass
+                # Arbitrairement, j'ai trouvé que la masse de la planète / 1e5*G fonctionnait bien
+                takeoff_force_coeff = planet_mass/1e5*G
+                self.game.spaceship.add_force(fx*takeoff_force_coeff, fy*takeoff_force_coeff)
 
             # Application de la force au vaisseau
             self.game.spaceship.add_force(fx, fy)

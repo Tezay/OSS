@@ -12,7 +12,7 @@ class Camera:
         self.target = None
 
         # Gestion du zoom
-        self.zoom = 2.0  # 1.0 : pas de zoom
+        self.zoom = 1.8  # 1.0 : pas de zoom
         self.MIN_ZOOM = 0.05   # dézoom maximum (affiche plus de monde)
         self.MAX_ZOOM = 3.0   # zoom maximum (affiche moins de monde)
 

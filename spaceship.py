@@ -44,6 +44,8 @@ class Spaceship:
 
         # Booléen pour stocker si le vaisseau est atterri ou non
         self.is_landed = False
+        # Stock la planète sur laquelle le vaisseau est posé
+        self.landed_planet = None
 
     def add_force(self, fx, fy):
         """Ajoute une force (en Newton) au vaisseau."""

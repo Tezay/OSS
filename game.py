@@ -137,7 +137,7 @@ class Game():
         fx_total = 0.0
         fy_total = 0.0
 
-        # Parcours des planètes
+        # Parcours des planètes visibles
         visible_planets = self.get_visible_planets()
         for planet in visible_planets:
             # Calcul de la gravité
@@ -147,7 +147,7 @@ class Game():
             if dist < 1e-6:
                 continue
             
-            # F = G*(m1*m2)/(r^2)
+            # F = G*(m1*m2)/(d^2)
             force = G * (planet.mass * mass) / (dist*dist)
             
             # Projection sur x,y
@@ -169,6 +169,8 @@ class Game():
         On recalcule la position (x,y) en cas de chevauchement pour coller à la surface.
         """
         landed = False
+        landed_planet = None
+        # Récupère les planètes visibles
         visible_planets = self.get_visible_planets()
         for planet in visible_planets:
             dist_centers = math.sqrt((planet.x - x)**2 + (planet.y - y)**2)
@@ -185,6 +187,7 @@ class Game():
                     if speed <= MAX_LANDING_SPEED:
                         # Atterrisage
                         landed = True
+                        landed_planet = planet
  
                     else:
                         # Collision brutale : actuellement, fait un rebond
@@ -207,7 +210,7 @@ class Game():
                     x += nx * overlap
                     y += ny * overlap
 
-        return (x, y, vx, vy, landed)
+        return (x, y, vx, vy, landed, landed_planet)
 
     def predict_spaceship_trajectory(self, steps=200, dt_sim=0.08):
         if not self.spaceship:
@@ -240,10 +243,7 @@ class Game():
         """
         if not self.spaceship:
             return
-        
-        fx, fy = self.compute_net_forces(self.spaceship.x, self.spaceship.y, self.spaceship.mass)
-        self.spaceship.add_force(fx, fy)
-
+    
         # Calculer la force résultante
         fx, fy = self.compute_net_forces(self.spaceship.x, self.spaceship.y, self.spaceship.mass)
 
@@ -255,7 +255,7 @@ class Game():
 
         # Gérer la collision (pour atterrissage)
         radius_vaisseau = min(self.spaceship.rect.width, self.spaceship.rect.height)/2
-        new_x, new_y, new_vx, new_vy, just_landed = self.check_collision_and_land(
+        new_x, new_y, new_vx, new_vy, just_landed, landed_planet = self.check_collision_and_land(
             self.spaceship.x,
             self.spaceship.y,
             self.spaceship.vx,
@@ -273,7 +273,9 @@ class Game():
         # Passe l'état du vaisseau comme atterri
         if just_landed:
             self.spaceship.is_landed = True
-            print("Successful landing!")
+            # Transmet la planète sur laquelle le vaisseau a atterri
+            self.spaceship.landed_planet = landed_planet
+            print(f"Successful landing on {landed_planet.name}!")
 
 
     def draw(self, screen):

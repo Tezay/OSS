@@ -1,195 +1,104 @@
 {
-    "planets": [
-      {
-        "planet_type": "desert",
-        "name": "Planète Désert",
-        "spawn_rate": 8,
-        "min_mass": "1e3",
-        "max_mass": "3e4",
-        "min_radius": 60,
-        "max_radius": 80,
-        "texture": ["desert_01", "desert_02", "desert_03", "desert_04"]
-      },
-      {
-        "planet_type": "volcanic",
-        "name": "Planète Volcanique",
-        "spawn_rate": 5,
-        "min_mass": "2e3",
-        "max_mass": "5e4",
-        "min_radius": 65,
-        "max_radius": 85,
-        "texture": ["volcanic_01", "volcanic_02", "volcanic_03", "volcanic_04"]
-      },
-      {
-        "planet_type": "ice",
-        "name": "Planète Glacée",
-        "spawn_rate": 6,
-        "min_mass": "1e3",
-        "max_mass": "2e4",
-        "min_radius": 50,
-        "max_radius": 70,
-        "texture": ["ice_01", "ice_02", "ice_03", "ice_04", "ice_05", "ice_06"]
-      },
-      {
-        "planet_type": "oceanic",
-        "name": "Planète Océanique",
-        "spawn_rate": 6,
-        "min_mass": "1e3",
-        "max_mass": "3e4",
-        "min_radius": 60,
-        "max_radius": 80,
-        "texture": ["oceanic_01", "oceanic_02", "oceanic_03", "oceanic_04", "oceanic_05", "oceanic_06", "oceanic_07"]
-      },
-      {
-        "planet_type": "dust",
-        "name": "Planète Poussièreuse",
-        "spawn_rate": 6,
-        "min_mass": "8e2",
-        "max_mass": "2e4",
-        "min_radius": 50,
-        "max_radius": 70,
-        "texture": ["dust_01", "dust_02", "dust_03", "dust_04", "dust_05", "dust_06"]
-      },
-      {
-        "planet_type": "bioluminescent",
-        "name": "Planète Bioluminescente",
-        "spawn_rate": 3,
-        "min_mass": "1e2",
-        "max_mass": "1e4",
-        "min_radius": 50,
-        "max_radius": 70,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "alien",
-        "name": "Planète Alien",
-        "spawn_rate": 5,
-        "min_mass": "1e3",
-        "max_mass": "3e4",
-        "min_radius": 60,
-        "max_radius": 80,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "gaseous_orange",
-        "name": "Planète Gazeuse orange",
-        "spawn_rate": 3,
-        "min_mass": "5e4",
-        "max_mass": "3e5",
-        "min_radius": 150,
-        "max_radius": 200,
-        "texture": ["gaseous_orange_01", "gaseous_orange_02", "gaseous_orange_03", "gaseous_orange_04"]
-      },
-      {
-        "planet_type": "gaseous_blue",
-        "name": "Planète Gazeuse bleue",
-        "spawn_rate": 3,
-        "min_mass": "5e4",
-        "max_mass": "3e5",
-        "min_radius": 150,
-        "max_radius": 200,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "gaseous_green",
-        "name": "Planète Gazeuse verte",
-        "spawn_rate": 3,
-        "min_mass": "3e4",
-        "max_mass": "2e5",
-        "min_radius": 140,
-        "max_radius": 190,
-        "texture": ["gaseous_green_01", "gaseous_green_02", "gaseous_green_03", "gaseous_green_04", "gaseous_green_05", "gaseous_green_06", "gaseous_green_07"]
-      },
-      {
-        "planet_type": "gaseous_violet",
-        "name": "Planète Gazeuse violette",
-        "spawn_rate": 2,
-        "min_mass": "3e4",
-        "max_mass": "2e5",
-        "min_radius": 140,
-        "max_radius": 190,
-        "texture": ["gaseous_violet_01", "gaseous_violet_02", "gaseous_violet_03", "gaseous_violet_04", "gaseous_violet_05", "gaseous_violet_06", "gaseous_violet_07", "gaseous_violet_08"]
-      },
-      {
-        "planet_type": "crystalline",
-        "name": "Planète Cristalline",
-        "spawn_rate": 4,
-        "min_mass": "2e3",
-        "max_mass": "3e4",
-        "min_radius": 60,
-        "max_radius": 80,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "jungle",
-        "name": "Planète Jungle",
-        "spawn_rate": 4,
-        "min_mass": "1e3",
-        "max_mass": "2e4",
-        "min_radius": 50,
-        "max_radius": 80,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "toxic",
-        "name": "Planète Toxique",
-        "spawn_rate": 5,
-        "min_mass": "1e3",
-        "max_mass": "3e4",
-        "min_radius": 60,
-        "max_radius": 80,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "mechanical_ruins",
-        "name": "Planète Ruines mécaniques",
-        "spawn_rate": 3,
-        "min_mass": "2e3",
-        "max_mass": "5e4",
-        "min_radius": 60,
-        "max_radius": 90,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "fungal",
-        "name": "Planète Fongique",
-        "spawn_rate": 4,
-        "min_mass": "6e2",
-        "max_mass": "2e4",
-        "min_radius": 50,
-        "max_radius": 70,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "magnetic",
-        "name": "Planète Magnétique",
-        "spawn_rate": 3,
-        "min_mass": "1e4",
-        "max_mass": "1e5",
-        "min_radius": 80,
-        "max_radius": 120,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "corrupted",
-        "name": "Planète Corrompue",
-        "spawn_rate": 2,
-        "min_mass": "1e3",
-        "max_mass": "4e4",
-        "min_radius": 60,
-        "max_radius": 80,
-        "texture": ["default"]
-      },
-      {
-        "planet_type": "habitable_planet",
-        "name": "Planète Habitable",
-        "spawn_rate": 1,
-        "min_mass": "1e3",
-        "max_mass": "1e3",
-        "min_radius": 60,
-        "max_radius": 60,
-        "texture": ["habitable_01", "habitable_02", "habitable_03", "habitable_04", "habitable_05"]
-      }
-    ]
-  }
-  
+  "planets": [
+    {
+      "planet_type": "desert",
+      "name": "Planète Désert",
+      "spawn_rate": 8,
+      "min_mass": "1e3",
+      "max_mass": "3e4",
+      "min_radius": 90,
+      "max_radius": 120,
+      "texture": ["desert_01", "desert_02", "desert_03", "desert_04"]
+    },
+    {
+      "planet_type": "volcanic",
+      "name": "Planète Volcanique",
+      "spawn_rate": 5,
+      "min_mass": "2e3",
+      "max_mass": "5e4",
+      "min_radius": 97,
+      "max_radius": 127,
+      "texture": ["volcanic_01", "volcanic_02", "volcanic_03", "volcanic_04"]
+    },
+    {
+      "planet_type": "ice",
+      "name": "Planète Glacée",
+      "spawn_rate": 6,
+      "min_mass": "1e3",
+      "max_mass": "2e4",
+      "min_radius": 75,
+      "max_radius": 105,
+      "texture": ["ice_01", "ice_02", "ice_03", "ice_04", "ice_05", "ice_06"]
+    },
+    {
+      "planet_type": "oceanic",
+      "name": "Planète Océanique",
+      "spawn_rate": 6,
+      "min_mass": "1e3",
+      "max_mass": "3e4",
+      "min_radius": 90,
+      "max_radius": 120,
+      "texture": ["oceanic_01", "oceanic_02", "oceanic_03", "oceanic_04", "oceanic_05", "oceanic_06", "oceanic_07"]
+    },
+    {
+      "planet_type": "dust",
+      "name": "Planète Poussièreuse",
+      "spawn_rate": 6,
+      "min_mass": "8e2",
+      "max_mass": "2e4",
+      "min_radius": 75,
+      "max_radius": 105,
+      "texture": ["dust_01", "dust_02", "dust_03", "dust_04", "dust_05", "dust_06"]
+    },
+    {
+      "planet_type": "bioluminescent",
+      "name": "Planète Bioluminescente",
+      "spawn_rate": 3,
+      "min_mass": "1e2",
+      "max_mass": "1e4",
+      "min_radius": 75,
+      "max_radius": 105,
+      "texture": ["default"]
+    },
+    {
+      "planet_type": "alien",
+      "name": "Planète Alien",
+      "spawn_rate": 5,
+      "min_mass": "1e3",
+      "max_mass": "3e4",
+      "min_radius": 90,
+      "max_radius": 120,
+      "texture": ["default"]
+    },
+    {
+      "planet_type": "gaseous_orange",
+      "name": "Planète Gazeuse orange",
+      "spawn_rate": 3,
+      "min_mass": "5e4",
+      "max_mass": "3e5",
+      "min_radius": 225,
+      "max_radius": 300,
+      "texture": ["gaseous_orange_01", "gaseous_orange_02", "gaseous_orange_03", "gaseous_orange_04"]
+    },
+    {
+      "planet_type": "gaseous_blue",
+      "name": "Planète Gazeuse bleue",
+      "spawn_rate": 3,
+      "min_mass": "5e4",
+      "max_mass": "3e5",
+      "min_radius": 225,
+      "max_radius": 300,
+      "texture": ["default"]
+    },
+    {
+      "planet_type": "gaseous_green",
+      "name": "Planète Gazeuse verte",
+      "spawn_rate": 3,
+      "min_mass": "3e4",
+      "max_mass": "2e5",
+      "min_radius": 210,
+      "max_radius": 285,
+      "texture": ["gaseous_green_01", "gaseous_green_02", "gaseous_green_03", "gaseous_green_04", "gaseous_green_05", "gaseous_green_06", "gaseous_green_07"]
+    }
+  ]
+}

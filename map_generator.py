@@ -13,7 +13,7 @@ class Planet:
     """
     Classe représentant une planète dans le monde.
     """
-    def __init__(self, x, y, radius, mass, texture, planet_type):
+    def __init__(self, x, y, radius, mass, texture, planet_type, name):
         self.x = x
         self.y = y
         self.radius = radius
@@ -23,7 +23,10 @@ class Planet:
         # Chemin d'accès de la texture
         self.texture_path = os.path.join(DEFAULT_PLANET_TEXTURE_PATH, f"{self.texture}.png")
 
+        # Type de la planète
         self.planet_type = planet_type
+        # Nom de la planète
+        self.name = name
 
         self.rect = pygame.Rect(0, 0, radius*2, radius*2)
         self.rect.center = (x, y)
@@ -96,6 +99,9 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
             # Note : Conversion des min_mass/max_mass en float avant d’appeler random.uniform
             radius = random.randint(planet_data["min_radius"], planet_data["max_radius"])
             mass = random.uniform(float(planet_data["min_mass"]), float(planet_data["max_mass"]))
+
+            # Définie le nom de la planète
+            name = planet_data["name"]
             
             # Choisir une texture aléatoire parmi la liste de textures disponibles
             texture = "default"
@@ -105,7 +111,7 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
             # Vérifier si la planète peut être placée
             if can_place_planet(x, y, radius, planets, world_width, world_height):
                 # Créer l’objet Planet
-                planet = Planet(x, y, radius, mass, texture, planet_type)
+                planet = Planet(x, y, radius, mass, texture, planet_type, name)
                 planets.append(planet)
                 placed = True
                 break
@@ -120,12 +126,12 @@ def can_place_planet(x, y, radius, existing_planets, world_width, world_height):
     """
     Vérifie si on peut placer une nouvelle planète (x, y, radius)
     en respectant la distance minimale par rapport aux planètes existantes
-    et en évitant la zone de PLANET_MIN_DISTANCE autour du centre du monde.
+    et en évitant la zone de PLANET_MIN_DISTANCE*2 autour du centre du monde.
     """
     # Définition du centre du monde
     center_x, center_y = world_width//2, world_height//2
     # Vérification de la distance par rapport au centre du monde
-    if math.sqrt((x - center_x) ** 2 + (y - center_y) ** 2) < PLANET_MIN_DISTANCE:
+    if math.sqrt((x - center_x) ** 2 + (y - center_y) ** 2) < PLANET_MIN_DISTANCE*1.5:
         return False
     
     # Vérification de la distance par rapport aux autres planètes
