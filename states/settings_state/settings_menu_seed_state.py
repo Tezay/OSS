@@ -21,7 +21,7 @@ class MenuSettingsSeedState(BaseState):
         self.state_manager = state_manager      
         self.active=False
         self.text = ""
-        self.font = pygame.font.Font(None, 36)
+        self.font = custom_font
         self.txt=""
         #la variable coord est une matrice contenant toutes les coordonées des carrées de la grille de 60 par 35.
         # les coordonées sont sous forme de tupple (indice 0 pour la coordoné en hauteur, et 1 pour la largeur).
@@ -49,10 +49,10 @@ class MenuSettingsSeedState(BaseState):
                             config.custom_seed=int(self.text)
                             self.txt="seed: "+str(config.custom_seed)
                         else:
-                            self.txt="seed trop longue"
+                            self.txt="Seed trop longue !"
                             self.text=""
                     else:
-                        self.txt="seed invalide"
+                        self.txt="Seed invalide !"
                         self.text=""
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]  # Supprimer le dernier caractère

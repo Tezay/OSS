@@ -1,3 +1,6 @@
+import pygame
+pygame.init()
+
 # Dimensions de la fenêtre
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -21,6 +24,21 @@ SPACESHIP_MAX_SPEED = 200
 SPACESHIP_MASS = 40
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
+
+########### Configuration de l'écran et de la police ############
+# Font path
+FONT_PATH = "assets/fonts/Retro_Gaming.ttf"
+DEFAULT_FONT_SIZE = 24
+
+try:
+    custom_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE)  # Police chargée une seule fois
+except:
+    print(f"Impossible to load {FONT_PATH} font, default font loaded.")
+    custom_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE)
+
+# Configuration de l'écran
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+##################################################################
 
 # Fichier de données locales par défaut
 LOCAL_DATA_PATH = "local_data/"
@@ -99,7 +117,7 @@ buttons={
 
     "launch":{
         "x":2,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
-        "color":(255,255,255),"text":"Lancer de jeu","file":"assets/button.png"},
+        "color":(255,255,255),"text":"Lancer le jeu","file":"assets/button.png"},
 
     "menu_settings":{
         "x":2,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
@@ -107,15 +125,15 @@ buttons={
 
     "game_settings":{
         "x":15,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
-        "color":(255,255,255),"text":"Paramètre","file":"assets/button.png"},
+        "color":(255,255,255),"text":"Paramètres","file":"assets/button.png"},
 
     "quit":{
         "x":2,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
-        "color":(255,255,255),"text":"Quitter","file":"assets/button.png"},
+        "color":(255,255,255),"text":"Quitter le jeu","file":"assets/button.png"},
 
     "return":{
         "x":10,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
-        "color":(255,255,255),"text":"retour","file":"assets/button.png"},
+        "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
 
     "full_screen":{
         "x":25,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
@@ -139,11 +157,11 @@ buttons={
 
     "seed":{
         "x":10,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
-        "color":(255,255,255),"text":"seed","file":"assets/button.png"},
+        "color":(255,255,255),"text":"Seed","file":"assets/button.png"},
 
     "return_menu":{
         "x":30,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
-        "color":(255,255,255),"text":"retour au menu","file":"assets/button.png"},
+        "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
 
     # Bouton pour tester l'upgrade de module de tier dans l'arbre technologique
     "test_upgrade_tech_tree_module":{
