@@ -1,0 +1,101 @@
+{
+    "tech_tree": {
+        "terraforming": {
+            "name": "Terraformation",
+            "tiers": {
+                "tier_0": {
+                    "description": "Permet de récupérer des ressources sur la surface d'une planète.",
+                    "required_resources": []
+                },
+                "tier_1": {
+                    "description": "Pareil que tier précédent, mais plus rapidement.",
+                    "required_resources": [
+                        {
+                            "name": "test_item",
+                            "quantity": 5
+                        }
+                    ]
+                },
+                "tier_2": {
+                    "description": "Permet d'installer une colonie sur des planètes, permet de récupérer des ressources plus rapidement (régénération des ressources plus rapide).",
+                    "required_resources": []
+                },
+                "tier_3": {
+                    "description": "Permet de récupérer directement les ressources à la base centrale (plus nécessaire de se rendre sur la planète).",
+                    "required_resources": []
+                },
+                "tier_4": {
+                    "description": "Permet de récupérer directement les ressources dans l'inventaire du vaisseau.",
+                    "required_resources": []
+                }
+            }
+        },
+        "ship_engine": {
+            "name": "Moteur vaisseau",
+            "tiers": {
+                "tier_0": {
+                    "description": "Moteur à propulsion propergolique (Poussée : 600N).",
+                    "required_resources": []
+                },
+                "tier_1": {
+                    "description": "Moteur à fusion froide (Poussée : 1000N).",
+                    "required_resources": []
+                },
+                "tier_2": {
+                    "description": "Moteur atomique (Poussée : 1500N).",
+                    "required_resources": []
+                },
+                "tier_3": {
+                    "description": "Moteur à courbure spatiale (Poussée : 2000N).",
+                    "required_resources": []
+                },
+                "tier_4": {
+                    "description": "Stabilisateur de trou de ver (Permet la téléportation à la base).",
+                    "required_resources": []
+                }
+            }
+        },
+        "antimatter_science": {
+            "name": "Science antimatière",
+            "tiers": {
+                "tier_0": {
+                    "description": "Générateur à fusion nucléaire (1 antimatière / minute).",
+                    "required_resources": []
+                },
+                "tier_1": {
+                    "description": "Accélérateur à particule (5 antimatières / minute).",
+                    "required_resources": []
+                },
+                "tier_2": {
+                    "description": "Commutation d'antimatière (10 antimatières / minute).",
+                    "required_resources": []
+                },
+                "tier_3": {
+                    "description": "Générateur métamatériel (20 antimatières / minute).",
+                    "required_resources": []
+                },
+                "tier_4": {
+                    "description": "Vision positronique (30 antimatières / minute).",
+                    "required_resources": []
+                }
+            }
+        },
+        "radar": {
+            "name": "Radar",
+            "tiers": {
+                "tier_0": {
+                    "description": "Permet d'afficher les planètes à proximité sur la minimap (Portée : faible).",
+                    "required_resources": []
+                },
+                "tier_1": {
+                    "description": "Augmente la portée de la minimap (Portée : moyenne).",
+                    "required_resources": []
+                },
+                "tier_2": {
+                    "description": "Augmente la portée de la minimap (Portée : grande).",
+                    "required_resources": []
+                }
+            }
+        }
+    }
+}

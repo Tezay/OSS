@@ -70,10 +70,10 @@ class GameState(BaseState):
         # Gestion des événements ponctuels
         if event.type == pygame.KEYDOWN:
 
-            # Vérification de la touche associée au menu pause (si préssée, change l'état courant à pause_state)
-            if event.key == KEY_BINDINGS["pause"]:
-                from .pause_state import PauseState
-                self.state_manager.set_state(PauseState(self.state_manager, self.game))
+            # Vérification de la touche associée au menu inventaire (si préssée, change l'état courant à pause_state)
+            if event.key == KEY_BINDINGS["inventory"]:
+                from .inventory_state import InventoryState
+                self.state_manager.set_state(InventoryState(self.state_manager, self.game))
 
             # Décélération instantanée (test, ne pas garder pour version finale)
             if event.key == KEY_BINDINGS["spaceship_deceleration"]:

@@ -24,7 +24,11 @@ SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
 
 # Fichier de données locales par défaut
 LOCAL_DATA_PATH = "local_data/"
-TECH_TREE_TEMPLATE_PATH = "data/tech_tree_state_template.json"
+TECH_TREE_DEFAULT_DATA_PATH = "data/tech_tree_data.json"
+TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
+
+# Inventaire par défaut (exemple d'inventaire)
+DEFAULT_INVENTORY = {"items": [{"name": "water", "quantity": 5}]}
 
 # Dimensions de la map (grande carte pour l'exploration)
 WORLD_WIDTH = 20000
@@ -33,7 +37,7 @@ WORLD_HEIGHT = 20000
 # Paramètres de seed et de nombre de planètes
 DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
 custom_seed=None        #Si None, veux dire que l'uttilisateur n'a pas saisie de seed customisé
-NUMBER_OF_PLANETS = 300  # Nombre de planètes à générer par défaut.
+NUMBER_OF_PLANETS = 250  # Nombre de planètes à générer par défaut.
 
 # Paramètres de distance pour la génération des planètes
 PLANET_MIN_DISTANCE = 800       # Distance minimale entre les centres de deux planètes
@@ -59,7 +63,7 @@ KEY_BINDINGS = {
     "camera_down": pygame.K_DOWN,
     "zoom_in": pygame.K_z,
     "zoom_out": pygame.K_x,
-    "pause": pygame.K_p,       # Touche pour basculer en pause
+    "inventory": pygame.K_i,       # Touche pour basculer en pause
     "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
     # Touches de tests déplacement vaisseau :
     "spaceship_move": pygame.K_SPACE, # Touche test pour faire avancer le vaisseau
@@ -140,4 +144,17 @@ buttons={
     "return_menu":{
         "x":30,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"retour au menu","file":"assets/button.png"},
+
+    # Bouton pour tester l'upgrade de module de tier dans l'arbre technologique
+    "test_upgrade_tech_tree_module":{
+        "x":30,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Bouton test pour upgrade tier module tech tree","file":"assets/button.png"},
+
+    "test_add_item":{
+        "x":30,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Bouton test pour ajouter un item","file":"assets/button.png"},
+
+    "test_remove_item":{
+        "x":30,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Bouton test pour retirer un item","file":"assets/button.png"},
 }

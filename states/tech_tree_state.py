@@ -37,11 +37,21 @@ class TechTreeState(BaseState):
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
             
+            ########### TEST ############
+            # Exemple de bouton pour tester l'upgrade d'un module du tech tree
+            if click_button('test_upgrade_tech_tree_module',pos):
+                inventory = self.game.data_manager.inventory
+                self.game.data_manager.tech_tree.upgrade_module("terraforming",inventory)
+            #############################
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
 
-
         # Dessin des boutons relatifs à l'état tech_tree_state (avec la méthode .draw() de la classe Button)
 
         draw_buttons("return")
+
+        ########### TEST ############
+        # Exemple de bouton pour tester l'upgrade d'un module du tech tree
+        draw_buttons("test_upgrade_tech_tree_module")
+        #############################
