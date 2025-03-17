@@ -46,10 +46,16 @@ class TechTreeState(BaseState):
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
+        grille(True)
 
         # Dessin des boutons relatifs à l'état tech_tree_state (avec la méthode .draw() de la classe Button)
 
         draw_buttons("return")
+        draw_buttons("moteur_T0")
+        draw_buttons("moteur_T1")
+        draw_buttons("moteur_T2")
+        draw_buttons("moteur_T3")
+        draw_buttons("moteur_T4")
 
         ########### TEST ############
         # Exemple de bouton pour tester l'upgrade d'un module du tech tree

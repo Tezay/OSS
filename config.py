@@ -92,9 +92,11 @@ KEY_BINDINGS = {
 }
 
 # Taille des boutons (globales, afin de pouvoir les éditer dynamiquement pendant l'exécution du jeu)
-global button_size_widht,button_size_height 
+global button_size_widht,button_size_height,tech_button_size_widht,tech_button_size_height
 button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre
 button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fenêtre
+tech_button_size_widht = button_size_widht //2  # Largeur du bonton de l'arbre technologique : bouton normal //2
+tech_button_size_height = button_size_height //2  # Hauteur du bouton de l'arbre technologique : bouton normal //2
 
 
 
@@ -165,7 +167,7 @@ buttons={
 
     # Bouton pour tester l'upgrade de module de tier dans l'arbre technologique
     "test_upgrade_tech_tree_module":{
-        "x":30,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":20,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Bouton test pour upgrade tier module tech tree","file":"assets/button.png"},
 
     "test_add_item":{
@@ -175,4 +177,26 @@ buttons={
     "test_remove_item":{
         "x":30,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Bouton test pour retirer un item","file":"assets/button.png"},
+
+
+    "moteur_T0":{
+        "x":40,"y":20,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Moteur T0","file":"assets/button.png","text_size":10},
+
+    "moteur_T1":{
+        "x":40,"y":23,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Moteur T1","file":"assets/button.png","text_size":10},
+
+    "moteur_T2":{
+        "x":40,"y":26,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Moteur T2","file":"assets/button.png","text_size":10},
+
+    "moteur_T3":{
+        "x":40,"y":29,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Moteur T3","file":"assets/button.png","text_size":10},
+
+    "moteur_T4":{
+        "x":40,"y":32,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Moteur T4","file":"assets/button.png","text_size":10},
+
 }
