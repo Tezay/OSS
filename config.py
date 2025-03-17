@@ -6,7 +6,7 @@ WINDOW_HEIGHT = 720
 FPS = 100
 
 # Paramètre pour le mode debug
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50

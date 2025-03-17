@@ -31,6 +31,7 @@ class Game():
     def __init__(self):
         
         self.planets = []
+        self.background_stars = []
         self.planet_textures = {}
         self.spaceship = None
         self.hud = Hud()
@@ -70,6 +71,11 @@ class Game():
         for planet in self.planets:
             texture_image = self.load_texture(planet)
             self.planet_textures[planet] = texture_image
+
+    def set_background_stars(self, background_stars):
+        self.background_stars = background_stars
+        for background_star in self.background_stars:
+            background_star.draw(self.world)
 
     def load_texture(self, planet):
         """

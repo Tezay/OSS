@@ -5,7 +5,7 @@ from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED, SPACESHIP_MASS
 from .base_state import BaseState
 from buttons import *
 from game import Game
-from map_generator import generate_map
+from map_generator import generate_map, generate_stars
 from spaceship import Spaceship
 from camera import Camera
 import config
@@ -41,6 +41,12 @@ class GameState(BaseState):
             else:
                 seed = config.custom_seed
             print(f"Seed: {seed}")
+
+            #Génération des étoiles en fond
+            background_stars = generate_stars(WORLD_WIDTH, WORLD_HEIGHT)
+
+            # Injecter ces étoiles de fond dans Game
+            self.game.set_background_stars(background_stars)
 
             # Génération de la map
             planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
