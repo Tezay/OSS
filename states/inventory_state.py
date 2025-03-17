@@ -1,5 +1,6 @@
 from .base_state import BaseState
 from buttons import *
+from config import custom_font
 
 
 # Classe enfant de BaseState
@@ -47,6 +48,7 @@ class InventoryState(BaseState):
             #############################
 
     def draw(self, screen,pos):
+
         # Dessiner le jeu "en fond"
         self.game.draw(screen)
         # Dessiner l'overlay
@@ -54,6 +56,8 @@ class InventoryState(BaseState):
         overlay.fill((0, 0, 0, 180))
         screen.blit(overlay, (0, 0))
 
+        # Dessin du texte
+        self.font = custom_font
         text_surf = self.font.render("Inventaire - appuyez sur I pour reprendre", True, (255, 255, 255))
         rect = text_surf.get_rect(center=screen.get_rect().center)
 

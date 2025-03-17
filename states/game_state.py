@@ -70,7 +70,7 @@ class GameState(BaseState):
         # Gestion des événements ponctuels
         if event.type == pygame.KEYDOWN:
 
-            # Vérification de la touche associée au menu inventaire (si préssée, change l'état courant à pause_state)
+            # Vérification de la touche associée au menu inventaire (si préssée, change l'état courant à inventory_state)
             if event.key == KEY_BINDINGS["inventory"]:
                 from .inventory_state import InventoryState
                 self.state_manager.set_state(InventoryState(self.state_manager, self.game))

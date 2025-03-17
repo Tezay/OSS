@@ -1,16 +1,10 @@
 import pygame
 import math
-from config import*
-import time
-
-
-# Ca c'est ghetto, faut faire autrements
-pygame.init()
-screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+from config import *
 
 
 class Button():
-    def __init__(self,coord,width,height,color,text,file,font="Arial",text_color=(255,255,255),text_size=8):
+    def __init__(self,coord,width,height,color,text,file, text_color=(255,255,255),text_size=24):
         self.x=coord[0]
         self.y=coord[1]
         self.width=width
@@ -19,12 +13,12 @@ class Button():
         self.color=color
         self.text=text
         self.file=file
-        self.font = font
         self.text_color = text_color
         self.text_size = text_size
+        self.font = custom_font
 
     def draw(self):
-        # Charger la texture originale
+        # Charger la texture du bouton
         texture = pygame.image.load(self.file)
 
         # Redimensionner la texture pour qu'elle soit de la même taille que le bouton
@@ -34,24 +28,15 @@ class Button():
         if texture.get_rect(topleft=(self.x, self.y)).collidepoint(pygame.mouse.get_pos()):
             # Charger la texture avec des contours blancs
             texture = pygame.transform.scale(pygame.image.load("assets/button_highlighted.png"), (self.width, self.height))
-        else:
-            # Charger la texture originale
-            texture = pygame.transform.scale(texture, (self.width, self.height))
+
 
         # Blitter la texture sur l'écran
         screen.blit(texture, (self.x, self.y))
 
-        # Écrire le texte
-        font = pygame.font.SysFont("Arial", 24)  # Police de caractères par défaut
-        text = font.render(self.text, True, self.text_color)  # Texte à afficher
-
-        # Calculer la position du texte pour qu'il soit centré sur le bouton
-        text_rect = text.get_rect()
-        text_rect.centerx = self.x + self.width // 2
-        text_rect.centery = self.y + self.height // 2
-
-        # Dessiner le texte sur l'écran
-        screen.blit(text, text_rect)
+        # Rendu du texte avec la police custom
+        text_surface = self.font.render(self.text, True, self.text_color)
+        text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        screen.blit(text_surface, text_rect)
 
     def click(self,mouse_x,mouse_y):
         # Vérifie si les coordonnées de la position de la souris sont comprisent dans les coordonnées du bouton
