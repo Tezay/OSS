@@ -104,13 +104,13 @@ def hud_draw(x,y,x_fin,y_fin):
     pygame_y=coord_buttons[x][y][0]                 #extraction de la deuxième coordoné (en y) via la grille de coordoné
     pygame_x_end=coord_buttons[x_fin][y][1]-pygame_x    #definition de la taille en x
     pygame_y_end=coord_buttons[x][y_fin][0]-pygame_y    #definition de la taille en y
-    x=0
+    """x=0
     y=0
     for i in grille(False):
         x+=1
     for j in grille(False)[0]:
         y+=1
-    print(x,y)
+    print(x,y)"""
     return(pygame_x,pygame_y,pygame_x_end,pygame_y_end)
 
 
