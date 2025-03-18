@@ -6,10 +6,10 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
 # Nombre d'images par seconde
-FPS = 100
+FPS = 60
 
 # Paramètre pour le mode debug
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50
@@ -19,8 +19,8 @@ RENDER_DISTANCE = WINDOW_WIDTH + 100
 
 # Vaisseau
 SPACESHIP_ROTATION_SPEED = 90 # degré/seconde
-SPACESHIP_THRUST_FORCE = 1000 # force en Newton appliquée pendant l'appui
-SPACESHIP_MAX_SPEED = 200
+SPACESHIP_THRUST_FORCE = 600 # force en Newton appliquée pendant l'appui
+SPACESHIP_MAX_SPEED = 100
 SPACESHIP_MASS = 40
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
@@ -71,6 +71,16 @@ MAX_LANDING_SPEED = 40
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
 
+# Étoiles
+STAR_DENSITY = 0.00004  # Densité des étoiles (nombre d'étoiles par pixel carré)
+STAR_SIZES = [1, 3, 5]  # Tailles possibles des étoiles (en pixels)
+STAR_COLORS = [
+    (255, 255, 255),  # Blanc
+    (200, 200, 255),  # Bleu clair
+    (255, 200, 200),  # Rose clair
+    (255, 255, 200),  # Jaune clair
+]  # Couleurs possibles des étoiles
+BACKGROUND_STAR_TEXTURE_PATH = "assets/background_stars"
 
 import pygame
 # Dictionnaire des bindings (actions -> touches)

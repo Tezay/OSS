@@ -61,7 +61,6 @@ class Game():
         # Mise à jour de l'HUD
         self.hud.update(self.spaceship.vx, self.spaceship.vy)
 
-
     def set_planets(self, planets):
         """ Injecter la liste de planètes depuis l'extérieur. """
         self.planets = planets
@@ -71,11 +70,6 @@ class Game():
         for planet in self.planets:
             texture_image = self.load_texture(planet)
             self.planet_textures[planet] = texture_image
-
-    def set_background_stars(self, background_stars):
-        self.background_stars = background_stars
-        for background_star in self.background_stars:
-            background_star.draw(self.world)
 
     def load_texture(self, planet):
         """
@@ -116,6 +110,10 @@ class Game():
 
     def set_camera(self, camera):
         self.camera = camera
+
+    def set_background_stars(self, stars):
+        """ Injecter la liste d'étoiles de fond depuis l'extérieur. """
+        self.background_stars = stars
 
     def get_visible_planets(self):
         """
@@ -297,7 +295,16 @@ class Game():
         """
         # "Nettoyage" du fond (dans self.world)
         self.world.fill((0, 0, 50))
-        
+
+        # Dessiner les étoiles de fond directement sur le fond
+        for star in self.background_stars:
+            half_size = star.size // 2
+            pygame.draw.rect(
+                self.world,
+                star.color,
+                (star.x - half_size, star.y - half_size, star.size, star.size)
+            )
+
         # Dessiner les planètes visibles
         visible_planets = self.get_visible_planets()
         for planet in visible_planets:
