@@ -134,7 +134,7 @@ buttons={
         "color":(255,255,255),"text":"Quitter le jeu","file":"assets/button.png"},
 
     "return":{
-        "x":10,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":10,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
 
     "full_screen":{
@@ -178,6 +178,11 @@ buttons={
         "x":30,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Bouton test pour retirer un item","file":"assets/button.png"},
 
+    "debug_add_item":{
+        "x":50,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Bouton pour ajouter des items","file":"assets/button.png"},
+
+    # Boutons de l'arbre technologique de la branche "moteurs"
 
     "moteur_T0":{
         "x":40,"y":20,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
@@ -198,5 +203,77 @@ buttons={
     "moteur_T4":{
         "x":40,"y":32,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
         "color":(255,255,255),"text":"Moteur T4","file":"assets/button.png","text_size":10},
+    
+    #boutons de l'arbre technologique de la branche "terraformation"
+
+    "terraformation_T0":{
+        "x":40,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T0","file":"assets/button.png","text_size":10},
+    
+    "terraformation_T1":{
+        "x":40,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T1","file":"assets/button.png","text_size":10},
+
+    "terraformation_T2":{
+        "x":40,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T2","file":"assets/button.png","text_size":10},
+    
+    "terraformation_T3":{
+        "x":40,"y":12,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T3","file":"assets/button.png","text_size":10},
+    
+    "terraformation_T4":{
+        "x":40,"y":15,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T4","file":"assets/button.png","text_size":10},
+
+    # Boutons de l'arbre technologique de la branche "science de l'anti-matière"
+
+    "anti_matiere_T0":{
+        "x":20,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T0","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T1":{
+        "x":20,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T1","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T2":{
+        "x":20,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T2","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T3":{
+        "x":20,"y":12,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T3","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T4":{
+        "x":20,"y":15,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T4","file":"assets/button.png","text_size":10},
+
+    # Boutons de l'arbre technologique de la branche "radar"
+
+    "radar_T0":{
+        "x":5,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Radar T0","file":"assets/button.png","text_size":10},
+    
+    "radar_T1":{
+        "x":5,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Radar T1","file":"assets/button.png","text_size":10},
+    
+    "radar_T2":{
+        "x":5,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Radar T2","file":"assets/button.png","text_size":10},
+    
+    # Boutons de l'arbre technologique de la branche "defenses"
+
+    "defenses_T0":{
+        "x":5,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Défenses T0","file":"assets/button.png","text_size":10},
+    
+    "defenses_T1":{
+        "x":13,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Défenses T1","file":"assets/button.png","text_size":10},
+    
+    "defenses_T2":{
+        "x":21,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Défenses T2","file":"assets/button.png","text_size":10},
 
 }

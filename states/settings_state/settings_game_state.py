@@ -52,6 +52,9 @@ class GameSettingsState(BaseState):
                 new_game_state.game = self.game
                 # Changer l'état courant à game_state
                 self.state_manager.set_state(new_game_state)
+            
+            if click_button("debug_add_item",pos):
+                self.game.data_manager.inventory.debug_add_item("test_item")
 
 
         # Vérifie s'il y a un clique sur le bouton pour quitter
@@ -69,5 +72,6 @@ class GameSettingsState(BaseState):
         draw_buttons("return")
         draw_buttons("quit")
         draw_buttons("return_menu")
+        draw_buttons("debug_add_item")
 
 

@@ -47,6 +47,23 @@ class Inventory:
         # Si l'item n'existe pas, l'ajoute à l'inventaire
         self.data["items"].append({"name": item_name, "quantity": quantity})
         self._save_to_file()
+    
+    def debug_add_item(self, item_name):
+        """
+        Ajoute un item à l'inventaire ou incrémente sa quantité si l'item existe déjà.
+        """
+        # Parcours les items de l'inventaire
+        for item in self.data["items"]:
+            # Si l'item existe déjà
+            if item["name"] == item_name:
+                # Incrémente la quantité
+                item["quantity"] += 999999
+                # Sauvegarde les modifications
+                self._save_to_file()
+                return
+        # Si l'item n'existe pas, l'ajoute à l'inventaire
+        self.data["items"].append({"name": item_name, "quantity": 999999})
+        self._save_to_file()
 
     def remove_item(self, item_name, quantity):
         """
