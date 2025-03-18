@@ -45,6 +45,11 @@ class MenuState(BaseState):
             if click_button("quit",pos):
                 #permet de quitter le programe dans le main via le bouton
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
+            
+            if click_button("button_test_click",pos):
+                print()
+                #permet de quitter le programe dans le main
+
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))

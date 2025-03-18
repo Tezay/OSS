@@ -6,7 +6,7 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
 # Nombre d'images par seconde
-FPS = 100
+FPS = 60
 
 # Paramètre pour le mode debug
 DEBUG_MODE = False
@@ -19,8 +19,8 @@ RENDER_DISTANCE = WINDOW_WIDTH + 100
 
 # Vaisseau
 SPACESHIP_ROTATION_SPEED = 90 # degré/seconde
-SPACESHIP_THRUST_FORCE = 1000 # force en Newton appliquée pendant l'appui
-SPACESHIP_MAX_SPEED = 200
+SPACESHIP_THRUST_FORCE = 600 # force en Newton appliquée pendant l'appui
+SPACESHIP_MAX_SPEED = 100
 SPACESHIP_MASS = 40
 # Fichier de texture du vaisseau par défaut
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
@@ -71,6 +71,16 @@ MAX_LANDING_SPEED = 40
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
 
+# Étoiles
+STAR_DENSITY = 0.00004  # Densité des étoiles (nombre d'étoiles par pixel carré)
+STAR_SIZES = [1, 3, 5]  # Tailles possibles des étoiles (en pixels)
+STAR_COLORS = [
+    (255, 255, 255),  # Blanc
+    (200, 200, 255),  # Bleu clair
+    (255, 200, 200),  # Rose clair
+    (255, 255, 200),  # Jaune clair
+]  # Couleurs possibles des étoiles
+BACKGROUND_STAR_TEXTURE_PATH = "assets/background_stars"
 
 import pygame
 # Dictionnaire des bindings (actions -> touches)
@@ -135,7 +145,7 @@ buttons={
         "color":(255,255,255),"text":"Quitter le jeu","file":"assets/button.png"},
 
     "return":{
-        "x":10,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":10,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
 
     "full_screen":{
@@ -179,6 +189,11 @@ buttons={
         "x":30,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Bouton test pour retirer un item","file":"assets/button.png"},
 
+    "debug_add_item":{
+        "x":50,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Bouton pour ajouter des items","file":"assets/button.png"},
+
+    # Boutons de l'arbre technologique de la branche "moteurs"
 
     "moteur_T0":{
         "x":40,"y":20,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
@@ -199,5 +214,82 @@ buttons={
     "moteur_T4":{
         "x":40,"y":32,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
         "color":(255,255,255),"text":"Moteur T4","file":"assets/button.png","text_size":10},
+    
+    #boutons de l'arbre technologique de la branche "terraformation"
+
+    "terraformation_T0":{
+        "x":40,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T0","file":"assets/button.png","text_size":10},
+    
+    "terraformation_T1":{
+        "x":40,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T1","file":"assets/button.png","text_size":10},
+
+    "terraformation_T2":{
+        "x":40,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T2","file":"assets/button.png","text_size":10},
+    
+    "terraformation_T3":{
+        "x":40,"y":12,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T3","file":"assets/button.png","text_size":10},
+    
+    "terraformation_T4":{
+        "x":40,"y":15,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Terraformation T4","file":"assets/button.png","text_size":10},
+
+    # Boutons de l'arbre technologique de la branche "science de l'anti-matière"
+
+    "anti_matiere_T0":{
+        "x":20,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T0","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T1":{
+        "x":20,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T1","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T2":{
+        "x":20,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T2","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T3":{
+        "x":20,"y":12,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T3","file":"assets/button.png","text_size":10},
+    
+    "anti_matiere_T4":{
+        "x":20,"y":15,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Science anti-matière T4","file":"assets/button.png","text_size":10},
+
+    # Boutons de l'arbre technologique de la branche "radar"
+
+    "radar_T0":{
+        "x":5,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Radar T0","file":"assets/button.png","text_size":10},
+    
+    "radar_T1":{
+        "x":5,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Radar T1","file":"assets/button.png","text_size":10},
+    
+    "radar_T2":{
+        "x":5,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Radar T2","file":"assets/button.png","text_size":10},
+    
+    # Boutons de l'arbre technologique de la branche "defenses"
+
+    "defenses_T0":{
+        "x":5,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Défenses T0","file":"assets/button.png","text_size":10},
+    
+    "defenses_T1":{
+        "x":13,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Défenses T1","file":"assets/button.png","text_size":10},
+    
+    "defenses_T2":{
+        "x":21,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "color":(255,255,255),"text":"Défenses T2","file":"assets/button.png","text_size":10},
+
+    "button_test_click":{
+        "x":40,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Bouton test click","file":"assets/button.png"},
+
 
 }

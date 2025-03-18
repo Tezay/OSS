@@ -4,7 +4,7 @@ import pygame
 import os
 
 from json_manager import get_planet_types, get_planet_data
-from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS, DEFAULT_PLANET_TEXTURE_PATH
+from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS, DEFAULT_PLANET_TEXTURE_PATH, STAR_DENSITY, BACKGROUND_STAR_TEXTURE_PATH, STAR_COLORS, STAR_SIZES
 
 # Dictionnaire pour cacher/mettre en mémoire les images
 PLANET_IMAGE_CACHE = {}
@@ -54,17 +54,62 @@ class Planet:
         return (f"Planet(x={self.x}, y={self.y}, radius={self.radius}, mass={self.mass}, texture={self.texture}, type={self.planet_type})")
 
 
+class BackgroundStar:
+    """
+    Classe représentant une étoile de fond dans le monde.
+    """
+    def __init__(self, x, y, size, color):
+        # Coordonnées de l'étoile
+        self.x = x
+        self.y = y
+        # Taille de l'étoile en pixel
+        self.size = size
+        # Couleur de l'étoile (tuple RGB)
+        self.color = color
+
+    def draw(self, world_surface):
+        """
+        Dessine l'étoile sur la surface du monde.
+        """
+        pygame.draw.circle(world_surface, self.color, (self.x, self.y), self.size)
+
+
+def generate_background_stars(world_width, world_height):
+    """
+    Génère les étoiles de fond proportionnellement à la taille de la map.
+    Retourne une liste d'objets BackgroundStar.
+    """
+    stars = []
+    num_stars = int(world_width * world_height * STAR_DENSITY)
+
+    # Génération des étoiles de fond
+    for _ in range(num_stars):
+        # Coordonnées aléatoires
+        x = random.randint(0, world_width)
+        y = random.randint(0, world_height)
+        # Taille aléatoire
+        size = random.choice(STAR_SIZES)
+        # Couleur aléatoire
+        color = random.choice(STAR_COLORS)
+        # Création de l'objet étoile, et l'ajoute à la liste
+        stars.append(BackgroundStar(x, y, size, color))
+
+    # Retourne la liste d'étoiles
+    return stars
+
+
 def generate_map(seed, world_width, world_height, number_of_planets=5):
     """
-    Génère la map de façon déterministe en fonction de la seed,
-    en se basant sur les données JSON récupérées par get_planet_data.
-    
-    Retourne une liste de planètes (chaque planète est un objet de la classe Planet).
+    Génère les étoiles de fond et les planètes en fonction de la seed.
+    Return une liste d'étoiles de fond et une liste de planètes 
     """
-    # Spécifie la seed utilisée au module random
+    # Fixe la seed à utiliser
     random.seed(seed)
 
-    # Initialise une liste vide qui contiendra les planètess
+    # Génération des étoiles de fond
+    background_stars = generate_background_stars(world_width, world_height)
+
+    # Génération des planètes
     planets = []
     
      # Récupération des types de planètes et de leur spawn_rate
@@ -119,7 +164,8 @@ def generate_map(seed, world_width, world_height, number_of_planets=5):
         if not placed:
             print("Warning: Impossible to place a supplementary planet.")
 
-    return planets
+    # Retourne les étoiles de fond et les planètes générées (liste d'objets)
+    return background_stars, planets
 
 
 def can_place_planet(x, y, radius, existing_planets, world_width, world_height):
@@ -143,100 +189,4 @@ def can_place_planet(x, y, radius, existing_planets, world_width, world_height):
     
     return True
 
-
-class Star:
-    """
-    Classe représentant une étoile avec un `+` central et des points à chaque extrémité des branches.
-    La couleur et la taille des étoiles sont également personnalisables.
-    """
-
-    def __init__(self, x, y, size, num_branches=4, color=None):
-        self.x = x
-        self.y = y
-        self.size = size  # La taille de l'étoile (détermine la longueur des branches)
-        self.num_branches = num_branches  # Le nombre de branches de l'étoile (généralement 4 directions principales)
-        self.color = color if color else (
-        random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))  # Couleur aléatoire si non spécifiée
-
-    def draw(self, world_surface):
-        """
-        Dessine l'étoile avec un `+` au centre et des points aux extrémités des branches.
-        """
-        # Dessiner la croix centrale (+)
-        pygame.draw.line(world_surface, self.color, (self.x - self.size // 3, self.y),
-                         (self.x + self.size // 3, self.y), 2)  # Branche horizontale
-        pygame.draw.line(world_surface, self.color, (self.x, self.y - self.size // 3),
-                         (self.x, self.y + self.size // 3), 2)  # Branche verticale
-
-        # Dessiner les branches diagonales
-        pygame.draw.line(world_surface, self.color, (self.x - self.size // 2, self.y - self.size // 2),
-                         (self.x + self.size // 2, self.y + self.size // 2), 2)  # Diagonale haut-gauche / bas-droite
-        pygame.draw.line(world_surface, self.color, (self.x - self.size // 2, self.y + self.size // 2),
-                         (self.x + self.size // 2, self.y - self.size // 2), 2)  # Diagonale bas-gauche / haut-droite
-
-        # Dessiner des points à l'extrémité de chaque branche
-        self.draw_points(world_surface)
-
-    def draw_points(self, world_surface):
-        """
-        Dessine les points à l'extrémité de chaque branche de l'étoile.
-        """
-        # Liste des angles pour chaque direction (haut, bas, gauche, droite, et diagonales)
-        angles = [0, math.pi / 2, math.pi, 3 * math.pi / 2, math.pi / 4, 3 * math.pi / 4, 5 * math.pi / 4,
-                  7 * math.pi / 4]
-
-        # Dessiner un point à l'extrémité de chaque branche
-        for angle in angles:
-            # Calculer la position du point à la fin de la branche
-            end_x = self.x + self.size * math.cos(angle)
-            end_y = self.y + self.size * math.sin(angle)
-
-            # Dessiner le point (petit cercle) à l'extrémité de chaque branche
-            pygame.draw.circle(world_surface, self.color, (int(end_x), int(end_y)),
-                               3)
-
-
-def generate_stars(world_width, world_height, number_of_stars=1000):
-    """
-    Génère un nombre donné d'étoiles à des positions aléatoires sur la carte.
-    Chaque étoile est dessinée avec un `+` au centre et des points aux extrémités des branches.
-    Les couleurs et tailles des étoiles sont également aléatoires.
-    """
-    stars = []
-
-    for _ in range(number_of_stars):
-        # Générer une position aléatoire pour l'étoile
-        x = random.randint(0, world_width)
-        y = random.randint(0, world_height)
-
-        # Générer une taille aléatoire pour l'étoile
-        size = random.randint(10, 30)
-        # Générer une couleur aléatoire pour l'étoile
-        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-
-        # Créer une étoile avec une taille et une couleur aléatoires
-        star = Star(x, y, size, color=color)
-        stars.append(star)
-
-    return stars
-
-
-def can_place_star(x, y, size, existing_stars, existing_planets, world_width, world_height, min_distance=30):
-    """
-    Vérifie si on peut placer une étoile à la position (x, y) avec la taille `size`, sans entrer en collision avec
-    des planètes ou des étoiles existantes.
-    """
-
-    # Vérifier la distance par rapport aux autres étoiles
-    for star in existing_stars:
-        # Calculer la distance entre l'étoile actuelle et l'étoile à vérifier
-        dist_centers = math.sqrt((star.x - x) ** 2 + (star.y - y) ** 2)
-        min_required = star.size + size + min_distance
-        if dist_centers < min_required:
-            return False
-    # Vérifier que l'étoile ne se trouve pas trop près des bords du monde
-    if x - size < 0 or x + size > world_width or y - size < 0 or y + size > world_height:
-        return False
-
-    return True
 

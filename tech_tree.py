@@ -29,6 +29,20 @@ class TechTree:
     def get_tech_tree_default_data(self):
         with open(self.default_data_path, 'r') as file:
             return json.load(file)
+    
+    def get_tech_tree_tier(self):
+        list=[]
+        with open(self.default_data_path, 'r') as file:
+            data = json.load(file)
+            for module in data["tech_tree"]:
+                for tier in data["tech_tree"][module]["tiers"]:
+                    list.append(tier)
+        print(list)
+
+
+
+        return list
+
 
     def _save_to_file(self):
         """

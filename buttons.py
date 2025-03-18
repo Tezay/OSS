@@ -42,6 +42,14 @@ class Button():
         # Vérifie si les coordonnées de la position de la souris sont comprisent dans les coordonnées du bouton
         if self.button_rect.collidepoint(mouse_x, mouse_y):
             return True
+        else:
+            return False
+        
+    def colide(self,mouse_x,mouse_y):
+        if self.button_rect.collidepoint(mouse_x, mouse_y):
+            return True
+        else:
+            return False
 
     def circle_click(self,button_center,button_radius,mouse_x,mouse_y):
         # Calcul de la distance entre la position de la souris et le centre du cercle
@@ -104,13 +112,13 @@ def hud_draw(x,y,x_fin,y_fin):
     pygame_y=coord_buttons[x][y][0]                 #extraction de la deuxième coordoné (en y) via la grille de coordoné
     pygame_x_end=coord_buttons[x_fin][y][1]-pygame_x    #definition de la taille en x
     pygame_y_end=coord_buttons[x][y_fin][0]-pygame_y    #definition de la taille en y
-    x=0
+    """x=0
     y=0
     for i in grille(False):
         x+=1
     for j in grille(False)[0]:
         y+=1
-    print(x,y)
+    print(x,y)"""
     return(pygame_x,pygame_y,pygame_x_end,pygame_y_end)
 
 
@@ -139,3 +147,37 @@ def click_button(name,mouse_pos):
     text=button["text"]
     file=button["file"]
     return Button((x,y),widht,height,color,text,file).click(mouse_pos[0],mouse_pos[1])
+
+def colide_button(name,mouse_pos):
+    coord_buttons=grille(False)
+    button=buttons[name]
+    x=coord_buttons[button["x"]][button["y"]][1]
+    y=coord_buttons[button["x"]][button["y"]][0]
+    widht=button["button_size_widht"]
+    height=button["button_size_height"]
+    if x <= mouse_pos[0] <= x + widht and y <= mouse_pos[1] <= y + height:
+        return True
+    else:
+        return False
+    
+def colide_draw(name,mouse):
+    if colide_button(name,mouse):
+        position=position_button("moteur_T1")
+        return overlay(position,"Moteur T1",mouse)
+
+
+def position_button(name):
+    coord_buttons=grille(False)
+    button=buttons[name]
+    x=coord_buttons[button["x"]][button["y"]][1]
+    y=coord_buttons[button["x"]][button["y"]][0]
+    return [x,y]
+
+
+def overlay(coord,txt,mouse):
+    x=coord[0]
+    y=coord[1]
+    pygame.draw.rect(screen,(255,0,0,128),(mouse[0],mouse[1],tech_button_size_widht,tech_button_size_height*10))
+    """font = pygame.font.Font(None, 24)
+    txt=font.render(txt, True, (255, 255, 255))
+    screen.blit(txt, (x+tech_button_size_widht, y+tech_button_size_widht))"""
