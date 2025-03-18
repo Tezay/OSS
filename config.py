@@ -9,7 +9,7 @@ WINDOW_HEIGHT = 720
 FPS = 100
 
 # Paramètre pour le mode debug
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50
@@ -82,6 +82,7 @@ KEY_BINDINGS = {
     "zoom_in": pygame.K_z,
     "zoom_out": pygame.K_x,
     "inventory": pygame.K_i,       # Touche pour basculer en pause
+    "game_over": pygame.K_g,  # Game over 
     "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
     # Touches de tests déplacement vaisseau :
     "spaceship_move": pygame.K_SPACE, # Touche test pour faire avancer le vaisseau

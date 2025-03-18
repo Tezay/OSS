@@ -81,6 +81,12 @@ class GameState(BaseState):
                 from .inventory_state import InventoryState
                 self.state_manager.set_state(InventoryState(self.state_manager, self.game))
 
+            # Ajout du passage à l'état Game Over avec "G"
+            if event.key == KEY_BINDINGS["game_over"]:
+                print("Game Over lancé !")
+                from .game_over_state import GameOverState
+                self.state_manager.set_state(GameOverState(self.state_manager, self.game))
+
             # Décélération instantanée (test, ne pas garder pour version finale)
             if event.key == KEY_BINDINGS["spaceship_deceleration"]:
                 vx, vy = self.game.spaceship.vx, self.game.spaceship.vy
