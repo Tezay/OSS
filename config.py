@@ -276,4 +276,9 @@ buttons={
         "x":21,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
         "color":(255,255,255),"text":"Défenses T2","file":"assets/button.png","text_size":10},
 
+    "button_test_click":{
+        "x":40,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Bouton test click","file":"assets/button.png"},
+
+
 }
