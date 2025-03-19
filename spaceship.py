@@ -1,6 +1,7 @@
 import pygame
 import math
-from config import SPACESHIP_MAX_SPEED
+from config import SPACESHIP_MAX_SPEED, WINDOW_HEIGHT, WINDOW_WIDTH 
+
 
 class Spaceship:
     def __init__(self, x, y, vx, vy, width, height, image_path, mass=1.0):
@@ -46,6 +47,14 @@ class Spaceship:
         self.is_landed = False
         # Stock la planète sur laquelle le vaisseau est posé
         self.landed_planet = None
+
+    def reset(self):
+        #Position 
+        self.x = float(WINDOW_WIDTH//2)
+        self.y =  float(WINDOW_HEIGHT//2)
+        #Vitesse
+        self.vx=0, 
+        self.vy=-10, # Vitesse par défaut de 10 pixel vers le haut
 
     def add_force(self, fx, fy):
         """Ajoute une force (en Newton) au vaisseau."""

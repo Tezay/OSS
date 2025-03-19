@@ -1,6 +1,7 @@
 from .base_state import BaseState
 from buttons import *
 import pygame
+from spaceship import Spaceship
 
 class GameOverState(BaseState):
     def __init__(self, state_manager, game):
@@ -12,14 +13,30 @@ class GameOverState(BaseState):
     def handle_event(self, event, pos):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                from .menu_state import MenuState
-                self.state_manager.set_state(MenuState(self.state_manager))
+                from states.game_state import GameState
+                # On passe existing_game=self.game pour réutiliser l’instance
+                new_game_state = GameState(self.state_manager, existing_game=self.game)
+                # Change l'état courant à GameState
+                self.state_manager.set_state(new_game_state)
 
     def update(self, dt, actions, pos, mouse_clicked):
-        """if mouse_clicked:
-            if click_button("return_to_menu", pos):
+        if mouse_clicked:
+            if click_button("respawn",pos):
+                from states.game_state import GameState
+                # On passe existing_game=self.game pour réutiliser l’instance
+                new_game_state = GameState(self.state_manager, existing_game=self.game)
+                # Change l'état courant à GameState
+                self.state_manager.set_state(new_game_state)
+                print("Respawn")
+                
+                # Reset la position du vaisseau
+                if hasattr(self.game, 'spaceship'): #fonction hasattr sert à vérifier si un objet possède un attribut spécifique.
+                    self.game.spaceship.reset()
+                    print("Position reset")
+
+            if click_button("return_menu",pos):
                 from .menu_state import MenuState
-                self.state_manager.set_state(MenuState(self.state_manager))"""
+                self.state_manager.set_state(MenuState(self.state_manager))
         pass
 
     def draw(self, screen, pos):
@@ -33,11 +50,11 @@ class GameOverState(BaseState):
         text_surf = self.font.render("GAME OVER", True, (255, 0, 0))
         rect = text_surf.get_rect(center=(screen.get_width() // 2, screen.get_height() // 3))
         screen.blit(text_surf, rect)
-"""
+
         # Message d'instruction
         instruction_surf = self.font.render("Appuyez sur Entrée ou cliquez pour retourner au menu", True, (255, 255, 255))
         instruction_rect = instruction_surf.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
         screen.blit(instruction_surf, instruction_rect)
 
-        draw_buttons("return_to_menu")
-"""
+        draw_buttons("respawn")
+        draw_buttons("return_menu")

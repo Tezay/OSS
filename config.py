@@ -176,6 +176,10 @@ buttons={
         "x":30,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
 
+    "respawn":{
+        "x":24,"y":22,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "color":(255,255,255),"text":"Respawn","file":"assets/button.png"},
+
     # Bouton pour tester l'upgrade de module de tier dans l'arbre technologique
     "test_upgrade_tech_tree_module":{
         "x":20,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
