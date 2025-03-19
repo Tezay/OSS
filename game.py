@@ -321,22 +321,24 @@ class Game():
         if self.spaceship:
             trajectory_points = self.predict_spaceship_trajectory()
 
+            # Récupérer les dimensions actuelles de la fenêtre
+            current_window_width = pygame.display.get_surface().get_width()
+            current_window_height = pygame.display.get_surface().get_height()
+
             # Tracé de la ligne en tenant compte de la caméra
-            # on stocke les points transformés
             transformed_points = []
             for (px, py) in trajectory_points:
-                # La position px,py doit être convertie en coords "camera offset"
-                # (comme camera.apply_rect() mais manuellement)
+                # Convertir les coordonnées en fonction de la caméra
                 dx = px - self.camera.view_rect.x
                 dy = py - self.camera.view_rect.y
 
-                # Appliquer le zoom
-                dx *= (WINDOW_WIDTH / self.camera.view_rect.width)
-                dy *= (WINDOW_HEIGHT / self.camera.view_rect.height)
+                # Appliquer le zoom et ajuster en fonction des dimensions actuelles
+                dx *= (current_window_width / self.camera.view_rect.width)
+                dy *= (current_window_height / self.camera.view_rect.height)
 
                 transformed_points.append((dx, dy))
 
-            # Dessin d'une polyline blanche reliant ces points
+            # Dessiner une polyline blanche reliant ces points
             if len(transformed_points) > 1:
                 pygame.draw.lines(screen, (255, 255, 255), False, transformed_points, 2)
 

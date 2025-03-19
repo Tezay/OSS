@@ -76,7 +76,7 @@ JSON_PLANET_DATA_PATH = "data/planets.json"
 
 # Étoiles
 STAR_DENSITY = 0.00005  # Densité des étoiles (nombre d'étoiles par pixel carré)
-STAR_SIZES = [1, 3, 5]  # Tailles possibles des étoiles (en pixels)
+STAR_SIZES = [1, 2, 3, 4]  # Tailles possibles des étoiles (en pixels)
 STAR_COLORS = [
     (255, 255, 255),  # Blanc
     (200, 200, 255),  # Bleu clair
