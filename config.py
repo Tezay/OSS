@@ -9,7 +9,7 @@ WINDOW_HEIGHT = 720
 FPS = 60
 
 # Paramètre pour le mode debug
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50
@@ -57,6 +57,9 @@ DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
 custom_seed=None        #Si None, veux dire que l'uttilisateur n'a pas saisie de seed customisé
 NUMBER_OF_PLANETS = 250  # Nombre de planètes à générer par défaut.
 
+# Densité des planètes (nombre de planètes par pixel carré)
+PLANET_DENSITY = 0.0000006
+
 # Paramètres de distance pour la génération des planètes
 PLANET_MIN_DISTANCE = 800       # Distance minimale entre les centres de deux planètes
 MAX_GENERATION_ATTEMPTS = 200  # Nombre max de tentatives pour placer une planète
@@ -72,7 +75,7 @@ DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
 
 # Étoiles
-STAR_DENSITY = 0.00004  # Densité des étoiles (nombre d'étoiles par pixel carré)
+STAR_DENSITY = 0.00005  # Densité des étoiles (nombre d'étoiles par pixel carré)
 STAR_SIZES = [1, 3, 5]  # Tailles possibles des étoiles (en pixels)
 STAR_COLORS = [
     (255, 255, 255),  # Blanc

@@ -4,7 +4,7 @@ import pygame
 import os
 
 from json_manager import get_planet_types, get_planet_data
-from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS, DEFAULT_PLANET_TEXTURE_PATH, STAR_DENSITY, BACKGROUND_STAR_TEXTURE_PATH, STAR_COLORS, STAR_SIZES
+from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS, DEFAULT_PLANET_TEXTURE_PATH, STAR_DENSITY, BACKGROUND_STAR_TEXTURE_PATH, STAR_COLORS, STAR_SIZES, PLANET_DENSITY
 
 # Dictionnaire pour cacher/mettre en mémoire les images
 PLANET_IMAGE_CACHE = {}
@@ -98,16 +98,20 @@ def generate_background_stars(world_width, world_height):
     return stars
 
 
-def generate_map(seed, world_width, world_height, number_of_planets=5):
+def generate_map(seed, world_width, world_height):
     """
     Génère les étoiles de fond et les planètes en fonction de la seed.
-    Return une liste d'étoiles de fond et une liste de planètes 
+    Retourne une liste d'étoiles de fond et une liste de planètes.
     """
     # Fixe la seed à utiliser
     random.seed(seed)
 
     # Génération des étoiles de fond
     background_stars = generate_background_stars(world_width, world_height)
+
+    # Calcul du nombre de planètes à générer en fonction de PLANET_DENSITY
+    number_of_planets = int(world_width * world_height * PLANET_DENSITY)
+    print(number_of_planets)
 
     # Génération des planètes
     planets = []

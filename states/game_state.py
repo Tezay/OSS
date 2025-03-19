@@ -43,7 +43,7 @@ class GameState(BaseState):
             print(f"Seed: {seed}")
 
             # Génération de la map
-            background_stars, planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT, NUMBER_OF_PLANETS)
+            background_stars, planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT)
             print("Map generated.")
 
             # Injecter les étoiles et planètes dans Game
@@ -146,7 +146,7 @@ class GameState(BaseState):
                 # Application d'une force de poussé supplémentaire, pour facilité le décrochement du vaisseau de l'attraction gravitationnelle de la planète
                 planet_mass = self.game.spaceship.landed_planet.mass
                 # Arbitrairement, j'ai trouvé que la masse de la planète / 1e5*G fonctionnait bien
-                takeoff_force_coeff = planet_mass/1e5*G
+                takeoff_force_coeff = planet_mass/1e5
                 self.game.spaceship.add_force(fx*takeoff_force_coeff, fy*takeoff_force_coeff)
 
             # Application de la force au vaisseau
