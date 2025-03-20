@@ -30,3 +30,6 @@ class DataManager:
         os.makedirs(folder_path, exist_ok=True)
         print(f"Folder created at {folder_path}")
         return folder_path
+    
+    def get_tech_tree_data(self):
+        return self.tech_tree.get_tech_tree_tiers_data()

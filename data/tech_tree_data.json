@@ -4,11 +4,11 @@
             "name": "Terraformation",
             "tiers": {
                 "tier_0": {
-                    "description": "Permet de récupérer des ressources sur la surface d'une planète.",
+                    "description":  "Permet de recuperer des ressources sur la surface d'une planete.",
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description": "Pareil que tier précédent, mais plus rapidement.",
+                    "description":  "Pareil que tier precedent, mais plus rapidement.",
                     "required_resources": [
                         {
                             "name": "test_item",
@@ -17,15 +17,15 @@
                     ]
                 },
                 "tier_2": {
-                    "description": "Permet d'installer une colonie sur des planètes, permet de récupérer des ressources plus rapidement (régénération des ressources plus rapide).",
+                    "description": "Permet d'installer une colonie sur des planetes, permet de recuperer des ressources plus rapidement (regeneration des ressources plus rapide).",
                     "required_resources": []
                 },
                 "tier_3": {
-                    "description": "Permet de récupérer directement les ressources à la base centrale (plus nécessaire de se rendre sur la planète).",
+                    "description":  "Permet de recuperer directement les ressources a la base centrale (plus necessaire de se rendre sur la planete).",
                     "required_resources": []
                 },
                 "tier_4": {
-                    "description": "Permet de récupérer directement les ressources dans l'inventaire du vaisseau.",
+                    "description":  "Permet de recuperer directement les ressources dans l'inventaire du vaisseau.",
                     "required_resources": []
                 }
             }
@@ -34,48 +34,48 @@
             "name": "Moteur vaisseau",
             "tiers": {
                 "tier_0": {
-                    "description": "Moteur à propulsion propergolique (Poussée : 600N).",
+                    "description":  "Moteur a propulsion propergolique (Poussee : 600N).",
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description": "Moteur à fusion froide (Poussée : 1000N).",
+                    "description":  "Moteur a fusion froide (Poussee : 1000N).",
                     "required_resources": []
                 },
                 "tier_2": {
-                    "description": "Moteur atomique (Poussée : 1500N).",
+                    "description":  "Moteur atomique (Poussee : 1500N).",
                     "required_resources": []
                 },
                 "tier_3": {
-                    "description": "Moteur à courbure spatiale (Poussée : 2000N).",
+                    "description":  "Moteur a courbure spatiale (Poussee : 2000N).",
                     "required_resources": []
                 },
                 "tier_4": {
-                    "description": "Stabilisateur de trou de ver (Permet la téléportation à la base).",
+                    "description":  "Stabilisateur de trou de ver (Permet la teleportation a la base).",
                     "required_resources": []
                 }
             }
         },
         "antimatter_science": {
-            "name": "Science antimatière",
+            "name": "Science antimatiere",
             "tiers": {
                 "tier_0": {
-                    "description": "Générateur à fusion nucléaire (1 antimatière / minute).",
+                    "description":  "Generateur a fusion nucleaire (1 antimatiere / minute).",
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description": "Accélérateur à particule (5 antimatières / minute).",
+                    "description":  "Accelerateur a particule (5 antimatieres / minute).",
                     "required_resources": []
                 },
                 "tier_2": {
-                    "description": "Commutation d'antimatière (10 antimatières / minute).",
+                    "description":  "Commutation d'antimatiere (10 antimatieres / minute).",
                     "required_resources": []
                 },
                 "tier_3": {
-                    "description": "Générateur métamatériel (20 antimatières / minute).",
+                    "description":  "Generateur metamateriel (20 antimatieres / minute).",
                     "required_resources": []
                 },
                 "tier_4": {
-                    "description": "Vision positronique (30 antimatières / minute).",
+                    "description":  "Vision positronique (30 antimatieres / minute).",
                     "required_resources": []
                 }
             }
@@ -84,15 +84,15 @@
             "name": "Radar",
             "tiers": {
                 "tier_0": {
-                    "description": "Permet d'afficher les planètes à proximité sur la minimap (Portée : faible).",
+                    "description":  "Permet d'afficher les planetes a proximite sur la minimap (Portee : faible).",
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description": "Augmente la portée de la minimap (Portée : moyenne).",
+                    "description":  "Augmente la portee de la minimap (Portee : moyenne).",
                     "required_resources": []
                 },
                 "tier_2": {
-                    "description": "Augmente la portée de la minimap (Portée : grande).",
+                    "description":  "Augmente la portee de la minimap (Portee : grande).",
                     "required_resources": []
                 }
             }
