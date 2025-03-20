@@ -53,7 +53,7 @@ class Game():
         self.camera.update(actions)
 
         # Appliquer la gravité des planètes + collisions 
-        # Renvoie un booléen pour savoir si le vaisseau est rentrer en collision avec la planète
+        # Renvoie un booléen pour savoir si le vaisseau est rentré en collision avec la planète
         deadly_collision = self.apply_gravity(dt)
 
         # Mettre à jour la physique du vaisseau (propulsion, etc.)
@@ -182,9 +182,18 @@ class Game():
         landed_planet = None
         # Récupère les planètes visibles
         visible_planets = self.get_visible_planets()
+        
+        # Itère sur les planètes visibles
         for planet in visible_planets:
+
+            # Calcul de la distance entre le vaisseau et la planète
             dist_centers = math.sqrt((planet.x - x)**2 + (planet.y - y)**2)
+            # Calcul de la distance de collision
             collision_dist = planet.radius + radius_vaisseau
+
+            # Initialisation de la variable deadly_collision
+            deadly_collision = False
+
             # Si distance entre vaisseau et planète <= rayon planète + vaisseau
             # Alors il y a collision, et il faut regarder si le vaisseau atterri
             if dist_centers <= collision_dist:
@@ -194,14 +203,18 @@ class Game():
 
                 # Seulement si on n’est PAS déjà posé :
                 if not self.spaceship.is_landed:
-                    if speed <= MAX_LANDING_SPEED:
-                        # Atterrisage
-                        landed = True
-                        landed_planet = planet
+
+                    # Si le vaisseau est 2 fois plus rapide que la vitesse d'atterrissage max
+                    if speed >= MAX_LANDING_SPEED *2:
+                        # Collision mortel avec une planète passe deadly_collision à True pour faire respawn le vaisseau
+                        deadly_collision = True
+                        print("Deadly collision with a planet!")
+                        # Sortir de la boucle d'itération des planètes dès lors qu'on sait qu'il y a une collision mortelle avec l'une d'elles
+                        break
  
-                    else:
-                        # Collision brutale : actuellement, fait un rebond
-                        # Ou alors détruire le vaisseau ?
+                    # Si le vaisseau est plus rapide que la vitesse d'atterrissage max, mais moins que 2 fois
+                    elif speed >= MAX_LANDING_SPEED:
+                        # Collision brutale : fait un rebond
                         overlap = collision_dist - dist_centers
                         # Exerce une vitesse dans l'autre sans
                         nx = (x - planet.x) / (dist_centers + 1e-6)
@@ -210,9 +223,13 @@ class Game():
                         y += ny * overlap
                         vx = -vx * 0.5
                         vy = -vy * 0.5
-                        #Collision mortel avec une planète passe deadly_collision a True pour faire respawn le vaisseau
-                        deadly_collision = True
-                        return (x, y, vx, vy, landed, landed_planet, deadly_collision )
+                    
+                    # Sinon le vaisseau a une vitesse d'atterrissage
+                    else:
+                        # Atterrisage
+                        landed = True
+                        landed_planet = planet
+
                 else:
                     # Le vaisseau est déjà "landed"
                     # Recaler le vaisseau pour s'assurer qu'il ne s'enfonce pas
@@ -221,8 +238,8 @@ class Game():
                     ny = (y - planet.y) / (dist_centers + 1e-4)
                     x += nx * overlap
                     y += ny * overlap
-        deadly_collision = False
-        return (x, y, vx, vy, landed, landed_planet, deadly_collision )
+
+        return (x, y, vx, vy, landed, landed_planet, deadly_collision)
 
     def predict_spaceship_trajectory(self, steps=200, dt_sim=0.08):
         if not self.spaceship:
@@ -272,7 +289,7 @@ class Game():
 
         # Gérer la collision (pour atterrissage)
         radius_vaisseau = min(self.spaceship.rect.width, self.spaceship.rect.height)/2
-        new_x, new_y, new_vx, new_vy, just_landed, landed_planet , deadly_collision = self.check_collision_and_land(
+        new_x, new_y, new_vx, new_vy, just_landed, landed_planet, deadly_collision = self.check_collision_and_land(
             self.spaceship.x,
             self.spaceship.y,
             self.spaceship.vx,

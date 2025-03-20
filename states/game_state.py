@@ -152,20 +152,25 @@ class GameState(BaseState):
             # Application de la force au vaisseau
             self.game.spaceship.add_force(fx, fy)
 
-        # vérification si le vaisseau est détruit (collision plannet)
+        # Update du game (renvoie un booléen si le vaisseau est détruit)
         dead = self.game.update(dt, actions)
+
+        # Si l'update du jeu renvoie que le joueur est mort
         if dead:
-            print(">>> Game Over triggered")
+            # vérification si le vaisseau a été détruit (respawning = True)
+            global respawning
+            # Gestion du respawn reset du vaisseau
+            if config.respawning:
+                print("Respawn detected ! Spaceship reset...")
+                # Réinitialise la position du vaisseau
+                self.game.spaceship.reset()
+                # Réinitialise la variable globale respawning à False
+                config.respawning = False
+
+            # Passe l'état courant à GameOverState
             from states.game_over_state import GameOverState
             self.state_manager.set_state(GameOverState(self.state_manager, self.game))
-
-        # vérification si le vaisseau est détruit (touche G)
-        global respawning
-        # Gestion du respawn reset du vaisseau
-        if config.respawning:
-            print("Respawn détecté ! Réinitialisation du vaisseau...")
-            self.game.spaceship.reset()  # Réinitialise la position du vaisseau
-            config.respawning = False  # Réinitialise la variable globale pour éviter une boucle infinie
+            print("Game Over triggered")
 
         
     def draw(self, screen, pos):

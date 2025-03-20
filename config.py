@@ -68,9 +68,9 @@ MAX_GENERATION_ATTEMPTS = 200  # Nombre max de tentatives pour placer une planè
 G = 4
 
 # Vitesse maximum d'atterrisage
-MAX_LANDING_SPEED = 40
+MAX_LANDING_SPEED = 20
 
-# Respawn 
+# Variable booléen respawn : True si le joueur est en train de respawn, False sinon
 respawning = False 
 
 # Planètes

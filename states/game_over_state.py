@@ -12,39 +12,30 @@ class GameOverState(BaseState):
         self.font = pygame.font.Font(None, 60)
 
     def handle_event(self, event, pos):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                if DEBUG_MODE == True :
-                    from states.game_state import GameState
-                    # On passe existing_game=self.game pour réutiliser l’instance
-                    new_game_state = GameState(self.state_manager, existing_game=self.game)
-                    # Change l'état courant à GameState
-                    self.state_manager.set_state(new_game_state)
-                else : 
-                    from states.game_state import GameState
-                # On passe respawn a True pour ne pas dessiner la trajectoire
-                global respawning
-                config.respawning = True
-                # On passe existing_game=self.game pour réutiliser l’instance
-                new_game_state = GameState(self.state_manager, existing_game=self.game)
-                # Change l'état courant à GameState
-                self.state_manager.set_state(new_game_state)
-                
+        pass
 
     def update(self, dt, actions, pos, mouse_clicked):
         if mouse_clicked:
-            if click_button("respawn",pos):
+
+            if click_button("respawn", pos):
                 from states.game_state import GameState
-                # On passe respawn a True pour ne pas dessiner la trajectoire
+                # Passer respawning à True pour ne pas dessiner la trajectoire
                 global respawning
                 config.respawning = True
-                # On passe existing_game=self.game pour réutiliser l’instance
+                # Passer existing_game=self.game pour réutiliser l’instance
                 new_game_state = GameState(self.state_manager, existing_game=self.game)
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
-                
 
-            if click_button("return_menu",pos):
+                # vérification si le vaisseau est détruit (respawning = True)
+                global respawning
+                # Gestion du respawn reset du vaisseau
+                if config.respawning:
+                    print("Respawn detected ! Spaceship reset...")
+                    self.game.spaceship.reset()  # Réinitialise la position du vaisseau
+                    config.respawning = False  # Réinitialise la variable globale
+     
+            if click_button("return_menu", pos):
                 from .menu_state import MenuState
                 self.state_manager.set_state(MenuState(self.state_manager))
         pass
@@ -62,7 +53,7 @@ class GameOverState(BaseState):
         screen.blit(text_surf, rect)
 
         # Message d'instruction
-        instruction_surf = self.font.render("Appuyez sur Entrée ou cliquez pour retourner au menu", True, (255, 255, 255))
+        instruction_surf = self.font.render("Vous êtes mort... Touche entrée pour réaparaître !", True, (255, 255, 255))
         instruction_rect = instruction_surf.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
         screen.blit(instruction_surf, instruction_rect)
 
