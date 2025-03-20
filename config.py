@@ -9,7 +9,7 @@ WINDOW_HEIGHT = 720
 FPS = 60
 
 # Paramètre pour le mode debug
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50
@@ -19,7 +19,7 @@ RENDER_DISTANCE = WINDOW_WIDTH + 100
 
 # Vaisseau
 SPACESHIP_ROTATION_SPEED = 90 # degré/seconde
-SPACESHIP_THRUST_FORCE = 600 # force en Newton appliquée pendant l'appui
+SPACESHIP_THRUST_FORCE = 800 # force en Newton appliquée pendant l'appui
 SPACESHIP_MAX_SPEED = 100
 SPACESHIP_MASS = 40
 # Fichier de texture du vaisseau par défaut
@@ -54,7 +54,7 @@ WORLD_HEIGHT = 20000
 
 # Paramètres de seed et de nombre de planètes
 DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
-custom_seed=None        #Si None, veux dire que l'uttilisateur n'a pas saisie de seed customisé
+custom_seed = None        #Si None, veux dire que l'uttilisateur n'a pas saisie de seed customisé
 NUMBER_OF_PLANETS = 250  # Nombre de planètes à générer par défaut.
 
 # Densité des planètes (nombre de planètes par pixel carré)
@@ -69,6 +69,9 @@ G = 4
 
 # Vitesse maximum d'atterrisage
 MAX_LANDING_SPEED = 40
+
+# Respawn 
+respawning = False 
 
 # Planètes
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"

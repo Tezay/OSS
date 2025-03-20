@@ -13,12 +13,13 @@ from config import (
     G,
     WINDOW_HEIGHT,
     WINDOW_WIDTH,
-    MAX_LANDING_SPEED
+    MAX_LANDING_SPEED,
+    respawning
 )
 from map_generator import generate_map
 from hud import Hud
 from session_data_manager import DataManager
-
+import config
 
 class Game():
     """
@@ -51,8 +52,9 @@ class Game():
         # Mise à jour de la caméra (en mode debug, on bouge avec les touches)
         self.camera.update(actions)
 
-        # Appliquer la gravité des planètes + collisions
-        self.apply_gravity(dt)
+        # Appliquer la gravité des planètes + collisions 
+        # Renvoie un booléen pour savoir si le vaisseau est rentrer en collision avec la planète
+        deadly_collision = self.apply_gravity(dt)
 
         # Mettre à jour la physique du vaisseau (propulsion, etc.)
         if self.spaceship:
@@ -60,6 +62,8 @@ class Game():
 
         # Mise à jour de l'HUD
         self.hud.update(self.spaceship.vx, self.spaceship.vy)
+      
+        return deadly_collision
 
     def set_planets(self, planets):
         """ Injecter la liste de planètes depuis l'extérieur. """
@@ -206,7 +210,9 @@ class Game():
                         y += ny * overlap
                         vx = -vx * 0.5
                         vy = -vy * 0.5
-                        print("Collision with planet")
+                        #Collision mortel avec une planète passe deadly_collision a True pour faire respawn le vaisseau
+                        deadly_collision = True
+                        return (x, y, vx, vy, landed, landed_planet, deadly_collision )
                 else:
                     # Le vaisseau est déjà "landed"
                     # Recaler le vaisseau pour s'assurer qu'il ne s'enfonce pas
@@ -215,8 +221,8 @@ class Game():
                     ny = (y - planet.y) / (dist_centers + 1e-4)
                     x += nx * overlap
                     y += ny * overlap
-
-        return (x, y, vx, vy, landed, landed_planet)
+        deadly_collision = False
+        return (x, y, vx, vy, landed, landed_planet, deadly_collision )
 
     def predict_spaceship_trajectory(self, steps=200, dt_sim=0.08):
         if not self.spaceship:
@@ -266,7 +272,7 @@ class Game():
 
         # Gérer la collision (pour atterrissage)
         radius_vaisseau = min(self.spaceship.rect.width, self.spaceship.rect.height)/2
-        new_x, new_y, new_vx, new_vy, just_landed, landed_planet = self.check_collision_and_land(
+        new_x, new_y, new_vx, new_vy, just_landed, landed_planet , deadly_collision = self.check_collision_and_land(
             self.spaceship.x,
             self.spaceship.y,
             self.spaceship.vx,
@@ -287,9 +293,11 @@ class Game():
             # Transmet la planète sur laquelle le vaisseau a atterri
             self.spaceship.landed_planet = landed_planet
             print(f"Successful landing on {landed_planet.name}!")
+        
+        return deadly_collision
 
 
-    def draw(self, screen):
+    def draw(self, screen, respawning=False):
         """
         Dessine le jeu sur l'écran (surface "screen").
         """
@@ -318,7 +326,7 @@ class Game():
         screen.blit(scaled_view, (0, 0))
 
         # Dessiner la trajectoire du vaisseau
-        if self.spaceship:
+        if self.spaceship and not respawning:
             trajectory_points = self.predict_spaceship_trajectory()
 
             # Récupérer les dimensions actuelles de la fenêtre

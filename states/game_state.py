@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED, SPACESHIP_MASS
+from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED, SPACESHIP_MASS, respawning
 from .base_state import BaseState
 from buttons import *
 from game import Game
@@ -146,14 +146,27 @@ class GameState(BaseState):
                 # Application d'une force de poussé supplémentaire, pour facilité le décrochement du vaisseau de l'attraction gravitationnelle de la planète
                 planet_mass = self.game.spaceship.landed_planet.mass
                 # Arbitrairement, j'ai trouvé que la masse de la planète / 1e5*G fonctionnait bien
-                takeoff_force_coeff = planet_mass/1e5
+                takeoff_force_coeff = planet_mass/1e4
                 self.game.spaceship.add_force(fx*takeoff_force_coeff, fy*takeoff_force_coeff)
 
             # Application de la force au vaisseau
             self.game.spaceship.add_force(fx, fy)
 
-        # Update de GameState
-        self.game.update(dt, actions)
+        # vérification si le vaisseau est détruit (collision plannet)
+        dead = self.game.update(dt, actions)
+        if dead:
+            print(">>> Game Over triggered")
+            from states.game_over_state import GameOverState
+            self.state_manager.set_state(GameOverState(self.state_manager, self.game))
+
+        # vérification si le vaisseau est détruit (touche G)
+        global respawning
+        # Gestion du respawn reset du vaisseau
+        if config.respawning:
+            print("Respawn détecté ! Réinitialisation du vaisseau...")
+            self.game.spaceship.reset()  # Réinitialise la position du vaisseau
+            config.respawning = False  # Réinitialise la variable globale pour éviter une boucle infinie
+
         
     def draw(self, screen, pos):
 
