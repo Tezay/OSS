@@ -4,18 +4,17 @@ from config import *
 
 
 class Button():
-    def __init__(self,coord,width,height,color,text,file, text_color=(255,255,255),text_size=24):
+    def __init__(self,coord,width,height,text,file, text_color=(255,255,255),text_size=24):
         self.x=coord[0]
         self.y=coord[1]
         self.width=width
         self.height=height
         self.button_rect = pygame.Rect(coord[0], coord[1], width, height)
-        self.color=color
         self.text=text
         self.file=file
         self.text_color = text_color
         self.text_size = text_size
-        self.font = custom_font
+        self.font = pygame.font.Font(FONT_PATH, self.text_size)
 
     def draw(self):
         # Charger la texture du bouton
@@ -133,7 +132,12 @@ def draw_buttons(name):
     color=button["color"]                           #couleur du texte
     text=button["text"]                             #texte
     file=button["file"]                             #image a dessiner
-    return Button((x,y),widht,height,color,text,file).draw()
+    if len(button)==8:
+        text_size=button["text_size"]                     #taille du texte
+    else:
+        text_size=24
+
+    return Button((x,y),widht,height,text,file,color,text_size).draw()
 
 
 def click_button(name,mouse_pos):
@@ -160,10 +164,9 @@ def colide_button(name,mouse_pos):
     else:
         return False
     
-def colide_draw(name,mouse):
+def colide_draw(name,txt,mouse):
     if colide_button(name,mouse):
-        position=position_button("moteur_T1")
-        return overlay(position,"Moteur T1",mouse)
+        return overlay(txt,mouse)
 
 
 def position_button(name):
@@ -174,10 +177,66 @@ def position_button(name):
     return [x,y]
 
 
-def overlay(coord,txt,mouse):
-    x=coord[0]
-    y=coord[1]
-    pygame.draw.rect(screen,(255,0,0,128),(mouse[0],mouse[1],tech_button_size_widht,tech_button_size_height*10))
-    """font = pygame.font.Font(None, 24)
-    txt=font.render(txt, True, (255, 255, 255))
-    screen.blit(txt, (x+tech_button_size_widht, y+tech_button_size_widht))"""
+
+def overlay(txt, mouse):
+    coord_buttons=grille(False)
+    # Chemin de l'image source
+    image_path = "assets/overlay_texture.png"
+    original_image = pygame.image.load(image_path).convert_alpha()
+
+
+    # Taille de l'image
+    tech_button_size_widht =coord_buttons[16][0][1]    #x sur la grille
+    tech_button_size_height = coord_buttons[0][9][0]   #y sur la grille
+    # Recadrer et forcer le redimensionnement exact
+    resized_image = pygame.transform.scale(original_image, (tech_button_size_widht, tech_button_size_height))
+
+    # Ajouter transparence
+    alpha = 240
+    resized_image.set_alpha(alpha)
+
+    # Initialisation police
+    font = pygame.font.Font(FONT_PATH, 17)
+
+    # Gestion du texte (multi-lignes si nécessaire)
+    padding = 20
+    max_text_width = tech_button_size_widht - 2 * padding
+    words = txt.split(' ')
+    lines = []
+    line = []
+    line_width = 0
+    space_width = font.size(' ')[0]
+
+    for word in words:
+        word_width = font.size(word)[0]
+        if line_width + word_width + space_width > max_text_width:  # Nouvelle ligne nécessaire
+            lines.append(' '.join(line))
+            line = [word]
+            line_width = word_width
+        else:
+            line.append(word)
+            line_width += word_width + space_width
+
+    if line:
+        lines.append(' '.join(line))
+
+    # Calculer la hauteur totale du texte
+    line_height = font.get_linesize()
+    total_text_height = len(lines) * line_height
+
+    # Vérifier si le texte dépasse l'image (limitation simple)
+    if total_text_height > tech_button_size_height:
+        print("Attention : Le texte dépasse la zone de l'image !")
+        return
+
+    text_y = (tech_button_size_height - total_text_height) // 2  # Centrer verticalement
+    for line in lines:
+        text_surface = font.render(line, True, (255, 255, 255))  # Texte blanc
+        text_x = padding  # Décalage constant depuis la gauche (marge gauche)
+        resized_image.blit(text_surface, (text_x, text_y))
+        text_y += line_height  # Avancer vers la ligne suivante
+
+
+    # Afficher l'image redimensionnée avec texte sur l'écran
+    screen.blit(resized_image, (mouse[0], mouse[1]))
+

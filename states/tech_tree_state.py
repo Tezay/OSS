@@ -1,7 +1,12 @@
 import pygame
 from buttons import*
 from .base_state import BaseState
+from session_data_manager import DataManager
 
+
+data_manager = DataManager()
+tech_tree_data = data_manager.tech_tree.get_tech_tree_tiers_data()
+#print("tech_tree_data",tech_tree_data)
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -38,7 +43,7 @@ class TechTreeState(BaseState):
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
             
-            if click_button("moteur_T1",pos):
+            if click_button("ship_engine_tier_1",pos):
                 inventory = self.game.data_manager.inventory
                 self.game.data_manager.tech_tree.upgrade_module("ship_engine",inventory)
             
@@ -59,30 +64,36 @@ class TechTreeState(BaseState):
 
 
         draw_buttons("return")
-        draw_buttons("moteur_T0")
-        draw_buttons("moteur_T1")
-        draw_buttons("moteur_T2")
-        draw_buttons("moteur_T3")
-        draw_buttons("moteur_T4")
-        draw_buttons("terraformation_T0")
-        draw_buttons("terraformation_T1")
-        draw_buttons("terraformation_T2")
-        draw_buttons("terraformation_T3")
-        draw_buttons("terraformation_T4")
-        draw_buttons("anti_matiere_T0")
-        draw_buttons("anti_matiere_T1")
-        draw_buttons("anti_matiere_T2")
-        draw_buttons("anti_matiere_T3")
-        draw_buttons("anti_matiere_T4")
-        draw_buttons("radar_T0")
-        draw_buttons("radar_T1")
-        draw_buttons("radar_T2")
+        
         draw_buttons("defenses_T0")
         draw_buttons("defenses_T1")
         draw_buttons("defenses_T2")
-
+    
+        list={}
+        for i in tech_tree_data:
+            for j in tech_tree_data[i]:
+                txt=i+"_"+j
+                list[txt]=[]
+                draw_buttons(txt)
+                txt_2=""
+                for k in tech_tree_data[i][j]:
+                    for l in k:
+                        if l=="\n":
+                            txt_2+="\n"
+                        else:
+                            txt_2+=l
+                    #print("txt_2",txt_2)
+                list[txt]=txt_2
         
-        colide_draw("moteur_T1",mouse)
+        #print("list",list["terraforming_tier_1"])
+        #print("list",list)
+        
+        for i in list:
+            txt=""
+            for j in list[i]:
+                txt+=j
+            if colide_button(i,mouse):
+                colide_draw(i,txt,mouse)
 
         ########### TEST ############
         # Exemple de bouton pour tester l'upgrade d'un module du tech tree
