@@ -2,11 +2,10 @@ import pygame
 from buttons import*
 from .base_state import BaseState
 from session_data_manager import DataManager
+from tech_tree import TechTree
 
 
-data_manager = DataManager()
-tech_tree_data = data_manager.tech_tree.get_tech_tree_tiers_data()
-#print("tech_tree_data",tech_tree_data)
+
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -18,6 +17,7 @@ class TechTreeState(BaseState):
         super().__init__()
         self.state_manager = state_manager
         self.game=game
+
 
     def handle_event(self, event, pos):
         keys = pygame.key.get_pressed()
@@ -58,42 +58,79 @@ class TechTreeState(BaseState):
         screen.fill((0, 0, 0))
         grille(True)
 
+
+        unlocked_tiers = self.game.data_manager.tech_tree.get_tech_tree_session()
+        
+        data=self.game.data_manager.tech_tree.get_tech_tree_default_data()
+        tech_tree_data={}
+
+        #extraire les modules
+        for module in data["tech_tree"]:
+            #extraire les tiers
+            tech_tree_data[module]={}
+            for tier in data["tech_tree"][module]["tiers"]:
+                tech_tree_data[module][tier]={}
+                txt=""
+                #extraire la description
+                for description in data["tech_tree"][module]["tiers"][tier]["description"]:
+                    txt+=description
+                #extraire le booleen qui sert a savoir si la technologie est debloquer ou pas
+                unlocked=unlocked_tiers["tech_tree"][module]["tiers"][tier]["unlocked"]
+                #mettre la description et le booleen pour savoir si la technologie est debloquer ou pas
+                tech_tree_data[module][tier]={"description":txt,"unlocked":unlocked}
+
+        
+            
+        #print("tech_tree_data",tech_tree_data)
+
+
+        
+
+
         # Dessin des boutons relatifs à l'état tech_tree_state (avec la méthode .draw() de la classe Button)
 
         mouse=pygame.mouse.get_pos()
 
 
         draw_buttons("return")
-        
+        #boutons qui n'existe aps encore dans le json arbre de technologie
         draw_buttons("defenses_T0")
         draw_buttons("defenses_T1")
         draw_buttons("defenses_T2")
     
-        list={}
-        for i in tech_tree_data:
-            for j in tech_tree_data[i]:
-                txt=i+"_"+j
-                list[txt]=[]
+        tech_tree_data_button={}
+        #extraire le module
+        for module in tech_tree_data:
+            #extraire les tiers
+            for tier in tech_tree_data[module]:
+                #txt deviens le nom du bouton a appeler pour dessiner le bouton (Classe Button)
+                txt=module+"_"+tier
                 draw_buttons(txt)
+                tech_tree_data_button[txt]=[]
                 txt_2=""
-                for k in tech_tree_data[i][j]:
-                    for l in k:
-                        if l=="\n":
+                #faire en sorte que les sauts de lignes soit bien pris en conte.
+                for text in tech_tree_data[module][tier]["description"]:
+                    for letre in text:
+                        if letre=="\n":
                             txt_2+="\n"
                         else:
-                            txt_2+=l
-                    #print("txt_2",txt_2)
-                list[txt]=txt_2
+                            txt_2+=letre
+                #remettre les bon textes avec les sauts de lignes
+                tech_tree_data_button[txt]=txt_2
         
-        #print("list",list["terraforming_tier_1"])
-        #print("list",list)
+        #print("tech_tree_data",tech_tree_data["terraforming_tier_1"])
+        #print("tech_tree_data_button",tech_tree_data_button)
         
-        for i in list:
+        #extraire ce qui va etre afficher dans l'overlay
+        for name in tech_tree_data_button:
             txt=""
-            for j in list[i]:
-                txt+=j
-            if colide_button(i,mouse):
-                colide_draw(i,txt,mouse)
+            for tier in tech_tree_data_button[name]:
+                txt+=tier
+            #quand la souris touche les boutons, l'overlay aves les info sur la technologie s'affiche
+            if colide_button(name,mouse):
+                colide_draw(name,txt,mouse)
+                #if click_button(name):
+
 
         ########### TEST ############
         # Exemple de bouton pour tester l'upgrade d'un module du tech tree
