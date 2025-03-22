@@ -20,13 +20,14 @@ class TechTreeState(BaseState):
 
 
     def handle_event(self, event, pos):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            from .game_state import GameState
-            # On passe existing_game=self.game pour réutiliser l’instance
-            new_game_state = GameState(self.state_manager, existing_game=self.game)
-            # Change l'état courant à GameState
-            self.state_manager.set_state(new_game_state)
+        if event.type == pygame.KEYDOWN:
+            
+            if event.key == KEY_BINDINGS["exit_current_menu"]:
+                from .game_state import GameState
+                # On passe existing_game=self.game pour réutiliser l’instance
+                new_game_state = GameState(self.state_manager, existing_game=self.game)
+                # Change l'état courant à GameState
+                self.state_manager.set_state(new_game_state)
 
     def update(self, dt, actions, pos, mouse_clicked):
         

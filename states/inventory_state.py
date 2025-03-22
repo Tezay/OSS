@@ -18,7 +18,7 @@ class InventoryState(BaseState):
     def handle_event(self, event,pos):
         # Gestion des événements ponctuels
         if event.type == pygame.KEYDOWN:
-            if event.key == KEY_BINDINGS["inventory"]:
+            if event.key == KEY_BINDINGS["inventory"] or event.key == KEY_BINDINGS["exit_current_menu"]:
                 from .game_state import GameState
                 # On passe existing_game=self.game pour réutiliser l’instance
                 new_game_state = GameState(self.state_manager, existing_game=self.game)

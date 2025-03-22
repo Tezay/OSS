@@ -30,7 +30,9 @@ class Hud:
         minimap_y = 20
 
         # Redimensionner la vue réduite pour qu'elle corresponde à la taille de la mini-map
-        minimap_surface = pygame.transform.scale(minimap_view, (minimap_width, minimap_height))
+        # Note : usage de la fonction transform.smoothscale() au lieu de transform.scale()
+        # pour appliquer un filtrage bilinéaire plus doux (étoiles de fond trop petites sinon)
+        minimap_surface = pygame.transform.smoothscale(minimap_view, (minimap_width, minimap_height))
 
         # Dessiner la bordure grise autour de la mini-map
         border_rect = pygame.Rect(minimap_x - 2, minimap_y - 2, minimap_width + 4, minimap_height + 4)

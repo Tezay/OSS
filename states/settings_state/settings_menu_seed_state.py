@@ -27,10 +27,10 @@ class MenuSettingsSeedState(BaseState):
         # les coordonées sont sous forme de tupple (indice 0 pour la coordoné en hauteur, et 1 pour la largeur).
         self.input_box = pygame.Rect(coord[6][6][0], coord[6][6][1], 600, 50)                  
     def handle_event(self, event,pos):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            from .settings_menu_state import MenuSettingsState
-            self.state_manager.set_state(MenuSettingsState(self.state_manager))
+        if event.type == pygame.KEYDOWN:
+            if event.key == KEY_BINDINGS["exit_current_menu"]:
+                from .settings_menu_state import MenuSettingsState
+                self.state_manager.set_state(MenuSettingsState(self.state_manager))
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.input_box.collidepoint(pos):
@@ -64,16 +64,12 @@ class MenuSettingsSeedState(BaseState):
         # Récupération des coordonnées de la souris dans un tuple
         mouse_x, mouse_y = pos
 
-
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
             if click_button("return",pos):
                 from .settings_menu_state import MenuSettingsState
                 # Passe l'état courant à menu_state
                 self.state_manager.set_state(MenuSettingsState(self.state_manager))
-            
-
-
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))

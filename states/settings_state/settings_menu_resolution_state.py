@@ -23,11 +23,12 @@ class MenuSettingsResolutionState(BaseState):
         self.state_manager = state_manager
 
     def handle_event(self, event,pos):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            from .settings_menu_state import MenuSettingsState
-            # Passe l'état courant à setting_menu_state
-            self.state_manager.set_state(MenuSettingsState(self.state_manager))
+        if event.type == pygame.KEYDOWN:
+            
+            if event.key == KEY_BINDINGS["exit_current_menu"]:
+                from .settings_menu_state import MenuSettingsState
+                # Passe l'état courant à setting_menu_state
+                self.state_manager.set_state(MenuSettingsState(self.state_manager))
 
     def update(self, dt, actions, pos, mouse_clicked):
         # Définition des variables de taille de l'écran (globales)

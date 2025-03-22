@@ -1,95 +1,95 @@
 import pygame
 pygame.init()
 
-# Dimensions de la fenêtre
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+# ----------------------------- CONFIGURATION GÉNÉRALE -----------------------------
+# Dimensions de la fenêtre 
+WINDOW_WIDTH = 1280  # Largeur de la fenêtre en pixels
+WINDOW_HEIGHT = 720  # Hauteur de la fenêtre en pixels
 
-# Nombre d'images par seconde
-FPS = 60
+# Nombre d'images par seconde 
+FPS = 100  # Framerate cible du jeu
 
-# Paramètre pour le mode debug
-DEBUG_MODE = False
+# Mode debug 
+DEBUG_MODE = False  # Active ou désactive le mode debug
 
-# Vitesse de déplacement de la caméra en mode debug
-CAMERA_SPEED = 50
+# ----------------------------- PARAMÈTRES DU VAISSEAU -----------------------------
+# Rotation et vitesse du vaisseau 
+SPACESHIP_ROTATION_SPEED = 90  # Vitesse de rotation en degrés par seconde
+SPACESHIP_THRUST_FORCE = 800  # Force de poussée en Newton
+SPACESHIP_MAX_SPEED = 100  # Vitesse maximale du vaisseau
+SPACESHIP_MASS = 40  # Masse du vaisseau en unités arbitraires
 
-# Distance de rendu autour du vaisseau (rayon, en pixels)
-RENDER_DISTANCE = WINDOW_WIDTH * 2
-
-# Vaisseau
-SPACESHIP_ROTATION_SPEED = 90 # degré/seconde
-SPACESHIP_THRUST_FORCE = 800 # force en Newton appliquée pendant l'appui
-SPACESHIP_MAX_SPEED = 100
-SPACESHIP_MASS = 40
-# Fichier de texture du vaisseau par défaut
+# Texture par défaut du vaisseau 
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"
 
-########### Configuration de l'écran et de la police ############
-# Font path
-FONT_PATH = "assets/fonts/Retro_Gaming.ttf"
-DEFAULT_FONT_SIZE = 24
+# ----------------------------- PARAMÈTRES DE LA GRAVITÉ -----------------------------
+# Constante gravitationnelle 
+G = 4  # Constante de gravitation utilisée dans les calculs physiques
 
-try:
-    custom_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE)  # Police chargée une seule fois
-except:
-    print(f"Impossible to load {FONT_PATH} font, default font loaded.")
-    custom_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE)
+# ----------------------------- PARAMÈTRES DE L'ATTERRISSAGE -----------------------------
+# Coefficient de rebond lors de l'atterrissage 
+LANDING_DAMPING_FACTOR = 0.2  # Coeff de vitesse transmise au rebond lors de l'atterrissage
 
-# Configuration de l'écran
-screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-##################################################################
+# Vitesse maximale d'atterrissage 
+MAX_LANDING_SPEED = 20  # Vitesse maximale autorisée pour un atterrissage réussi
 
-# Fichier de données locales par défaut
-LOCAL_DATA_PATH = "local_data/"
-TECH_TREE_DEFAULT_DATA_PATH = "data/tech_tree_data.json"
-TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
+# ----------------------------- PARAMÈTRES DE LA MAP -----------------------------
+# Dimensions de la map
+WORLD_WIDTH = 20000  # Largeur de la map en pixels
+WORLD_HEIGHT = 20000  # Hauteur de la map en pixels
 
-# Inventaire par défaut (exemple d'inventaire)
-DEFAULT_INVENTORY = {"items": [{"name": "water", "quantity": 5}]}
+# Seed par défaut pour la génération procédurale 
+DEFAULT_SEED = None  # None pour une seed aléatoire
 
-# Dimensions de la map (grande carte pour l'exploration)
-WORLD_WIDTH = 20000
-WORLD_HEIGHT = 20000
+# Densité des planètes 
+PLANET_DENSITY = 0.0000006  # Nombre de planètes par pixel carré
 
-# Paramètres de seed et de nombre de planètes
-DEFAULT_SEED = None    # Si None, on génère une seed aléatoire.
-custom_seed = None        #Si None, veux dire que l'uttilisateur n'a pas saisie de seed customisé
-NUMBER_OF_PLANETS = 250  # Nombre de planètes à générer par défaut.
+# Distance minimale entre les planètes 
+PLANET_MIN_DISTANCE = 800  # Distance minimale entre les centres de deux planètes
 
-# Densité des planètes (nombre de planètes par pixel carré)
-PLANET_DENSITY = 0.0000006
+# Nombre maximum de tentatives pour placer une planète 
+MAX_GENERATION_ATTEMPTS = 200  # Tentatives avant d'abandonner la génération d'une planète
 
-# Paramètres de distance pour la génération des planètes
-PLANET_MIN_DISTANCE = 800       # Distance minimale entre les centres de deux planètes
-MAX_GENERATION_ATTEMPTS = 200  # Nombre max de tentatives pour placer une planète
+# ----------------------------- PARAMÈTRES DES ÉTOILES -----------------------------
+# Densité des étoiles
+STAR_DENSITY = 0.00005  # Nombre d'étoiles par pixel carré
 
-# Constante de gravitation
-G = 4
+# Tailles possibles des étoiles
+STAR_SIZES = [1, 2, 3, 4, 5]  # Tailles en pixels
 
-# Vitesse maximum d'atterrisage
-MAX_LANDING_SPEED = 20
-
-# Variable booléen respawn : True si le joueur est en train de respawn, False sinon
-respawning = False 
-
-# Planètes
-DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
-JSON_PLANET_DATA_PATH = "data/planets.json"
-
-# Étoiles
-STAR_DENSITY = 0.00005  # Densité des étoiles (nombre d'étoiles par pixel carré)
-STAR_SIZES = [1, 2, 3, 4]  # Tailles possibles des étoiles (en pixels)
+# Couleurs possibles des étoiles
 STAR_COLORS = [
     (255, 255, 255),  # Blanc
     (200, 200, 255),  # Bleu clair
     (255, 200, 200),  # Rose clair
     (255, 255, 200),  # Jaune clair
-]  # Couleurs possibles des étoiles
-BACKGROUND_STAR_TEXTURE_PATH = "assets/background_stars"
+]
 
-import pygame
-# Dictionnaire des bindings (actions -> touches)
+# ----------------------------- PARAMÈTRES DE L'INVENTAIRE -----------------------------
+# Inventaire par défaut
+DEFAULT_INVENTORY = {"items": [{"name": "water", "quantity": 5}]}
+
+
+# ----------------------------- PARAMÈTRES DE L'INTERFACE -----------------------------
+# Police par défaut
+FONT_PATH = "assets/fonts/Retro_Gaming.ttf"  # Chemin vers la police
+DEFAULT_FONT_SIZE = 24  # Taille de la police par défaut
+
+# Taille des boutons
+button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre
+button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fenêtre
+
+
+# ----------------------------- PARAMÈTRES DE RENDU -----------------------------
+# Distance de rendu autour du vaisseau
+RENDER_DISTANCE = WINDOW_WIDTH * 2  # Rayon en pixels
+
+# ----------------------------- PARAMÈTRES DE LA CAMÉRA -----------------------------
+# Vitesse de déplacement de la caméra en mode debug
+CAMERA_SPEED = 50  # Vitesse de déplacement en pixels par frame
+
+# ----------------------------- PARAMÈTRES DES BINDINGS -----------------------------
+# Dictionnaire des bindings
 KEY_BINDINGS = {
     "camera_left": pygame.K_LEFT,
     "camera_right": pygame.K_RIGHT,
@@ -97,31 +97,52 @@ KEY_BINDINGS = {
     "camera_down": pygame.K_DOWN,
     "zoom_in": pygame.K_z,
     "zoom_out": pygame.K_x,
-    "inventory": pygame.K_i,       # Touche pour basculer en pause
-    "game_over": pygame.K_g,  # Game over 
-    "start_game": pygame.K_RETURN, # Touche pour lancer la partie depuis le menu
-    # Touches de tests déplacement vaisseau :
-    "spaceship_move": pygame.K_SPACE, # Touche test pour faire avancer le vaisseau
-    "spaceship_deceleration": pygame.K_RSHIFT, # Touche test pour faire décélérer le vaisseau
-    "spaceship_stop": pygame.K_0, # Touche test pour arrêter le mouvement du vaisseau
+    "inventory": pygame.K_i,
+    "game_over": pygame.K_g,
+    "start_game": pygame.K_RETURN,
+    "spaceship_move": pygame.K_SPACE,
+    "spaceship_deceleration": pygame.K_RSHIFT,
+    "spaceship_stop": pygame.K_0,
     "spaceship_rotate_left": pygame.K_q,
-    "spaceship_rotate_right": pygame.K_d
+    "spaceship_rotate_right": pygame.K_d,
+    "exit_current_menu" : pygame.K_ESCAPE,
 }
 
-# Taille des boutons (globales, afin de pouvoir les éditer dynamiquement pendant l'exécution du jeu)
-global button_size_widht,button_size_height,tech_button_size_widht,tech_button_size_height
-button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre
-button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fenêtre
-tech_button_size_widht = button_size_widht //2  # Largeur du bonton de l'arbre technologique : bouton normal //2
-tech_button_size_height = button_size_height //2  # Hauteur du bouton de l'arbre technologique : bouton normal //2
+
+# ----------------------------- CHEMINS DES FICHIERS -----------------------------
+# Chemins des fichiers de données
+LOCAL_DATA_PATH = "local_data/"
+TECH_TREE_DEFAULT_DATA_PATH = "data/tech_tree_data.json"
+TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
+DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
+JSON_PLANET_DATA_PATH = "data/planets.json"
 
 
+# ----------------------------- VARIABLES INTERNES (NE PAS MODIFIER) -----------------------------
+# Ne surtout pas modifier, variables nécessaires au fonctionnement du jeu
 
-# dictionaire des boutons
-# sous la forme {"nom button":{
-#                             "x":position x,"y":position y,"button_size_widht":taille button,"button_size_height":hauteur button
-#                             "color":couleur,"text": texte dans le button,"file":fichier pour l'image}}
-buttons={
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+
+respawning = False  # Indique si le joueur est en train de respawn
+custom_seed = None  # Stocke la seed personnalisée
+
+tech_button_size_widht = button_size_widht // 2  # Largeur des boutons tech
+tech_button_size_height = button_size_height // 2  # Hauteur des boutons tech
+
+# Chargement de la police (ne pas modifier)
+try:
+    custom_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE)
+except:
+    print(f"Impossible to load {FONT_PATH} font, default font loaded.")
+    custom_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE)
+
+
+# ----------------------------- DÉFINITION DES BOUTONS -----------------------------
+# Dictionaire des boutons du jeu
+# Format type : {"nom button":{
+#                       "x":position x,"y":position y,"button_size_widht":taille button,"button_size_height":hauteur button
+#                       "color":couleur,"text": texte dans le button,"file":fichier pour l'image}}
+buttons = {
     "tech_tree":{
         "x":31,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Abre technologique","file":"assets/button.png"},
@@ -300,6 +321,4 @@ buttons={
     "button_test_click":{
         "x":40,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
         "color":(255,255,255),"text":"Bouton test click","file":"assets/button.png"},
-
-
 }

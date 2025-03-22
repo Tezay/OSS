@@ -13,10 +13,11 @@ class MenuSettingsState(BaseState):
         self.state_manager = state_manager      
 
     def handle_event(self, event,pos):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            from ..menu_state import MenuState
-            self.state_manager.set_state(MenuState(self.state_manager))
+        if event.type == pygame.KEYDOWN:
+
+            if event.key == KEY_BINDINGS["exit_current_menu"]:
+                from ..menu_state import MenuState
+                self.state_manager.set_state(MenuState(self.state_manager))
 
     def update(self, dt, actions, pos, mouse_clicked):
         

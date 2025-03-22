@@ -76,6 +76,11 @@ class GameState(BaseState):
                 from .inventory_state import InventoryState
                 self.state_manager.set_state(InventoryState(self.state_manager, self.game))
 
+            # Vérification de la touche associée au menu de paramètres (si préssée, change l'état courant à game_settings_state)
+            if event.key == KEY_BINDINGS["exit_current_menu"]:
+                from .settings_state.settings_game_state import GameSettingsState
+                self.state_manager.set_state(GameSettingsState(self.state_manager, self.game))
+
             # Ajout du passage à l'état Game Over avec "G"
             if event.key == KEY_BINDINGS["game_over"]:
                 print("Game Over lancé !")

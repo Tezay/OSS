@@ -4,7 +4,7 @@ import pygame
 import os
 
 from json_manager import get_planet_types, get_planet_data
-from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS, DEFAULT_PLANET_TEXTURE_PATH, STAR_DENSITY, BACKGROUND_STAR_TEXTURE_PATH, STAR_COLORS, STAR_SIZES, PLANET_DENSITY
+from config import PLANET_MIN_DISTANCE, MAX_GENERATION_ATTEMPTS, DEFAULT_PLANET_TEXTURE_PATH, STAR_DENSITY, STAR_COLORS, STAR_SIZES, PLANET_DENSITY
 
 # Dictionnaire pour cacher/mettre en mémoire les images
 PLANET_IMAGE_CACHE = {}

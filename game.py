@@ -5,16 +5,11 @@ from config import (
     WORLD_WIDTH,
     WORLD_HEIGHT,
     DEBUG_MODE,
-    DEFAULT_SEED,
-    NUMBER_OF_PLANETS,
-    SPACESHIP_TEXTURE_DEFAULT_PATH,
     DEFAULT_PLANET_TEXTURE_PATH,
     RENDER_DISTANCE,
     G,
-    WINDOW_HEIGHT,
-    WINDOW_WIDTH,
     MAX_LANDING_SPEED,
-    respawning
+    LANDING_DAMPING_FACTOR
 )
 from map_generator import generate_map
 from hud import Hud
@@ -229,8 +224,8 @@ class Game():
                         ny = (y - planet.y) / (dist_centers + 1e-6)
                         x += nx * overlap
                         y += ny * overlap
-                        vx = -vx * 0.5
-                        vy = -vy * 0.5
+                        vx = -vx * LANDING_DAMPING_FACTOR
+                        vy = -vy * LANDING_DAMPING_FACTOR
                     
                     # Sinon le vaisseau a une vitesse d'atterrissage
                     else:
