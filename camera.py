@@ -83,3 +83,27 @@ class Camera:
         Applique le décalage de la vue à un objet.
         """
         return entity.rect.move(-self.view_rect.x, -self.view_rect.y)
+
+    def get_custom_zoom_view(self, world_surface, custom_zoom):
+        """
+        Retourne une vue de la caméra avec un zoom personnalisé.
+        """
+        # Calculer les dimensions de la vue en fonction du zoom personnalisé
+        view_width = int(WINDOW_WIDTH / custom_zoom)
+        view_height = int(WINDOW_HEIGHT / custom_zoom)
+
+        # Calculer les coordonnées de la vue centrée sur la caméra
+        center_x = self.camera_rect.x + self.camera_rect.width // 2
+        center_y = self.camera_rect.y + self.camera_rect.height // 2
+        view_rect = pygame.Rect(
+            center_x - view_width // 2,
+            center_y - view_height // 2,
+            view_width,
+            view_height
+        )
+
+        # Extraire la vue depuis la surface du monde
+        custom_view = pygame.Surface((view_width, view_height))
+        custom_view.blit(world_surface, (0, 0), view_rect)
+
+        return custom_view

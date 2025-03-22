@@ -15,7 +15,7 @@ DEBUG_MODE = False
 CAMERA_SPEED = 50
 
 # Distance de rendu autour du vaisseau (rayon, en pixels)
-RENDER_DISTANCE = WINDOW_WIDTH + 100
+RENDER_DISTANCE = WINDOW_WIDTH * 2
 
 # Vaisseau
 SPACESHIP_ROTATION_SPEED = 90 # degré/seconde

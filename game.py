@@ -368,8 +368,8 @@ class Game():
                 pygame.draw.lines(screen, (255, 255, 255), False, transformed_points, 2)
 
 
-        # Dessin de l'HUD
-        self.hud.draw(screen)
+        # Dessin de l'HUD avec la caméra et la surface du monde
+        self.hud.draw(screen, self.camera, self.world)
 
         # En mode debug, affichage d'infos
         if DEBUG_MODE:
