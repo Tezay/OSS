@@ -60,6 +60,14 @@ class Game():
         if self.spaceship:
             self.spaceship.update_physics(dt)
 
+        # Gestion de la texture du vaisseau en fonction de son état
+        if actions["spaceship_move"]:
+            # Active la texture powered quand la touche est préssée
+            self.spaceship.set_powered_texture(True)
+        else:
+            # Désactiver la texture powered quand la touche est relâchée
+            self.spaceship.set_powered_texture(False)
+
         # Mise à jour de l'HUD
         self.hud.update(self.spaceship.vx, self.spaceship.vy)
       

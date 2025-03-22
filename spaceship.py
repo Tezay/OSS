@@ -15,9 +15,17 @@ class Spaceship:
         :param height: Hauteur du vaisseau
         :param image_path: Chemin vers l'image à utiliser comme texture
         """
-        # Charger l'image d'origine du vaisseau (sans rotation)
-        self.original_image = pygame.image.load(image_path).convert_alpha()
-        self.original_image = pygame.transform.scale(self.original_image, (width, height))
+        # Charger les deux versions de la texture (normale et powered)
+        self.texture_normal = pygame.image.load(image_path).convert_alpha()
+        self.texture_powered = pygame.image.load(image_path.replace(".png", "_powered.png")).convert_alpha()
+        
+        # Redimensionner les deux textures
+        self.texture_normal = pygame.transform.scale(self.texture_normal, (width, height))
+        self.texture_powered = pygame.transform.scale(self.texture_powered, (width, height))
+        
+        # État initial : texture normale
+        self.original_image = self.texture_normal
+        self.is_powered = False
 
         # Angle du vaisseau en degrés : 0 = vaisseau pointe vers le haut
         self.angle = 0.0
@@ -122,6 +130,14 @@ class Spaceship:
         #old_center = self.rect.center
         #self.rect = self.image.get_rect()
         #self.rect.center = old_center
+
+    def set_powered_texture(self, powered):
+        """Change la texture en fonction de l'état des propulseurs"""
+        if self.is_powered != powered:
+            self.is_powered = powered
+            self.original_image = self.texture_powered if powered else self.texture_normal
+            # Met à jour l'image avec la rotation actuelle
+            self.update_image_angle()
 
     def draw(self, surface):
         """

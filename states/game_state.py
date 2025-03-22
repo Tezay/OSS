@@ -55,7 +55,7 @@ class GameState(BaseState):
                 x=WORLD_WIDTH//2,
                 y=WORLD_HEIGHT//2,
                 vx=0, vy=-10, # Vitesse par défaut de 10 pixel vers le haut
-                width=20, height=20,
+                width=23, height=23,
                 image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
                 mass=SPACESHIP_MASS
             )
