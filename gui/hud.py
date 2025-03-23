@@ -8,11 +8,36 @@ from config import *
 # Classe pour gérer l'interface dans le jeu
 class Hud:
     def __init__(self):
+        self.position = (0, 0)
         self.velocity = 0
-        self.font = custom_font
+        self.acceleration = 0
+        self.fx_indicator = 0
+        self.fy_indicator = 0
+        self.resultant_force = 0
+        self.resultant_angle = 0
 
-    def update(self, vx, vy):
+        # Police de caractères pour le texte de l'HUD
+        self.font = custom_font
+        # Chargement de la texture de la flèche directionnelle
+        self.arrow_texture = pygame.image.load(DIRECTIONAL_ARROW_TEXTURE_PATH).convert_alpha()
+        # Hauteur par défaut de la flèche en pixels
+        default_arrow_height = 50
+        # Calcul du ratio de l'aspect de la flèche
+        arrow_aspect_ratio = self.arrow_texture.get_width() / self.arrow_texture.get_height()
+        # Calcul de la largeur de la flèche en fonction de la hauteur et du ratio de l'aspect
+        default_arrow_width = int(default_arrow_height * arrow_aspect_ratio)
+        # Redimensionnement de la flèche
+        self.arrow_texture = pygame.transform.scale(self.arrow_texture, (default_arrow_width, default_arrow_height))
+
+    def update(self, x, y, vx, vy):
+        # Position du vaisseau
+        self.position = (x, y)
+        # Calcul de la vélocité du vaisseau
         self.velocity = math.sqrt(vx**2 + vy**2)
+        # Calcul de la force résultante
+        self.resultant_force = math.sqrt(self.fx_indicator**2 + self.fy_indicator**2)
+        # Calcul de l'angle de la force résultante
+        self.resultant_angle = math.degrees(math.atan2(self.fy_indicator, self.fx_indicator))
 
     def draw_minimap(self, surface, camera, world_surface):
         """
@@ -56,20 +81,20 @@ class Hud:
         # Affiche la grille si DEBUG_MODE = True
         coord = grille(DEBUG_MODE)
 
-        # Test d'affichage de la vélocité du vaisseau
+        # Test d'affichage des infos du vaisseau
+        position_text = f"Position: x: {self.position[0]:.2f}, y: {self.position[1]:.2f}"
         velocity_text = f"Velocity: {self.velocity:.2f}"
-        text = self.font.render(velocity_text, True, (255, 255, 255))
-        surface.blit(text, (20, 20))
+        acceleration_text = f"Acceleration: {self.acceleration:.2f}"
+        forces_text = f"Spaceship resultant force: {self.resultant_force:.2f}"
 
-        #### Partie d'Edouard, structure et commentaires à revoir ####
+        # Affichage des textes à l'écran
+        position_surface = self.font.render(position_text, True, (255, 255, 255))
+        velocity_surface = self.font.render(velocity_text, True, (255, 255, 255))
+        forces_surface = self.font.render(forces_text, True, (255, 255, 255))
 
-        # la variable coord est une matrice contenant toutes les coordonées des carrées de la grille de 60 par 35.
-        # les coordonées sont sous forme de tupple (indice 0 pour la coordoné en hauteur, et 1 pour la largeur).
-        # pour la taille du hud, on prend un carré de la grille ou l'on veux que le hud finisse, et on y soustrait la coordoné de base, de meme pour la hauteur.
-        
-        #parametre de hud_draw:(carré en x, carré en y, carré de fin en x, carré de fin en y)
-
-
+        surface.blit(position_surface, (20, 20))
+        surface.blit(velocity_surface, (20, 50))
+        surface.blit(forces_surface, (20, 80))
 
         
         # Dessin de l'HUD
@@ -79,7 +104,13 @@ class Hud:
         # Dessin de la mini-map
         self.draw_minimap(surface, camera, world_surface)
 
+        # Dessiner la flèche directionnelle de la force résultante
+        arrow_x = 20
+        arrow_y = 110
+        # Rotation de la flèche pour pointer dans la direction de la force résultante (+270 pour l'angle initial de la flèche)
+        rotated_arrow = pygame.transform.rotate(self.arrow_texture, -self.resultant_angle + 270)
+        arrow_rect = rotated_arrow.get_rect(center=(arrow_x + self.arrow_texture.get_width() // 2, arrow_y + self.arrow_texture.get_height() // 2))
+        surface.blit(rotated_arrow, arrow_rect.topleft)
+
         draw_buttons("game_settings")
         draw_buttons("tech_tree")
-
-        #pygame.display.flip()

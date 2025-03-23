@@ -74,6 +74,7 @@ DEFAULT_INVENTORY = {"items": [{"name": "water", "quantity": 5}]}
 # Police par défaut
 FONT_PATH = "assets/fonts/Retro_Gaming.ttf"  # Chemin vers la police
 DEFAULT_FONT_SIZE = 24  # Taille de la police par défaut
+DIRECTIONAL_ARROW_TEXTURE_PATH = "assets/directional_arrow.png"  # Texture de la flèche directionnelle
 
 # Taille des boutons
 button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre

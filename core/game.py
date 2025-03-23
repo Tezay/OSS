@@ -64,7 +64,7 @@ class Game():
             self.spaceship.set_powered_texture(False)
 
         # Mise à jour de l'HUD
-        self.hud.update(self.spaceship.vx, self.spaceship.vy)
+        self.hud.update(self.spaceship.x, self.spaceship.y, self.spaceship.vx, self.spaceship.vy)
       
         return deadly_collision
 
@@ -286,6 +286,9 @@ class Game():
         # Note : Je sais pas pourquoi, mais la trajectoire du vaisseau fonctionne mieux en faisant ça
         fx, fy = self.compute_net_forces(self.spaceship.x, self.spaceship.y, self.spaceship.mass)
         self.spaceship.add_force(fx, fy)
+
+        # Passer les forces à l'HUD pour l'affichage de l'indicateur de force
+        self.hud.fx_indicator, self.hud.fy_indicator = fx, fy
         
         # Mettre à jour la physique du vaisseau
         self.spaceship.update_physics(dt)
