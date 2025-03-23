@@ -70,6 +70,10 @@ def main():
         if state_manager.current_state:
             state_manager.current_state.draw(screen, mouse_pos)
 
+        # Affichage du FPS
+        fps_surface = custom_font.render(f"FPS: {int(clock.get_fps())}", True, (255, 255, 255))
+        screen.blit(fps_surface, (20, -4))
+
         # Refresh de l'affichage pygame
         pygame.display.flip()
 

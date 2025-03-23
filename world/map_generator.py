@@ -111,7 +111,6 @@ def generate_map(seed, world_width, world_height):
 
     # Calcul du nombre de planètes à générer en fonction de PLANET_DENSITY
     number_of_planets = int(world_width * world_height * PLANET_DENSITY)
-    print(number_of_planets)
 
     # Génération des planètes
     planets = []
@@ -127,6 +126,7 @@ def generate_map(seed, world_width, world_height):
         weighted_planet_types.extend([planet_type] * spawn_rate)
 
     # Itération sur chaque planète
+    not_placed_planet = 0
     for _ in range(number_of_planets):
         placed = False
         # Essayer de placer la planète autant de fois que possible
@@ -166,8 +166,11 @@ def generate_map(seed, world_width, world_height):
                 break
         
         if not placed:
-            print("Warning: Impossible to place a supplementary planet.")
+            not_placed_planet += 1
 
+    print(f"Warning: Impossible to place {not_placed_planet} planets.")
+    print(f"Generated {len(planets)} planets.")
+    print(f"Generated {len(background_stars)} background stars.")
     # Retourne les étoiles de fond et les planètes générées (liste d'objets)
     return background_stars, planets
 

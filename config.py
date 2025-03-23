@@ -7,7 +7,7 @@ WINDOW_WIDTH = 1280  # Largeur de la fenêtre en pixels
 WINDOW_HEIGHT = 720  # Hauteur de la fenêtre en pixels
 
 # Nombre d'images par seconde 
-FPS = 60  # Framerate cible du jeu
+FPS = 50  # Framerate cible du jeu
 
 # Mode debug 
 DEBUG_MODE = False  # Active ou désactive le mode debug
@@ -15,7 +15,7 @@ DEBUG_MODE = False  # Active ou désactive le mode debug
 # ----------------------------- PARAMÈTRES DU VAISSEAU -----------------------------
 # Rotation et vitesse du vaisseau 
 SPACESHIP_ROTATION_SPEED = 90  # Vitesse de rotation en degrés par seconde
-SPACESHIP_THRUST_FORCE = 800  # Force de poussée en Newton
+SPACESHIP_THRUST_FORCE = 600  # Force de poussée en Newton
 SPACESHIP_MAX_SPEED = 100  # Vitesse maximale du vaisseau
 SPACESHIP_MASS = 40  # Masse du vaisseau en unités arbitraires
 
@@ -35,8 +35,8 @@ MAX_LANDING_SPEED = 20  # Vitesse maximale autorisée pour un atterrissage réus
 
 # ----------------------------- PARAMÈTRES DE LA MAP -----------------------------
 # Dimensions de la map
-WORLD_WIDTH = 20000  # Largeur de la map en pixels
-WORLD_HEIGHT = 20000  # Hauteur de la map en pixels
+WORLD_WIDTH = 15000  # Largeur de la map en pixels
+WORLD_HEIGHT = 15000  # Hauteur de la map en pixels
 
 # Seed par défaut pour la génération procédurale 
 DEFAULT_SEED = None  # None pour une seed aléatoire

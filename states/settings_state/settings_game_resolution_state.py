@@ -49,7 +49,7 @@ class GameSettingsResolutionState(BaseState):
                 self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))
                 
             if click_button("full_screen",pos):
-                pygame.display.set_mode((MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT), pygame.FULLSCREEN)  # Activer le mode plein écran
+                pygame.display.set_mode((MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.FULLSCREEN)  # Activer le mode plein écran
 
             if click_button("resolution_1280x720",pos):
                 WINDOW_WIDTH = 1280
