@@ -7,7 +7,7 @@ WINDOW_WIDTH = 1280  # Largeur de la fenêtre en pixels
 WINDOW_HEIGHT = 720  # Hauteur de la fenêtre en pixels
 
 # Nombre d'images par seconde 
-FPS = 100  # Framerate cible du jeu
+FPS = 60  # Framerate cible du jeu
 
 # Mode debug 
 DEBUG_MODE = False  # Active ou désactive le mode debug

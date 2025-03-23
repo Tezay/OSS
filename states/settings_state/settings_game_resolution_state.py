@@ -71,7 +71,13 @@ class GameSettingsResolutionState(BaseState):
                 pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 
     def draw(self, screen,pos):
-        screen.fill((0, 0, 0))
+        
+        # Dessiner le jeu "en fond"
+        self.game.draw(screen)
+        # Dessiner l'overlay
+        overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        screen.blit(overlay, (0, 0))
 
         # Dessin des boutons relatifs à l'état settings_menu_resolution_state (avec la méthode .draw() de la classe Button)
         draw_buttons("return")

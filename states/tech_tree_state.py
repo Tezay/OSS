@@ -56,7 +56,15 @@ class TechTreeState(BaseState):
             #############################
 
     def draw(self, screen,pos):
-        screen.fill((0, 0, 0))
+
+        # Dessiner le jeu "en fond"
+        self.game.draw(screen)
+        # Dessiner l'overlay
+        overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        screen.blit(overlay, (0, 0))
+
+
         grille(True)
 
 
