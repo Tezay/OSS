@@ -1,5 +1,7 @@
 import pygame
+
 from config import KEY_BINDINGS
+
 
 def get_actions():
     """

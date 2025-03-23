@@ -1,5 +1,5 @@
 from .base_state import BaseState
-from buttons import *
+from gui.buttons import *
 from .game_state import GameState
 from .settings_state.settings_menu_state import MenuSettingsState
 

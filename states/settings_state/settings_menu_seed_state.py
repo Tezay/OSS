@@ -1,13 +1,12 @@
 import pygame
-from buttons import*
+
+from gui.buttons import *
 from ..base_state import BaseState
-from config import*
+from config import *
 import config
 
 
 coord=grille(False)
-
-
 
 # Classe enfant de BaseState
 # Méthodes utilisées :

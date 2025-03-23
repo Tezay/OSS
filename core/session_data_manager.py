@@ -1,8 +1,10 @@
 import os
 from datetime import datetime
+
 from config import LOCAL_DATA_PATH, TECH_TREE_DEFAULT_DATA_PATH, TECH_TREE_TEMPLATE_PATH
-from tech_tree import TechTree
-from inventory import Inventory
+from systems.tech_tree import TechTree
+from systems.inventory import Inventory
+
 
 class DataManager:
     """

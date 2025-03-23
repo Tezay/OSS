@@ -1,5 +1,6 @@
 import pygame
 import math
+
 from config import SPACESHIP_MAX_SPEED, WORLD_WIDTH, WORLD_HEIGHT
 
 class Spaceship:

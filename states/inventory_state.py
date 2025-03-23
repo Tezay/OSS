@@ -1,5 +1,5 @@
 from .base_state import BaseState
-from buttons import *
+from gui.buttons import *
 from config import custom_font
 
 

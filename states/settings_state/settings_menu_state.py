@@ -1,6 +1,8 @@
 import pygame
-from buttons import*
+
+from gui.buttons import *
 from ..base_state import BaseState
+
 
 # Classe enfant de BaseState
 # Méthodes utilisées :

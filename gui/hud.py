@@ -1,7 +1,8 @@
 import pygame
 import math
-from buttons import *
-from config import*
+
+from gui.buttons import *
+from config import *
 
 
 # Classe pour gérer l'interface dans le jeu

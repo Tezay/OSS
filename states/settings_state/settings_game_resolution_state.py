@@ -1,8 +1,9 @@
 import pygame
-from buttons import*
+
+from gui.buttons import *
 from ..base_state import BaseState
 from config import WINDOW_WIDTH,WINDOW_HEIGHT
-from game import Game
+from core.game import Game
 
 
 

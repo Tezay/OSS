@@ -1,8 +1,8 @@
 import pygame
 import sys
 from config import WINDOW_WIDTH, WINDOW_HEIGHT, FPS
-from states.menu_state import*
-from input_manager import get_actions
+from states.menu_state import *
+from core.input_manager import get_actions
 
 
 # Classe pour gérer les différents état du jeu (les menus)

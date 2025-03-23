@@ -1,4 +1,5 @@
 import json
+
 from config import JSON_PLANET_DATA_PATH
 
 

@@ -1,6 +1,7 @@
 import pygame
 import math
 import os
+
 from config import (
     WORLD_WIDTH,
     WORLD_HEIGHT,
@@ -11,10 +12,9 @@ from config import (
     MAX_LANDING_SPEED,
     LANDING_DAMPING_FACTOR
 )
-from map_generator import generate_map
-from hud import Hud
-from session_data_manager import DataManager
-import config
+from gui.hud import Hud
+from core.session_data_manager import DataManager
+
 
 class Game():
     """

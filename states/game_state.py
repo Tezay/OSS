@@ -1,13 +1,14 @@
 import pygame
 import math
 import random
+
 from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED, SPACESHIP_MASS, respawning
 from .base_state import BaseState
-from buttons import *
-from game import Game
-from map_generator import generate_map
-from spaceship import Spaceship
-from camera import Camera
+from gui.buttons import *
+from core.game import Game
+from world.map_generator import generate_map
+from entities.spaceship import Spaceship
+from world.camera import Camera
 import config
 
 

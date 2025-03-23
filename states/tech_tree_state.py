@@ -1,10 +1,7 @@
 import pygame
-from buttons import*
+
+from gui.buttons import *
 from .base_state import BaseState
-from session_data_manager import DataManager
-from tech_tree import TechTree
-
-
 
 
 # Classe enfant de BaseState

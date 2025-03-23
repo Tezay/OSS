@@ -1,7 +1,8 @@
-from .base_state import BaseState
-from buttons import *
 import pygame
-from spaceship import Spaceship
+
+from .base_state import BaseState
+from gui.buttons import *
+from entities.spaceship import Spaceship
 import config
 
 class GameOverState(BaseState):
