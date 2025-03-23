@@ -18,13 +18,15 @@ class MenuState(BaseState):
         self.info_font = pygame.font.Font(None, 32)
 
     def handle_event(self, event,pos):
-        pass
+
+        if event.type == pygame.KEYDOWN:
+            # Vérification de la touche associée au démarrage du jeu
+            if event.key == KEY_BINDINGS["start_game"]:
+                from .game_state import GameState
+                # Passe l'état courant à game_state
+                self.state_manager.set_state(GameState(self.state_manager))
 
     def update(self, dt, actions, pos, mouse_clicked):
-        # Si l'action "start_game" (définie dans config.py) est True, on passe au GameState
-        """if actions.get("start_game"):
-            from .game_state import GameState
-            self.state_manager.set_state(GameState(self.state_manager)"""
 
         # Récupération des coordonnées de la souris
         mouse_x, mouse_y = pos

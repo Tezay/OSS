@@ -18,6 +18,8 @@ SPACESHIP_ROTATION_SPEED = 90  # Vitesse de rotation en degrés par seconde
 SPACESHIP_THRUST_FORCE = 600  # Force de poussée en Newton
 SPACESHIP_MAX_SPEED = 100  # Vitesse maximale du vaisseau
 SPACESHIP_MASS = 40  # Masse du vaisseau en unités arbitraires
+SPACESHIP_MAX_PROPELLANT = 50  # Quantité maximale de propergol
+SPACESHIP_MAX_NITROGEN = 20  # Quantité maximale de nitrogène
 
 # Texture par défaut du vaisseau 
 SPACESHIP_TEXTURE_DEFAULT_PATH = "assets/spaceships/orange_spaceship.png"

@@ -1,20 +1,20 @@
 import pygame
 import math
 
-from config import SPACESHIP_MAX_SPEED, WORLD_WIDTH, WORLD_HEIGHT
+from config import SPACESHIP_MAX_SPEED, WORLD_WIDTH, WORLD_HEIGHT,SPACESHIP_MAX_PROPELLANT, SPACESHIP_MAX_NITROGEN
 
 class Spaceship:
-    def __init__(self, x, y, vx, vy, width, height, image_path, mass=1.0):
+    def __init__(self, x, y, vx, vy, width, height, image_path, mass=40, max_propellant=SPACESHIP_MAX_PROPELLANT, max_nitrogen=SPACESHIP_MAX_NITROGEN):
         """
         :param x: Position en x du vaisseau (coin supérieur gauche)
         :param y: Position en y du vaisseau (coin supérieur gauche)
         :param vx: Vitesse en x du vaisseau
         :param vy: Vitesse en y du vaisseau
-        :param ax: Accélération en x du vaisseau
-        :param ay: Accélération en y du vaisseau
         :param width: Largeur du vaisseau
         :param height: Hauteur du vaisseau
         :param image_path: Chemin vers l'image à utiliser comme texture
+        :param max_propellant: Quantité maximale de propergol
+        :param max_nitrogen: Quantité maximale de nitrogène
         """
         # Charger les deux versions de la texture (normale et powered)
         self.texture_normal = pygame.image.load(image_path).convert_alpha()
@@ -56,15 +56,44 @@ class Spaceship:
         # Stock la planète sur laquelle le vaisseau est posé
         self.landed_planet = None
 
+        # Gestion des carburants
+        self.max_propellant = max_propellant
+        self.propellant = max_propellant
+        self.max_nitrogen = max_nitrogen
+        self.nitrogen = max_nitrogen
+
     # Méthode pour reset l'emplacement/la vitesse du vaisseau et la remmetre au point de spawn
     def reset(self):
+        """Réinitialise la position, la vitesse et les carburants du vaisseau."""
         self.x = WORLD_WIDTH // 2
         self.y = WORLD_HEIGHT // 2
         self.vx = 0
         self.vy = -10
         self.angle = 0
         self.is_landed = False
+        self.propellant = self.max_propellant
+        self.nitrogen = self.max_nitrogen
 
+    def recharge_fuels(self):
+        """Recharge complètement le propellant et le nitrogen."""
+        self.propellant = self.max_propellant
+        self.nitrogen = self.max_nitrogen
+
+    def consume_propellant(self, amount):
+        """Consomme une certaine quantité de propellant."""
+        if self.propellant > 0:
+            # Consomme la quantité de propergol spécifiée
+            self.propellant -= amount
+            # S'assure que le propergol ne devient pas négatif
+            self.propellant = max(self.propellant, 0)
+
+    def consume_nitrogen(self, amount):
+        """Consomme une certaine quantité de nitrogen."""
+        if self.nitrogen > 0:
+            # Consomme la quantité de nitrogène spécifiée
+            self.nitrogen -= amount
+            # S'assure que le nitrogène ne devient pas négatif
+            self.nitrogen = max(self.nitrogen, 0)
 
     def add_force(self, fx, fy):
         """Ajoute une force (en Newton) au vaisseau."""

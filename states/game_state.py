@@ -126,20 +126,25 @@ class GameState(BaseState):
                 # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
                 self.state_manager.set_state(TechTreeState(self.state_manager,self.game))
 
-        # Rotation gauche
-        if actions["spaceship_rotate_left"]:
-            # Rotation à gauche : applique angle négatif
-            # SPACESHIP_ROTATION_SPEED est en deg/s => multiplier par dt
+        # Rotation gauche (si nitrogène > 0)
+        if actions["spaceship_rotate_left"] and self.game.spaceship.nitrogen > 0:
             self.game.spaceship.rotate(-SPACESHIP_ROTATION_SPEED * dt)
             self.game.spaceship.update_image_angle()
+            # Consomme du nitrogène lors de la rotation
+            self.game.spaceship.consume_nitrogen(0.2 * dt)
 
-        # Rotation droite
-        if actions["spaceship_rotate_right"]:
+        # Rotation droite (si nitrogène > 0)
+        if actions["spaceship_rotate_right"] and self.game.spaceship.nitrogen > 0:
             self.game.spaceship.rotate(SPACESHIP_ROTATION_SPEED * dt)
             self.game.spaceship.update_image_angle()
+            # Consomme du nitrogène lors de la rotation
+            self.game.spaceship.consume_nitrogen(0.2 * dt)
 
-        # Poussée continue si touche préssée
-        if actions["spaceship_move"]:
+        # Poussée continue si touche préssée (si propellant > 0)
+        if actions["spaceship_move"] and self.game.spaceship.propellant > 0:
+
+            # Active la texture powered quand la touche est préssée
+            self.game.spaceship.set_powered_texture(True)
 
             # Conversion de l’angle en radians
             rad = math.radians(self.game.spaceship.angle)
@@ -165,7 +170,14 @@ class GameState(BaseState):
             if not self.engine_sound_playing:
                 self.game.sound_manager.play_sound("engine_powered", "engine_powered.ogg")
                 self.engine_sound_playing = True
+            
+            # Consomme du propergol lors de la poussée
+            self.game.spaceship.consume_propellant(0.5 * dt)
+
         else:
+            # Désactiver la texture powered quand la touche est relâchée
+            self.game.spaceship.set_powered_texture(False)
+
             # Arrêter le son "engine_powered" si la touche n'est plus préssée
             if self.engine_sound_playing:
                 self.game.sound_manager.stop_sound("engine_powered")
