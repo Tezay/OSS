@@ -14,6 +14,7 @@ from config import (
 )
 from gui.hud import Hud
 from core.session_data_manager import DataManager
+from core.sound_manager import SoundManager
 
 
 class Game():
@@ -33,6 +34,7 @@ class Game():
         self.hud = Hud()
         self.camera = None
         self.data_manager = DataManager()
+        self.sound_manager = SoundManager()
 
         # Surface "monde" 
         self.world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
@@ -241,6 +243,12 @@ class Game():
                     ny = (y - planet.y) / (dist_centers + 1e-4)
                     x += nx * overlap
                     y += ny * overlap
+        
+        # Jouer le son "explosion" si deadly_collision est True
+        if deadly_collision:
+            # Arrête le son "engine_powered" et joue le son "explosion"
+            self.sound_manager.stop_sound("engine_powered")
+            self.sound_manager.play_sound("explosion", "explosion.ogg")
 
         return (x, y, vx, vy, landed, landed_planet, deadly_collision)
 

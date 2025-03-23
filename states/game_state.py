@@ -68,6 +68,9 @@ class GameState(BaseState):
                 camera.set_target(spaceship)
             self.game.set_camera(camera)
 
+        # Booléen pour savoir si le son "engine_powered" est en cours de lecture
+        self.engine_sound_playing = False
+
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels
         if event.type == pygame.KEYDOWN:
@@ -157,6 +160,16 @@ class GameState(BaseState):
 
             # Application de la force au vaisseau
             self.game.spaceship.add_force(fx, fy)
+
+            # Jouer le son "engine_powered" si non déjà joué
+            if not self.engine_sound_playing:
+                self.game.sound_manager.play_sound("engine_powered", "engine_powered.ogg")
+                self.engine_sound_playing = True
+        else:
+            # Arrêter le son "engine_powered" si la touche n'est plus préssée
+            if self.engine_sound_playing:
+                self.game.sound_manager.stop_sound("engine_powered")
+                self.engine_sound_playing = False
 
         # Update du game (renvoie un booléen si le vaisseau est détruit)
         dead = self.game.update(dt, actions)
