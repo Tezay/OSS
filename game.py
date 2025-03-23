@@ -353,23 +353,43 @@ class Game():
             current_window_width = pygame.display.get_surface().get_width()
             current_window_height = pygame.display.get_surface().get_height()
 
-            # Tracé de la ligne en tenant compte de la caméra
+            # Transformer tous les points en coordonnées écran
             transformed_points = []
             for (px, py) in trajectory_points:
-                # Convertir les coordonnées en fonction de la caméra
                 dx = px - self.camera.view_rect.x
                 dy = py - self.camera.view_rect.y
-
-                # Appliquer le zoom et ajuster en fonction des dimensions actuelles
                 dx *= (current_window_width / self.camera.view_rect.width)
                 dy *= (current_window_height / self.camera.view_rect.height)
-
                 transformed_points.append((dx, dy))
 
-            # Dessiner une polyline blanche reliant ces points
             if len(transformed_points) > 1:
-                pygame.draw.lines(screen, (255, 255, 255), False, transformed_points, 2)
+                # Paramètres des pointillés
+                segment_length = 5  # Longueur d'un segment
+                gap_length = 5      # Longueur d'un espace
 
+                # Dessiner les segments
+                current_length = 0
+                draw_segment = True  # Commence par dessiner
+                
+                for i in range(len(transformed_points)-1):
+                    start = transformed_points[i]
+                    end = transformed_points[i+1]
+                    
+                    # Calcul de la longueur du segment actuel
+                    dx = end[0] - start[0]
+                    dy = end[1] - start[1]
+                    segment_dist = math.sqrt(dx*dx + dy*dy)
+                    
+                    # Vérification pour éviter division par zéro
+                    if segment_dist > 0:
+                        if draw_segment:
+                            pygame.draw.line(screen, (255, 255, 255), start, end, 2)
+                        
+                        # Mise à jour de la longueur cumulée
+                        current_length += segment_dist
+                        if current_length >= (segment_length if draw_segment else gap_length):
+                            current_length = 0
+                            draw_segment = not draw_segment
 
         # Dessin de l'HUD avec la caméra et la surface du monde
         self.hud.draw(screen, self.camera, self.world)
