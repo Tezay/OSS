@@ -81,7 +81,7 @@ def grille(draw):
     font = pygame.font.Font(None, 24)
     #divise l'ecran en carré (60x36)
     for i in range(0,WINDOW_WIDTH,WINDOW_WIDTH//60):
-        for j in range(0,WINDOW_HEIGHT,WINDOW_HEIGHT//36):
+        for j in range(0,WINDOW_HEIGHT,WINDOW_HEIGHT//35):
             #si le parametre de la fonction est True, on dessine la grille
             if draw==True:
                 pygame.draw.rect(screen,(64,64,64,128),(i,j,WINDOW_WIDTH//30,WINDOW_WIDTH//30),1)
@@ -104,6 +104,14 @@ def grille(draw):
 
 
 
+def custom_size(widht, height):
+    square=grille(False)
+    custom_widht=square[widht][0][1]
+    custom_height=square[0][height][0]
+    return (custom_widht,custom_height)
+
+def normal_size():
+    return custom_size(12,4)
 
 
 def hud_draw(x,y,x_fin,y_fin):
@@ -112,24 +120,33 @@ def hud_draw(x,y,x_fin,y_fin):
     pygame_y=coord_buttons[x][y][0]                 #extraction de la deuxième coordoné (en y) via la grille de coordoné
     pygame_x_end=coord_buttons[x_fin][y][1]-pygame_x    #definition de la taille en x
     pygame_y_end=coord_buttons[x][y_fin][0]-pygame_y    #definition de la taille en y
-    """x=0
-    y=0
-    for i in grille(False):
-        x+=1
-    for j in grille(False)[0]:
-        y+=1
-    print(x,y)"""
     return(pygame_x,pygame_y,pygame_x_end,pygame_y_end)
 
+def draw_size_buttons(name,x,y,size=normal_size()):
+    coord_buttons=grille(False)
+    button=buttons[name]            #extraire le dictionaire associé au bouton voulue
+    x_coord=coord_buttons[x][y][1]    #x sur la grille    
+    y_coord=coord_buttons[x][y][0]    #y sur la grille
+    widht=size[0]              #taillee du bouton
+    height=size[1]         #hauteur du bouton
+    color=button["color"]                           #couleur du texte
+    text=button["text"]                             #texte
+    file=button["file"]                             #image a dessiner
+    if len(button)==8:
+        text_size=button["text_size"]                     #taille du texte
+    else:
+        text_size=24
+    return Button((x_coord,y_coord),widht,height,text,file,color,text_size).draw()
 
 
-def draw_buttons(name):
+
+def draw_buttons(name,size=normal_size()):
     coord_buttons=grille(False)
     button=buttons[name]            #extraire le dictionaire associé au bouton voulue
     x=coord_buttons[button["x"]][button["y"]][1]    #x sur la grille    
     y=coord_buttons[button["x"]][button["y"]][0]    #y sur la grille
-    widht=button["button_size_widht"]               #taillee du bouton
-    height=button["button_size_height"]             #hauteur du bouton
+    widht=size[0]                                   #taillee du bouton
+    height=size[1]                                  #hauteur du bouton
     color=button["color"]                           #couleur du texte
     text=button["text"]                             #texte
     file=button["file"]                             #image a dessiner
@@ -141,25 +158,26 @@ def draw_buttons(name):
     return Button((x,y),widht,height,text,file,color,text_size).draw()
 
 
-def click_button(name,mouse_pos):
+def click_button(name,mouse_pos,size=normal_size()):
+    print("size",size)
     coord_buttons=grille(False)
     button=buttons[name]
     x=coord_buttons[button["x"]][button["y"]][1]
     y=coord_buttons[button["x"]][button["y"]][0]
-    widht=button["button_size_widht"]
-    height=button["button_size_height"]
+    widht=size[0]
+    height=size[1]
     color=button["color"]
     text=button["text"]
     file=button["file"]
     return Button((x,y),widht,height,color,text,file).click(mouse_pos[0],mouse_pos[1])
 
-def colide_button(name,mouse_pos):
+def colide_button(name,mouse_pos,size=normal_size()):
     coord_buttons=grille(False)
     button=buttons[name]
     x=coord_buttons[button["x"]][button["y"]][1]
     y=coord_buttons[button["x"]][button["y"]][0]
-    widht=button["button_size_widht"]
-    height=button["button_size_height"]
+    widht=size[0]
+    height=size[1]
     if x <= mouse_pos[0] <= x + widht and y <= mouse_pos[1] <= y + height:
         return True
     else:

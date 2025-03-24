@@ -78,7 +78,7 @@ class GameSettingsState(BaseState):
         # Dessin des boutons relatifs à l'état setting_game_state (avec la méthode .draw() de la classe Button)
         draw_buttons("resolution_game_screen")
         draw_buttons("return")
-        draw_buttons("quit")
+        draw_size_buttons("quit",6,24)
         draw_buttons("return_menu")
         draw_buttons("debug_add_item")
 

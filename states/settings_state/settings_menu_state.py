@@ -53,3 +53,4 @@ class MenuSettingsState(BaseState):
         draw_buttons("resolution_menu_screen")
         draw_buttons("seed")
 
+

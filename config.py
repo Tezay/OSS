@@ -10,7 +10,7 @@ WINDOW_HEIGHT = 720  # Hauteur de la fenêtre en pixels
 FPS = 50  # Framerate cible du jeu
 
 # Mode debug 
-DEBUG_MODE = False  # Active ou désactive le mode debug
+DEBUG_MODE = True  # Active ou désactive le mode debug
 
 # ----------------------------- PARAMÈTRES DU VAISSEAU -----------------------------
 # Rotation et vitesse du vaisseau 
@@ -79,8 +79,9 @@ DEFAULT_FONT_SIZE = 24  # Taille de la police par défaut
 DIRECTIONAL_ARROW_TEXTURE_PATH = "assets/directional_arrow.png"  # Texture de la flèche directionnelle
 
 # Taille des boutons
-button_size_widht = WINDOW_WIDTH * 0.2  # Largeur : 20% de la largeur de la fenêtre
-button_size_height = WINDOW_HEIGHT * 0.1  # Hauteur : 10% de la hauteur de la fenêtre
+
+button_size_widht = 12  # Largeur : 20% de la largeur de la fenêtre
+button_size_height = 4  # Hauteur : 10% de la hauteur de la fenêtre
 
 
 # ----------------------------- PARAMÈTRES DE RENDU -----------------------------
@@ -147,181 +148,185 @@ except:
 #                       "color":couleur,"text": texte dans le button,"file":fichier pour l'image}}
 buttons = {
     "tech_tree":{
-        "x":31,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":31,"y":30,
         "color":(255,255,255),"text":"Abre technologique","file":"assets/button.png"},
 
     "resolution_menu_screen":{
-        "x":20,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,""
+        "x":20,"y":20,
         "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
 
     "resolution_game_screen":{
-        "x":20,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":20,"y":20,
         "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
 
     "launch":{
-        "x":2,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":6,"y":9,
         "color":(255,255,255),"text":"Lancer le jeu","file":"assets/button.png"},
 
     "menu_settings":{
-        "x":2,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":6,"y":14,
         "color":(255,255,255),"text":"Paramètres","file":"assets/button.png"},
 
     "game_settings":{
-        "x":15,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":15,"y":30,
         "color":(255,255,255),"text":"Paramètres","file":"assets/button.png"},
 
     "quit":{
-        "x":2,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":6,"y":24,
         "color":(255,255,255),"text":"Quitter le jeu","file":"assets/button.png"},
 
     "return":{
-        "x":10,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":6,"y":30,
         "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
 
+    "credits":{
+        "x":6,"y":19,
+        "color":(255,255,255),"text":"Crédits","file":"assets/button.png"},
+
     "full_screen":{
-        "x":25,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":25,"y":10,
         "color":(255,255,255),"text":"Plein écran","file":"assets/button.png"},
 
     "resolution_1280x720":{
-        "x":25,"y":15,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":25,"y":15,
         "color":(255,255,255),"text":"1280x720","file":"assets/button.png"},
 
     "resolution_1920x1080":{
-        "x":25,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":25,"y":20,
         "color":(255,255,255),"text":"1920x1080","file":"assets/button.png"},
 
     "resolution_1920x1200":{
-        "x":25,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":25,"y":25,
         "color":(255,255,255),"text":"1920x1200","file":"assets/button.png"},
 
     "resolution_2560x1080":{
-        "x":25,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":25,"y":30,
         "color":(255,255,255),"text":"2560x1080","file":"assets/button.png"},
 
     "seed":{
-        "x":10,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":10,"y":10,
         "color":(255,255,255),"text":"Seed","file":"assets/button.png"},
 
     "return_menu":{
-        "x":30,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":30,"y":30,
         "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
 
     "respawn":{
-        "x":24,"y":22,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":24,"y":22,
         "color":(255,255,255),"text":"Respawn","file":"assets/button.png"},
 
     # Bouton pour tester l'upgrade de module de tier dans l'arbre technologique
     "test_upgrade_tech_tree_module":{
-        "x":20,"y":30,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":20,"y":30,
         "color":(255,255,255),"text":"Bouton test pour upgrade tier module tech tree","file":"assets/button.png"},
 
     "test_add_item":{
-        "x":30,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":30,"y":20,
         "color":(255,255,255),"text":"Bouton test pour ajouter un item","file":"assets/button.png"},
 
     "test_remove_item":{
-        "x":30,"y":25,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":30,"y":25,
         "color":(255,255,255),"text":"Bouton test pour retirer un item","file":"assets/button.png"},
 
     "debug_add_item":{
-        "x":50,"y":10,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":50,"y":10,
         "color":(255,255,255),"text":"Bouton pour ajouter des items","file":"assets/button.png"},
 
     # Boutons de l'arbre technologique de la branche "moteurs"
 
     "ship_engine_tier_0":{
-        "x":40,"y":20,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":20,
         "color":(255,255,255),"text":"Moteur T0","file":"assets/button.png","text_size":10},
 
     "ship_engine_tier_1":{
-        "x":40,"y":23,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":23,
         "color":(255,255,255),"text":"Moteur T1","file":"assets/button.png","text_size":10},
 
     "ship_engine_tier_2":{
-        "x":40,"y":26,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":26,
         "color":(255,255,255),"text":"Moteur T2","file":"assets/button.png","text_size":10},
 
     "ship_engine_tier_3":{
-        "x":40,"y":29,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":29,
         "color":(255,255,255),"text":"Moteur T3","file":"assets/button.png","text_size":10},
 
     "ship_engine_tier_4":{
-        "x":40,"y":32,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":32,
         "color":(255,255,255),"text":"Moteur T4","file":"assets/button.png","text_size":10},
     
     #boutons de l'arbre technologique de la branche "terraformation"
 
     "terraforming_tier_0":{
-        "x":40,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":3,
         "color":(255,255,255),"text":"Terraformation T0","file":"assets/button.png","text_size":10},
     
     "terraforming_tier_1":{
-        "x":40,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":6,
         "color":(255,255,255),"text":"Terraformation T1","file":"assets/button.png","text_size":10},
 
     "terraforming_tier_2":{
-        "x":40,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":9,
         "color":(255,255,255),"text":"Terraformation T2","file":"assets/button.png","text_size":10},
     
     "terraforming_tier_3":{
-        "x":40,"y":12,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":12,
         "color":(255,255,255),"text":"Terraformation T3","file":"assets/button.png","text_size":10},
     
     "terraforming_tier_4":{
-        "x":40,"y":15,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":40,"y":15,
         "color":(255,255,255),"text":"Terraformation T4","file":"assets/button.png","text_size":10},
 
     # Boutons de l'arbre technologique de la branche "science de l'anti-matière"
 
     "antimatter_science_tier_0":{
-        "x":20,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":20,"y":3,
         "color":(255,255,255),"text":"Science anti-matière T0","file":"assets/button.png","text_size":10},
     
     "antimatter_science_tier_1":{
-        "x":20,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":20,"y":6,
         "color":(255,255,255),"text":"Science anti-matière T1","file":"assets/button.png","text_size":10},
     
     "antimatter_science_tier_2":{
-        "x":20,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":20,"y":9,
         "color":(255,255,255),"text":"Science anti-matière T2","file":"assets/button.png","text_size":10},
     
     "antimatter_science_tier_3":{
-        "x":20,"y":12,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":20,"y":12,
         "color":(255,255,255),"text":"Science anti-matière T3","file":"assets/button.png","text_size":10},
     
     "antimatter_science_tier_4":{
-        "x":20,"y":15,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":20,"y":15,
         "color":(255,255,255),"text":"Science anti-matière T4","file":"assets/button.png","text_size":10},
 
     # Boutons de l'arbre technologique de la branche "radar"
 
     "radar_tier_0":{
-        "x":5,"y":3,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":5,"y":3,
         "color":(255,255,255),"text":"Radar T0","file":"assets/button.png","text_size":10},
     
     "radar_tier_1":{
-        "x":5,"y":6,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":5,"y":6,
         "color":(255,255,255),"text":"Radar T1","file":"assets/button.png","text_size":10},
     
     "radar_tier_2":{
-        "x":5,"y":9,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":5,"y":9,
         "color":(255,255,255),"text":"Radar T2","file":"assets/button.png","text_size":10},
     
     # Boutons de l'arbre technologique de la branche "defenses"
 
     "defenses_T0":{
-        "x":5,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":5,"y":25,
         "color":(255,255,255),"text":"Défenses T0","file":"assets/button.png","text_size":10},
     
     "defenses_T1":{
-        "x":13,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":13,"y":25,
         "color":(255,255,255),"text":"Défenses T1","file":"assets/button.png","text_size":10},
     
     "defenses_T2":{
-        "x":21,"y":25,"button_size_widht":tech_button_size_widht,"button_size_height":tech_button_size_height,
+        "x":21,"y":25,
         "color":(255,255,255),"text":"Défenses T2","file":"assets/button.png","text_size":10},
 
     "button_test_click":{
-        "x":40,"y":20,"button_size_widht":button_size_widht,"button_size_height":button_size_height,
+        "x":40,"y":20,
         "color":(255,255,255),"text":"Bouton test click","file":"assets/button.png"},
 }

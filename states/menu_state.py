@@ -16,6 +16,7 @@ class MenuState(BaseState):
         # Exemple d'éléments à afficher
         self.title_font = pygame.font.Font(None, 60)
         self.info_font = pygame.font.Font(None, 32)
+        self.size=custom_size(16,4)
 
     def handle_event(self, event,pos):
 
@@ -33,22 +34,22 @@ class MenuState(BaseState):
 
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
-            if click_button("launch",pos): 
+            if click_button("launch",pos,self.size): 
                 # Passe l'état courant à game_state
                 self.state_manager.set_state(GameState(self.state_manager))
 
             # Vérification du clique de la souris sur le bouton
-            if click_button("menu_settings",pos):
-                setting_quit = 2
+            if click_button("menu_settings",pos,self.size):
+                print("clique")
                 # Passe l'état courant à menu_settings_state
                 self.state_manager.set_state(MenuSettingsState(self.state_manager))
 
             # Vérification du clique de la souris sur le bouton
-            if click_button("quit",pos):
+            if click_button("quit",pos,self.size):
                 #permet de quitter le programe dans le main via le bouton
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
             
-            if click_button("button_test_click",pos):
+            if click_button("credits",pos,self.size):
                 print()
                 #permet de quitter le programe dans le main
 
@@ -62,7 +63,8 @@ class MenuState(BaseState):
 
         # Dessin des boutons relatifs à l'état menu_state (avec la méthode .draw() de la classe Button)
 
-        draw_buttons("launch")
-        draw_buttons("menu_settings")
-        draw_buttons("quit")
+        draw_size_buttons("launch",6,9,custom_size(16,4))
+        draw_size_buttons("menu_settings",6,14,custom_size(16,4))
+        draw_size_buttons("quit",6,24,custom_size(16,4))
+        draw_size_buttons("credits",6,19,custom_size(16,4))
 
