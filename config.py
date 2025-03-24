@@ -140,6 +140,8 @@ except:
     print(f"Impossible to load {FONT_PATH} font, default font loaded.")
     custom_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE)
 
+# Temps écoulé avant d'être considéré comme AFK
+AFK_TIME = 30 # 120 secondes (2 minutes)
 
 # ----------------------------- DÉFINITION DES BOUTONS -----------------------------
 # Dictionaire des boutons du jeu

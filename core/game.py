@@ -40,6 +40,8 @@ class Game():
         self.world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
         self.world.fill((20, 20, 64))
 
+        self.afk_timer = 0  # Timer anti-AFK
+
     def update(self, dt, actions):
         """
         Met à jour la logique du jeu (caméra, entités, etc.).

@@ -21,6 +21,7 @@ class GameState(BaseState):
     def __init__(self, state_manager, existing_game=None):
         super().__init__()
         self.state_manager = state_manager
+        self.font = pygame.font.Font(None, 60)
 
         # Vérification si un état game déjà crée a été transmis en paramètre
         # Note : Permet d'éviter de regénérer entièrement la map lors de changement d'état
@@ -70,6 +71,11 @@ class GameState(BaseState):
 
         # Booléen pour savoir si le son "engine_powered" est en cours de lecture
         self.engine_sound_playing = False
+
+        # Initialisation du timer afk
+        self.afk_timer = 0
+        self.last_time = pygame.time.get_ticks()  # Initialise une fois
+        self.last_ship_pos = (0, 1000)  # Initialisation de la position initiale du vaisseau
 
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels
@@ -202,9 +208,38 @@ class GameState(BaseState):
             from states.game_over_state import GameOverState
             self.state_manager.set_state(GameOverState(self.state_manager, self.game))
             print("Game Over triggered")
-
         
+        # anti-Afk
+        # Initialisation du timer avec Pygame
+        current_ship_pos = (self.game.spaceship.x, self.game.spaceship.y)
+        current_time = pygame.time.get_ticks()
+        # Vérification si une touche est préssée
+        if ( not (math.isclose(current_ship_pos[0], self.last_ship_pos[0], abs_tol=0.001) and math.isclose(current_ship_pos[1], self.last_ship_pos[1], abs_tol=0.001 ))):
+            self.game.afk_timer = 0
+            self.last_ship_pos = current_ship_pos
+            self.last_time = current_time  # Met à jour le temps actuel
+        else:
+            # Vérifie si une seconde (1000 ms) est passée
+            if current_time - self.last_time >= 1000:
+                self.game.afk_timer += 1
+                self.last_time = current_time  # Met à jour le temps actuel
+
+        # Si le joueur est afk depuis 90 secondes déclenche l'état AFK
+        if self.game.afk_timer > AFK_TIME:
+            from .afk_state import AFKState
+            self.state_manager.set_state(AFKState(self.state_manager, self.game))
+            print("AFK triggered")
+
+        print(f"timer afk : {self.game.afk_timer}")
+        print(f"pos vaisseau : {current_ship_pos}")
+        print(f"pos vaisseau last : {self.last_ship_pos}")
+
     def draw(self, screen, pos):
 
         # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
         self.game.draw(screen)
+
+        # Affichage du message d'alerte pour l'afk
+        if self.game.afk_timer > AFK_TIME-10:
+            warning_text = self.font.render(f"Il vous reste {AFK_TIME - self.game.afk_timer} secondes avant d'être AFK", True, (255, 0, 0))
+            screen.blit(warning_text, (200, 300))
