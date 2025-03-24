@@ -1,0 +1,81 @@
+{
+    "iron_ore": {
+      "name": "Minerai de Fer",
+      "description": "Un métal de base utilisé dans de nombreuses constructions spatiales.",
+      "texture": "assets/textures/items/iron_ore.png",
+      "generation": 5
+    },
+    "azure_crystals": {
+      "name": "Cristaux d'Azur",
+      "description": "Cristaux rares aux propriétés énergétiques instables.",
+      "texture": "assets/textures/items/azure_crystals.png",
+      "generation": 2
+    },
+    "organic_fibers": {
+      "name": "Fibres Organiques",
+      "description": "Matériau souple issu de plantes spatiales, utile pour les modules biologiques.",
+      "texture": "assets/textures/items/organic_fibers.png",
+      "generation": 4
+    },
+    "hydrogen_gas": {
+      "name": "Gaz Hydrogène",
+      "description": "Gaz léger essentiel au carburant des vaisseaux.",
+      "texture": "assets/textures/items/hydrogen_gas.png",
+      "generation": 6
+    },
+    "neutral_gas": {
+      "name": "Gaz Neutre",
+      "description": "Un gaz stable utilisé pour refroidir les moteurs stellaires.",
+      "texture": "assets/textures/items/neutral_gas.png",
+      "generation": 3
+    },
+    "compressed_carbon": {
+      "name": "Carbone Compressé",
+      "description": "Forme solide de carbone, parfait pour les boucliers renforcés.",
+      "texture": "assets/textures/items/compressed_carbon.png",
+      "generation": 4
+    },
+    "raw_silicon": {
+      "name": "Silicium Brute",
+      "description": "Matériau conducteur trouvé dans les astéroïdes de type rocheux.",
+      "texture": "assets/textures/items/raw_silicon.png",
+      "generation": 5
+    },
+    "stellar_dust": {
+      "name": "Poussière Stellaires",
+      "description": "Résidu cosmique contenant des éléments rares.",
+      "texture": "assets/textures/items/stellar_dust.png",
+      "generation": 2
+    },
+    "luminous_lithium": {
+      "name": "Lithium Luminescent",
+      "description": "Source d'énergie brillante pour les batteries de haute capacité.",
+      "texture": "assets/textures/items/luminous_lithium.png",
+      "generation": 3
+    },
+    "volcanic_plasma": {
+      "name": "Plasma Volcanique",
+      "description": "Plasma surchauffé collecté dans les geysers planétaires.",
+      "texture": "assets/textures/items/volcanic_plasma.png",
+      "generation": 1
+    },
+    "frozen_water": {
+      "name": "Eau Gelée",
+      "description": "Glace pure utilisée pour l'hydratation et les systèmes de survie.",
+      "texture": "assets/textures/items/frozen_water.png",
+      "generation": 5
+    },
+    "liquid_water": {
+      "name": "Eau Liquide",
+      "description": "Eau pure et cristalline, idéale pour les systèmes de refroidissement.",
+      "texture": "assets/textures/items/liquid_water.png",
+      "generation": 4
+    },
+    "antimatter": {
+      "name": "Antimatière",
+      "description": "Matériau instable utilisé pour les réacteurs à fusion et les armes avancées.",
+      "texture": "assets/textures/items/antimatter.png",
+      "generation": 1
+    }
+  }
+  

@@ -10,7 +10,7 @@ WINDOW_HEIGHT = 720  # Hauteur de la fenêtre en pixels
 FPS = 50  # Framerate cible du jeu
 
 # Mode debug 
-DEBUG_MODE = True  # Active ou désactive le mode debug
+DEBUG_MODE = False  # Active ou désactive le mode debug
 
 # ----------------------------- PARAMÈTRES DU VAISSEAU -----------------------------
 # Rotation et vitesse du vaisseau 
