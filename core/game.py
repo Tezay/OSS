@@ -241,6 +241,9 @@ class Game():
             # Arrête le son "engine_powered" et joue le son "explosion"
             self.sound_manager.stop_sound("engine_powered")
             self.sound_manager.play_sound("explosion", "explosion.ogg")
+        
+            # Change la texture du vaisseau en exploded
+            self.spaceship.set_exploded_texture(True)
 
         return (x, y, vx, vy, landed, landed_planet, deadly_collision)
 

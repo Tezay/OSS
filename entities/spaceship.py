@@ -16,9 +16,10 @@ class Spaceship:
         :param max_propellant: Quantité maximale de propergol
         :param max_nitrogen: Quantité maximale de nitrogène
         """
-        # Charger les deux versions de la texture (normale et powered)
+        # Charger les versions de la texture (normale, powered et exploded)
         self.texture_normal = pygame.image.load(image_path).convert_alpha()
         self.texture_powered = pygame.image.load(image_path.replace(".png", "_powered.png")).convert_alpha()
+        self.texture_exploded = pygame.image.load("assets/spaceships/spaceship_exploded.png").convert_alpha()
         
         # Redimensionner les deux textures
         self.texture_normal = pygame.transform.scale(self.texture_normal, (width, height))
@@ -65,14 +66,22 @@ class Spaceship:
     # Méthode pour reset l'emplacement/la vitesse du vaisseau et la remmetre au point de spawn
     def reset(self):
         """Réinitialise la position, la vitesse et les carburants du vaisseau."""
+        # Reset de la position
         self.x = WORLD_WIDTH // 2
         self.y = WORLD_HEIGHT // 2
+        # Reset de la vitesse
         self.vx = 0
         self.vy = -10
+        # Reset de l'angle
         self.angle = 0
+        # Reset de l'état d'atterrissage
         self.is_landed = False
+        # Reset des carburants
         self.propellant = self.max_propellant
         self.nitrogen = self.max_nitrogen
+        # Reset de la texture
+        self.original_image = self.texture_normal
+        self.image = self.original_image
 
     def recharge_fuels(self):
         """Recharge complètement le propellant et le nitrogen."""
@@ -168,6 +177,12 @@ class Spaceship:
             self.original_image = self.texture_powered if powered else self.texture_normal
             # Met à jour l'image avec la rotation actuelle
             self.update_image_angle()
+        
+    def set_exploded_texture(self, exploded):
+        """Change la texture en fonction de l'état de l'explosion"""
+        self.original_image = self.texture_exploded if exploded else self.texture_normal
+        self.original_image = pygame.transform.scale(self.original_image, (self.rect.width, self.rect.height))
+        self.image = self.original_image
 
     def draw(self, surface):
         """
