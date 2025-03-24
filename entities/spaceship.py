@@ -63,6 +63,16 @@ class Spaceship:
         self.max_nitrogen = max_nitrogen
         self.nitrogen = max_nitrogen
 
+        # Chargement des textures pour les propulseurs RCS
+        self.rcs_texture_left = pygame.image.load("assets/RCS_propulsion_left.png").convert_alpha()
+        self.rcs_texture_right = pygame.image.load("assets/RCS_propulsion_right.png").convert_alpha()
+        self.rcs_texture_left = pygame.transform.scale(self.rcs_texture_left, (int(width * 1.4), int(height * 1.4)))
+        self.rcs_texture_right = pygame.transform.scale(self.rcs_texture_right, (int(width * 1.4), int(height * 1.4)))
+
+        # Etat des propulseurs RCS
+        self.rcs_active = False
+        self.rcs_direction = None  # "left" ou "right"
+
     # Méthode pour reset l'emplacement/la vitesse du vaisseau et la remmetre au point de spawn
     def reset(self):
         """Réinitialise la position, la vitesse et les carburants du vaisseau."""
@@ -184,8 +194,25 @@ class Spaceship:
         self.original_image = pygame.transform.scale(self.original_image, (self.rect.width, self.rect.height))
         self.image = self.original_image
 
+    def set_rcs_texture_state(self, active, direction=None):
+        """Définir l'état des textures propulseurs RCS."""
+        # Si propulseurs activés, définir la direction
+        self.rcs_active = active
+        # Si propulseurs désactivés, ne pas définir pas de direction
+        self.rcs_direction = direction
+
     def draw(self, surface):
-        """
-        Dessine le vaisseau.
-        """
+        """Dessine le vaisseau sur l'écran."""
+        # Dessin des propulseurs RCS
+        if self.rcs_active:
+            # Sélection de la texture en fonction de la direction
+            rcs_texture = self.rcs_texture_left if self.rcs_direction == "left" else self.rcs_texture_right
+            # Rotation de la texture en fonction de l'angle du vaisseau
+            rcs_image = pygame.transform.rotate(rcs_texture, -self.angle)
+            # Positionnement de la texture (centrée sur le vaisseau)
+            rcs_rect = rcs_image.get_rect(center=self.rect.center)
+            # Dessin de la texture RCS propulsion
+            surface.blit(rcs_image, rcs_rect)
+
+        # Dessin du vaisseau
         surface.blit(self.image, self.rect)
