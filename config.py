@@ -147,18 +147,6 @@ except:
 #                       "x":position x,"y":position y,"button_size_widht":taille button,"button_size_height":hauteur button
 #                       "color":couleur,"text": texte dans le button,"file":fichier pour l'image}}
 buttons = {
-    "tech_tree":{
-        "x":31,"y":30,
-        "color":(255,255,255),"text":"Abre technologique","file":"assets/button.png"},
-
-    "resolution_menu_screen":{
-        "x":20,"y":20,
-        "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
-
-    "resolution_game_screen":{
-        "x":20,"y":20,
-        "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
-
     "launch":{
         "x":6,"y":9,
         "color":(255,255,255),"text":"Lancer le jeu","file":"assets/button.png"},
@@ -172,44 +160,76 @@ buttons = {
         "color":(255,255,255),"text":"Paramètres","file":"assets/button.png"},
 
     "quit":{
-        "x":6,"y":24,
+        "x":15,"y":25,
         "color":(255,255,255),"text":"Quitter le jeu","file":"assets/button.png"},
 
     "return":{
         "x":6,"y":30,
         "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
+    
+    "game_return":{
+        "x":20,"y":8,
+        "color":(255,255,255),"text":"Retour au jeu","file":"assets/button.png"},
+    
+    "menu_settings_return":{
+        "x":20,"y":23,
+        "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
+    
+    "save_and_quit":{
+        "x":20,"y":23,
+        "color":(255,255,255),"text":"Sauvegarder et quitter","file":"assets/button.png"},
 
     "credits":{
         "x":6,"y":19,
         "color":(255,255,255),"text":"Crédits","file":"assets/button.png"},
-
-    "full_screen":{
-        "x":25,"y":10,
-        "color":(255,255,255),"text":"Plein écran","file":"assets/button.png"},
-
-    "resolution_1280x720":{
-        "x":25,"y":15,
-        "color":(255,255,255),"text":"1280x720","file":"assets/button.png"},
-
-    "resolution_1920x1080":{
-        "x":25,"y":20,
-        "color":(255,255,255),"text":"1920x1080","file":"assets/button.png"},
-
-    "resolution_1920x1200":{
-        "x":25,"y":25,
-        "color":(255,255,255),"text":"1920x1200","file":"assets/button.png"},
-
-    "resolution_2560x1080":{
-        "x":25,"y":30,
-        "color":(255,255,255),"text":"2560x1080","file":"assets/button.png"},
+    "sound":{
+        "x":20,"y":13,
+        "color":(255,255,255),"text":"Son","file":"assets/button.png"},
 
     "seed":{
-        "x":10,"y":10,
+        "x":20,"y":18,
         "color":(255,255,255),"text":"Seed","file":"assets/button.png"},
 
     "return_menu":{
-        "x":30,"y":30,
+        "x":20,"y":18,
         "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
+
+    "resolution_return":{
+        "x":20,"y":29,
+        "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
+    
+    "resolution_game_return":{
+        "x":20,"y":29,
+        "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
+
+    "resolution_menu_screen":{
+        "x":20,"y":8,
+        "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
+
+    "resolution_game_screen":{
+        "x":31,"y":13,
+        "color":(255,255,255),"text":"Résolution","file":"assets/button.png"},
+
+    "full_screen":{
+        "x":20,"y":4,
+        "color":(255,255,255),"text":"Plein écran","file":"assets/button.png"},
+
+    "resolution_1280x720":{
+        "x":20,"y":9,
+        "color":(255,255,255),"text":"1280x720","file":"assets/button.png"},
+
+    "resolution_1920x1080":{
+        "x":20,"y":19,
+        "color":(255,255,255),"text":"1920x1080","file":"assets/button.png"},
+
+    "resolution_1920x1200":{
+        "x":20,"y":14,
+        "color":(255,255,255),"text":"1920x1200","file":"assets/button.png"},
+
+    "resolution_2560x1080":{
+        "x":20,"y":24,
+        "color":(255,255,255),"text":"2560x1080","file":"assets/button.png"},
+
 
     "respawn":{
         "x":24,"y":22,
@@ -231,6 +251,12 @@ buttons = {
     "debug_add_item":{
         "x":50,"y":10,
         "color":(255,255,255),"text":"Bouton pour ajouter des items","file":"assets/button.png"},
+
+
+    "tech_tree":{
+        "x":31,"y":30,
+        "color":(255,255,255),"text":"Abre technologique","file":"assets/button.png"},
+
 
     # Boutons de l'arbre technologique de la branche "moteurs"
 

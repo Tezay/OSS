@@ -106,8 +106,15 @@ def grille(draw):
 
 def custom_size(widht, height):
     square=grille(False)
-    custom_widht=square[widht][0][1]
-    custom_height=square[0][height][0]
+    if type(widht)==int and type(height)==int:
+        custom_widht=square[widht][height][1]    #x sur la grille    
+        custom_height=square[widht][height][0]    #y sur la grille
+    elif type(widht)==int and type(height)==float:
+        custom_widht=square[int(widht)][int(height)][1]   #x sur la grille    
+        custom_height=square[int(widht)][int(height)][0]+height%1*square[0][1][0]    #y sur la grille
+    elif type(widht)==float and type(height)==int:
+        custom_widht=square[int(widht)][int(height)][1]+widht%1*square[1][0][1]   #x sur la grille
+        custom_height=square[int(widht)][int(height)][0]    #y sur la grille
     return (custom_widht,custom_height)
 
 def normal_size():
@@ -122,17 +129,27 @@ def hud_draw(x,y,x_fin,y_fin):
     pygame_y_end=coord_buttons[x][y_fin][0]-pygame_y    #definition de la taille en y
     return(pygame_x,pygame_y,pygame_x_end,pygame_y_end)
 
-def draw_size_buttons(name,x,y,size=normal_size()):
+def draw_size_buttons(name,x,y,size=normal_size(),txt=None):
     coord_buttons=grille(False)
     button=buttons[name]            #extraire le dictionaire associé au bouton voulue
-    x_coord=coord_buttons[x][y][1]    #x sur la grille    
-    y_coord=coord_buttons[x][y][0]    #y sur la grille
+    if type(x)==int and type(y)==int:
+        x_coord=coord_buttons[x][y][1]    #x sur la grille    
+        y_coord=coord_buttons[x][y][0]    #y sur la grille
+    elif type(x)==int and type(y)==float:
+        x_coord=coord_buttons[int(x)][int(y)][1]   #x sur la grille    
+        y_coord=coord_buttons[int(x)][int(y)][0]+x%1*coord_buttons[0][1][0]    #y sur la grille
+    elif type(x)==float and type(y)==int:
+        x_coord=coord_buttons[int(x)][int(y)][1]+x%1*coord_buttons[1][0][1]   #x sur la grille
+        y_coord=coord_buttons[int(x)][int(y)][0]    #y sur la grille
     widht=size[0]              #taillee du bouton
     height=size[1]         #hauteur du bouton
     color=button["color"]                           #couleur du texte
-    text=button["text"]                             #texte
+    if txt==None:
+        text=button["text"]                             #texte
+    else:
+        text=txt
     file=button["file"]                             #image a dessiner
-    if len(button)==8:
+    if len(button)==6:
         text_size=button["text_size"]                     #taille du texte
     else:
         text_size=24
@@ -150,7 +167,7 @@ def draw_buttons(name,size=normal_size()):
     color=button["color"]                           #couleur du texte
     text=button["text"]                             #texte
     file=button["file"]                             #image a dessiner
-    if len(button)==8:
+    if len(button)==6:
         text_size=button["text_size"]                     #taille du texte
     else:
         text_size=24
@@ -159,7 +176,6 @@ def draw_buttons(name,size=normal_size()):
 
 
 def click_button(name,mouse_pos,size=normal_size()):
-    print("size",size)
     coord_buttons=grille(False)
     button=buttons[name]
     x=coord_buttons[button["x"]][button["y"]][1]
@@ -183,8 +199,8 @@ def colide_button(name,mouse_pos,size=normal_size()):
     else:
         return False
     
-def colide_draw(name,txt,mouse):
-    if colide_button(name,mouse):
+def colide_draw(name,txt,mouse,size=normal_size()):
+    if colide_button(name,mouse,size):
         return overlay(txt,mouse)
 
 

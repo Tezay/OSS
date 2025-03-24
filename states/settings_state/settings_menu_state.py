@@ -28,18 +28,18 @@ class MenuSettingsState(BaseState):
 
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
-            if click_button("return",pos):
+            if click_button("menu_settings_return",pos,custom_size(30,4)):
                 from states.menu_state import MenuState
                 # Passe l'état courant à menu_state
                 self.state_manager.set_state(MenuState(self.state_manager))
 
             # Vérification du clique de la souris sur le boutons
-            if click_button("resolution_menu_screen",pos):
+            if click_button("resolution_menu_screen",pos,custom_size(30,4)):
                 from .settings_menu_resolution_state import MenuSettingsResolutionState
                 # Passe l'état courant à menu_settings_resulutions_state
                 self.state_manager.set_state(MenuSettingsResolutionState(self.state_manager))
             
-            if click_button("seed",pos):
+            if click_button("seed",pos,custom_size(30,4)):
                 from .settings_menu_seed_state import MenuSettingsSeedState
                 # Passe l'état courant à menu_settings_seed_state
                 self.state_manager.set_state(MenuSettingsSeedState(self.state_manager))
@@ -49,8 +49,10 @@ class MenuSettingsState(BaseState):
         screen.fill((0, 0, 0))
 
         # Dessin des boutons relatifs à l'état settings_menu_state (avec la méthode .draw() de la classe Button)
-        draw_buttons("return")
-        draw_buttons("resolution_menu_screen")
-        draw_buttons("seed")
+        draw_size_buttons("resolution_menu_screen",20,8,custom_size(20,4))
+        draw_size_buttons("sound",20,13,custom_size(20,4))
+        draw_size_buttons("seed",20,18,custom_size(20,4))
+        draw_size_buttons("menu_settings_return",20,23,custom_size(20,4))
+
 
 

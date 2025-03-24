@@ -97,12 +97,17 @@ class TechTreeState(BaseState):
 
         mouse=pygame.mouse.get_pos()
 
+        size=custom_size(10,2)
 
         draw_buttons("return")
         #boutons qui n'existe aps encore dans le json arbre de technologie
-        draw_buttons("defenses_T0")
+        """draw_buttons("defenses_T0")
         draw_buttons("defenses_T1")
-        draw_buttons("defenses_T2")
+        draw_buttons("defenses_T2")"""
+
+        draw_size_buttons("defenses_T0",5,15,size)
+        draw_size_buttons("defenses_T1",5,18,size)
+        draw_size_buttons("defenses_T2",5,21,size)
     
         tech_tree_data_button={}
         #extraire le module
@@ -111,7 +116,7 @@ class TechTreeState(BaseState):
             for tier in tech_tree_data[module]:
                 #txt deviens le nom du bouton a appeler pour dessiner le bouton (Classe Button)
                 txt=module+"_"+tier
-                draw_buttons(txt)
+                draw_size_buttons(txt,buttons[txt]["x"],buttons[txt]["y"],size)
                 tech_tree_data_button[txt]=[]
                 txt_2=""
                 #faire en sorte que les sauts de lignes soit bien pris en conte.
@@ -133,9 +138,8 @@ class TechTreeState(BaseState):
             for tier in tech_tree_data_button[name]:
                 txt+=tier
             #quand la souris touche les boutons, l'overlay aves les info sur la technologie s'affiche
-            if colide_button(name,mouse):
-                colide_draw(name,txt,mouse)
-                #if click_button(name):
+            colide_draw(name,txt,mouse,size)
+            #if click_button(name):
 
 
         ########### TEST ############
