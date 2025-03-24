@@ -128,17 +128,29 @@ class GameState(BaseState):
 
         # Rotation gauche (si nitrogène > 0)
         if actions["spaceship_rotate_left"] and self.game.spaceship.nitrogen > 0:
+            # Rotation du vaisseau (angle en degrés)
             self.game.spaceship.rotate(-SPACESHIP_ROTATION_SPEED * dt)
+            # Mise à jour de l'image du vaisseau
             self.game.spaceship.update_image_angle()
-            # Consomme du nitrogène lors de la rotation
+            # Consommation de nitrogène
             self.game.spaceship.consume_nitrogen(0.2 * dt)
+            # Activation de la texture RCS propulsion gauche
+            self.game.spaceship.set_rcs_texture_state(True, "left")
 
         # Rotation droite (si nitrogène > 0)
-        if actions["spaceship_rotate_right"] and self.game.spaceship.nitrogen > 0:
+        elif actions["spaceship_rotate_right"] and self.game.spaceship.nitrogen > 0:
+            # Rotation du vaisseau (angle en degrés)
             self.game.spaceship.rotate(SPACESHIP_ROTATION_SPEED * dt)
+            # Mise à jour de l'image du vaisseau
             self.game.spaceship.update_image_angle()
-            # Consomme du nitrogène lors de la rotation
+            # Consommation de nitrogène
             self.game.spaceship.consume_nitrogen(0.2 * dt)
+            # Activation de la texture RCS propulsion droite
+            self.game.spaceship.set_rcs_texture_state(True, "right")
+
+        # Désactivation des textures RCS si aucune rotation    
+        else:
+            self.game.spaceship.set_rcs_texture_state(False)
 
         # Poussée continue si touche préssée (si propellant > 0)
         if actions["spaceship_move"] and self.game.spaceship.propellant > 0:
