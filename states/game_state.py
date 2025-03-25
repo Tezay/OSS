@@ -21,7 +21,7 @@ class GameState(BaseState):
     def __init__(self, state_manager, existing_game=None):
         super().__init__()
         self.state_manager = state_manager
-        self.font = pygame.font.Font(None, 60)
+        self.font = custom_font
 
         # Vérification si un état game déjà crée a été transmis en paramètre
         # Note : Permet d'éviter de regénérer entièrement la map lors de changement d'état
@@ -236,8 +236,8 @@ class GameState(BaseState):
                 self.game.afk_timer += 1
                 self.last_time = current_time  # Met à jour le temps actuel
 
-        # Si le joueur est afk depuis 90 secondes déclenche l'état AFK
-        if self.game.afk_timer > AFK_TIME:
+        # Si le joueur est afk depuis 90 secondes déclenche l'état AFK (NE MARCHE PAS )
+        if (self.game.afk_timer > AFK_TIME):
             from .afk_state import AFKState
             self.state_manager.set_state(AFKState(self.state_manager, self.game))
             print("AFK triggered")
@@ -248,7 +248,7 @@ class GameState(BaseState):
         self.game.draw(screen)
 
         # Affichage du message d'alerte pour l'afk
-        if self.game.afk_timer > AFK_TIME-10:
+        if (self.game.afk_timer > AFK_TIME-10):
             self.font = custom_font
             warning_text = self.font.render(f"Il vous reste {AFK_TIME - self.game.afk_timer} secondes avant d'être AFK", True, (255, 0, 0))
             ect = warning_text.get_rect(center=screen.get_rect().center)

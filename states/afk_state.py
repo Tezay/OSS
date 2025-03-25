@@ -1,13 +1,14 @@
 import pygame
 from .base_state import BaseState
-import config
+from config import *
+
 
 class AFKState(BaseState):
     def __init__(self, state_manager, game):
         super().__init__()
         self.state_manager = state_manager
         self.game = game
-        self.font = pygame.font.Font(None, 60)
+        self.font = custom_font
 
     def handle_event(self, event, pos):
         # Si le joueur appuie sur une touche ou clique, il sort de l'AFK
@@ -34,6 +35,6 @@ class AFKState(BaseState):
         screen.blit(text_surf, rect)
 
         # Instruction pour revenir en jeu
-        instruction_surf = self.font.render("Cliquez ou appuyez sur une touche pour continuer", True, (255, 255, 255))
+        instruction_surf = self.font.render("Cliquer ou appuyer sur une touche pour continuer", True, (255, 255, 255))
         instruction_rect = instruction_surf.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
         screen.blit(instruction_surf, instruction_rect)
