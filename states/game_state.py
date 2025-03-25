@@ -242,10 +242,6 @@ class GameState(BaseState):
             self.state_manager.set_state(AFKState(self.state_manager, self.game))
             print("AFK triggered")
 
-        print(f"timer afk : {self.game.afk_timer}")
-        print(f"pos vaisseau : {current_ship_pos}")
-        print(f"pos vaisseau last : {self.last_ship_pos}")
-
     def draw(self, screen, pos):
 
         # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
@@ -253,5 +249,6 @@ class GameState(BaseState):
 
         # Affichage du message d'alerte pour l'afk
         if self.game.afk_timer > AFK_TIME-10:
+            self.font = custom_font
             warning_text = self.font.render(f"Il vous reste {AFK_TIME - self.game.afk_timer} secondes avant d'être AFK", True, (255, 0, 0))
-            screen.blit(warning_text, (200, 300))
+            ect = warning_text.get_rect(center=screen.get_rect().center)
