@@ -2,7 +2,7 @@ from .base_state import BaseState
 from gui.buttons import *
 from .game_state import GameState
 from .settings_state.settings_menu_state import MenuSettingsState
-
+from .credits_state import CreditsState
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -49,10 +49,9 @@ class MenuState(BaseState):
                 #permet de quitter le programe dans le main via le bouton
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
             
+            # Vérification du clique de la souris sur le bouton Credits
             if click_button("credits",pos,self.size):
-                print()
-                #permet de quitter le programe dans le main
-
+                self.state_manager.set_state(CreditsState(self.state_manager))
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))

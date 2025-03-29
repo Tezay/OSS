@@ -184,6 +184,9 @@ buttons = {
     "credits":{
         "x":6,"y":19,
         "color":(255,255,255),"text":"Crédits","file":"assets/button.png"},
+    "git":{
+        "x":20,"y":18,
+        "color":(255,255,255),"text":"Git","file":"assets/button.png"},
     "sound":{
         "x":20,"y":13,
         "color":(255,255,255),"text":"Son","file":"assets/button.png"},
