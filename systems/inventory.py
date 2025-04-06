@@ -92,7 +92,7 @@ class Inventory:
 
     def get_inventory(self):
         """
-        Renvoie l'entièreté de l'inventaire.
+        Renvoie l'entièreté de l'inventaire sous forme de liste.
         """
         return self.data["items"]
 

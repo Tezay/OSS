@@ -69,8 +69,23 @@ STAR_COLORS = [
 
 # ----------------------------- PARAMÈTRES DE L'INVENTAIRE -----------------------------
 # Inventaire par défaut
-DEFAULT_INVENTORY = {"items": [{"name": "water", "quantity": 5}]}
-
+DEFAULT_INVENTORY = {
+    "items": [
+        {"name": "iron_ore", "quantity": 1},
+        {"name": "azure_crystals", "quantity": 1},
+        {"name": "organic_fibers", "quantity": 1},
+        {"name": "hydrogen_gas", "quantity": 1},
+        {"name": "neutral_gas", "quantity": 1},
+        {"name": "compressed_carbon", "quantity": 1},
+        {"name": "raw_silicon", "quantity": 1},
+        {"name": "stellar_dust", "quantity": 1},
+        {"name": "luminous_lithium", "quantity": 1},
+        {"name": "volcanic_plasma", "quantity": 1},
+        {"name": "frozen_water", "quantity": 1},
+        {"name": "liquid_water", "quantity": 1},
+        {"name": "antimatter", "quantity": 1}
+    ]
+}
 
 # ----------------------------- PARAMÈTRES DE L'INTERFACE -----------------------------
 # Police par défaut
@@ -120,6 +135,7 @@ TECH_TREE_DEFAULT_DATA_PATH = "data/tech_tree_data.json"
 TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
+ITEMS_TEXTURE_PATH = "data/items_list.json"
 
 
 # ----------------------------- VARIABLES INTERNES (NE PAS MODIFIER) -----------------------------
