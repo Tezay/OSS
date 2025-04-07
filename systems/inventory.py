@@ -1,6 +1,6 @@
 import json
 import os
-from config import DEFAULT_INVENTORY
+from config import DEFAULT_INVENTORY, ITEMS_LIST_PATH
 
 class Inventory:
     """
@@ -106,3 +106,31 @@ class Inventory:
             if item["name"] == item_name and item["quantity"] >= quantity:
                 return True
         return False
+    
+    def get_items_data(self):
+        """
+        Renvoie un dictionnaire contenant les données des items possédés par le joueur.
+        """
+        # Charge les données complètes des items depuis le fichier ITEMS_LIST_PATH
+        with open(ITEMS_LIST_PATH, 'r') as file:
+            all_items_data = json.load(file)
+
+        # Crée un dictionnaire pour stocker les données des items possédés
+        items_data = {}
+
+        # Parcours les items possédés par le joueur
+        for owned_item in self.data["items"]:
+            item_name = owned_item["name"]
+            quantity = owned_item["quantity"]
+
+            # Récupère les données complètes de l'item depuis le fichier
+            if item_name in all_items_data:
+                item_data = all_items_data[item_name]
+                # Ajoute la quantité possédée à l'item
+                item_data["quantity"] = quantity
+                # Ajoute l'item au dictionnaire des items possédés
+                items_data[item_name] = item_data
+
+        return items_data
+    
+

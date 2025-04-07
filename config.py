@@ -135,7 +135,7 @@ TECH_TREE_DEFAULT_DATA_PATH = "data/tech_tree_data.json"
 TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
-ITEMS_TEXTURE_PATH = "data/items_list.json"
+ITEMS_LIST_PATH = "data/items_list.json"
 
 
 # ----------------------------- VARIABLES INTERNES (NE PAS MODIFIER) -----------------------------

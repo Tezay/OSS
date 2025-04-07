@@ -3,7 +3,7 @@ import json
 import pygame
 from .base_state import BaseState
 from gui.buttons import *
-from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_TEXTURE_PATH
+from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_LIST_PATH
 
 
 # Classe enfant de BaseState
@@ -31,7 +31,7 @@ class InventoryState(BaseState):
         """Charge les images des items depuis items_list.json."""
         item_images = {}
         try:
-            with open(ITEMS_TEXTURE_PATH, 'r', encoding='utf-8') as file:
+            with open(ITEMS_LIST_PATH, 'r', encoding='utf-8') as file:
                 items_data = json.load(file)
                 for item_key, item_info in items_data.items():
                     texture_path = item_info.get("texture")
@@ -40,9 +40,9 @@ class InventoryState(BaseState):
                     else:
                         print(f"Warning: Texture not found for item '{item_key}' at path '{texture_path}'")
         except FileNotFoundError:
-            print(f"Error: {ITEMS_TEXTURE_PATH} not found.")
+            print(f"Error: {ITEMS_LIST_PATH} not found.")
         except json.JSONDecodeError:
-            print(f"Error: Failed to parse {ITEMS_TEXTURE_PATH}.")
+            print(f"Error: Failed to parse {ITEMS_LIST_PATH}.")
         return item_images
 
     def handle_event(self, event, pos):
@@ -61,9 +61,9 @@ class InventoryState(BaseState):
             ########### TEST ############
             # Exemple de bouton pour tester l'ajout/suppression d'un item dans l'inventaire
             if click_button('test_add_item',pos):
-                self.game.data_manager.inventory.add_item("test_item", 2)
+                self.game.data_manager.inventory.add_item("liquid_water", 2)
             if click_button('test_remove_item',pos):
-                self.game.data_manager.inventory.remove_item("test_item", 2)
+                self.game.data_manager.inventory.remove_item("liquid_water", 2)
             #############################
 
     def draw(self, screen, pos):
@@ -73,7 +73,9 @@ class InventoryState(BaseState):
         overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 180))
         screen.blit(overlay, (0, 0))
+        mouse=pygame.mouse.get_pos()
 
+        position_save={}
         # On parcourt chaque item de l'inventaire en utilisant son index
         for index, item in enumerate(self.game.data_manager.inventory.get_inventory()):
             # Calcul de la colonne actuelle dans la grille (modulo du nombre de colonnes)
@@ -87,13 +89,30 @@ class InventoryState(BaseState):
             # Dessine un rectangle représentant une cellule de la grille
             pygame.draw.rect(screen, (50, 50, 50), (x, y, self.cell_size, self.cell_size))
             # Vérifie si l'item a une image associée dans le dictionnaire des images d'items
+            position_save[item["name"]] = (x, y)
+
             if item["name"] in self.item_images:
                 # Si une image est trouvée, elle est dessinée dans la cellule correspondante
                 screen.blit(self.item_images[item["name"]], (x, y))
                 # Dessine la quantité de l'item dans le coin inférieur droit de la cellule
                 quantity_text = self.font.render(str(item["quantity"]), True, (255, 255, 255))
-                screen.blit(quantity_text, (x + self.cell_size - 20, y + self.cell_size - 20))
+                screen.blit(quantity_text, (x + self.cell_size - 20, y + self.cell_size - 20))  
 
+        #print("Position de l'item dans l'inventaire :", position_save)
+        
+        items_list = self.game.data_manager.inventory.get_items_data()
+        for key, item in items_list.items():
+            # Récupération de la position de l'item dans l'inventaire
+            if key in position_save:
+                x = position_save[key][0]
+                y = position_save[key][1]
+                # Dessin de l'item à la position correspondante
+                txt=item["name"]+" \n \n "+item["description"]
+                colide_draw_coord(txt, mouse, x, y,self.cell_size)
+
+
+        #print("Position de l'item dans l'inventaire :", position_save)
+        
         # Dessin du texte
         text_surf = self.font.render("Inventaire - appuyez sur I pour reprendre", True, (255, 255, 255))
         rect = text_surf.get_rect(center=(WINDOW_WIDTH // 2, 50))
@@ -103,5 +122,8 @@ class InventoryState(BaseState):
         draw_buttons("test_add_item")
         draw_buttons("test_remove_item")
         #############################
+
+        
+
 
         screen.blit(text_surf, rect)

@@ -198,7 +198,18 @@ def colide_button(name,mouse_pos,size=normal_size()):
         return True
     else:
         return False
+
+def colide_image(mouse_pos,x,y,cell_size):
+    if x <= mouse_pos[0] <= x + cell_size and y <= mouse_pos[1] <= y + cell_size:
+        return True
+    else:
+        return False
+
     
+def colide_draw_coord(txt,mouse,x,y,cell_size):
+    if colide_image(mouse,x,y,cell_size):
+        return overlay(txt,mouse)
+
 def colide_draw(name,txt,mouse,size=normal_size()):
     if colide_button(name,mouse,size):
         return overlay(txt,mouse)
@@ -244,7 +255,11 @@ def overlay(txt, mouse):
 
     for word in words:
         word_width = font.size(word)[0]
-        if line_width + word_width + space_width > max_text_width:  # Nouvelle ligne nécessaire
+        if word == "\n":  # Saut de ligne explicite
+            lines.append(' '.join(line))
+            line=[]
+            line_width = word_width
+        elif line_width + word_width + space_width > max_text_width or word== "\n":  # Nouvelle ligne nécessaire
             lines.append(' '.join(line))
             line = [word]
             line_width = word_width
