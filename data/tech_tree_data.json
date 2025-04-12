@@ -11,7 +11,7 @@
                     "description":  "Pareil que tier precedent, mais plus rapidement.",
                     "required_resources": [
                         {
-                            "name": "test_item",
+                            "name": "liquid_water",
                             "quantity": 5
                         }
                     ]

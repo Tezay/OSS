@@ -129,7 +129,7 @@ def hud_draw(x,y,x_fin,y_fin):
     pygame_y_end=coord_buttons[x][y_fin][0]-pygame_y    #definition de la taille en y
     return(pygame_x,pygame_y,pygame_x_end,pygame_y_end)
 
-def draw_size_buttons(name,x,y,size=normal_size(),txt=None):
+def draw_size_buttons(name,x,y,size=normal_size(),txt=None,color=(255,255,255)):
     coord_buttons=grille(False)
     button=buttons[name]            #extraire le dictionaire associé au bouton voulue
     if type(x)==int and type(y)==int:
@@ -143,7 +143,6 @@ def draw_size_buttons(name,x,y,size=normal_size(),txt=None):
         y_coord=coord_buttons[int(x)][int(y)][0]    #y sur la grille
     widht=size[0]              #taillee du bouton
     height=size[1]         #hauteur du bouton
-    color=button["color"]                           #couleur du texte
     if txt==None:
         text=button["text"]                             #texte
     else:

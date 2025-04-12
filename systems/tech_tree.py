@@ -18,6 +18,7 @@ class TechTree:
         # Charge les données par défaut de l'arbre tech
         self.default_data = self.get_tech_tree_default_data()
         self._save_to_file()
+        
 
     def get_tech_tree_session(self):
         """
@@ -52,10 +53,13 @@ class TechTree:
             raise ValueError(f"Module '{module_name}' does not exist in the tech tree.")
 
         tiers = self.session_data["tech_tree"][module_name]["tiers"]
+        #print(tiers)
         for tier, properties in tiers.items():
+            #print(f"Checking tier '{tier}' for module '{module_name}': {properties}")
             if not properties["unlocked"]:
                 # Vérifie les ressources nécessaires pour ce tier
                 required_resources = self.default_data["tech_tree"][module_name]["tiers"][tier].get("required_resources", [])
+                #print(f"Required resources for tier '{tier}': {required_resources}")
                 # Retourne True si toutes les ressources nécessaires sont présentes dans l'inventaire
                 if all(inventory.has_item(resource["name"], resource["quantity"]) for resource in required_resources):
                     # Retire les ressources nécessaires de l'inventaire
@@ -73,3 +77,17 @@ class TechTree:
                     return False
         print(f"All tiers for module '{module_name}' are already unlocked.")
         return False
+
+    def possible_upgrade_module(self, module_name,tier, inventory):
+        tiers = self.session_data["tech_tree"][module_name]["tiers"]
+        #print(tiers)
+        for properties in tiers.items():
+            #print(f"Checking tier '{tier}' for module '{module_name}': {properties}")
+            #print("properties",properties)
+            if not properties[1]["unlocked"]:
+                # Vérifie les ressources nécessaires pour ce tier
+                required_resources = self.default_data["tech_tree"][module_name]["tiers"][tier].get("required_resources", [])
+                #print(f"Required resources for tier '{tier}': {required_resources}")
+                # Retourne True si toutes les ressources nécessaires sont présentes dans l'inventaire
+                if all(inventory.has_item(resource["name"], resource["quantity"]) for resource in required_resources):
+                    return True

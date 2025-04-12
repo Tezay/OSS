@@ -2,7 +2,7 @@ import pygame
 
 from gui.buttons import *
 from .base_state import BaseState
-
+import json
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -32,6 +32,7 @@ class TechTreeState(BaseState):
         mouse_x, mouse_y = pos
 
 
+
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
             if click_button("return",pos):
@@ -41,9 +42,32 @@ class TechTreeState(BaseState):
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
             
-            if click_button("ship_engine_tier_1",pos):
-                inventory = self.game.data_manager.inventory
-                self.game.data_manager.tech_tree.upgrade_module("ship_engine",inventory)
+            unlocked_tiers=self.game.data_manager.tech_tree.session_data
+
+            
+
+
+
+            txt=""
+            for module in unlocked_tiers["tech_tree"]:
+                for tier in unlocked_tiers["tech_tree"][module]["tiers"]:
+                    txt=module+"_"+tier
+
+                    if int(tier[5])!=0:
+                        verif_tier=tier[:4]+"_"+str(int(tier[5])-1)
+                    else:
+                        verif_tier=tier
+                    
+
+                    #print("verif_tier",verif_tier)
+                    if click_button(txt,pos):
+                        if unlocked_tiers["tech_tree"][module]["tiers"][tier]["unlocked"]==False and unlocked_tiers["tech_tree"][module]["tiers"][verif_tier]["unlocked"]==True:
+                            inventory = self.game.data_manager.inventory
+                            print("000000000000000000000000000000000",module)
+                            self.game.data_manager.tech_tree.upgrade_module(module,inventory)
+                    txt=""
+
+
             
             ########### TEST ############
             # Exemple de bouton pour tester l'upgrade d'un module du tech tree
@@ -64,8 +88,12 @@ class TechTreeState(BaseState):
 
         grille(True)
 
+        unlocked_tiers=self.game.data_manager.tech_tree.session_data
 
-        unlocked_tiers = self.game.data_manager.tech_tree.get_tech_tree_session()
+        #print(unlocked_tiers)
+
+        #print("unlocked_tiers",unlocked_tiers["tech_tree"]["ship_engine"])
+
         
         data=self.game.data_manager.tech_tree.get_tech_tree_default_data()
         tech_tree_data={}
@@ -108,7 +136,8 @@ class TechTreeState(BaseState):
         draw_size_buttons("defenses_T0",5,15,size)
         draw_size_buttons("defenses_T1",5,18,size)
         draw_size_buttons("defenses_T2",5,21,size)
-    
+
+        
         tech_tree_data_button={}
         #extraire le module
         for module in tech_tree_data:
@@ -116,7 +145,20 @@ class TechTreeState(BaseState):
             for tier in tech_tree_data[module]:
                 #txt deviens le nom du bouton a appeler pour dessiner le bouton (Classe Button)
                 txt=module+"_"+tier
-                draw_size_buttons(txt,buttons[txt]["x"],buttons[txt]["y"],size)
+                if int(tier[5])!=0:
+                    save_tier=tier[:4]+"_"+str(int(tier[5])-1)
+                else:
+                    save_tier=tier
+                #print("save_tier",save_tier)
+                inventory = self.game.data_manager.inventory
+                if unlocked_tiers["tech_tree"][module]["tiers"][tier]["unlocked"]==True:
+                    draw_size_buttons(txt,buttons[txt]["x"],buttons[txt]["y"],size,color=(0,255,0))
+                    #print("moduleeeeeeeeee",module)
+                elif tech_tree_data[module][tier]["unlocked"]==False and tech_tree_data[module][save_tier]["unlocked"]==True and self.game.data_manager.tech_tree.possible_upgrade_module(module,tier,inventory):
+                    draw_size_buttons(txt,buttons[txt]["x"],buttons[txt]["y"],size,color=(255,255,0))
+                    #sinon on dessine le bouton en rouge
+                else:
+                    draw_size_buttons(txt,buttons[txt]["x"],buttons[txt]["y"],size,color=(255,0,0))
                 tech_tree_data_button[txt]=[]
                 txt_2=""
                 #faire en sorte que les sauts de lignes soit bien pris en conte.
@@ -140,6 +182,9 @@ class TechTreeState(BaseState):
             #quand la souris touche les boutons, l'overlay aves les info sur la technologie s'affiche
             colide_draw(name,txt,mouse,size)
             #if click_button(name):
+
+
+
 
 
         ########### TEST ############
