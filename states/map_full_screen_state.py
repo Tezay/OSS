@@ -17,19 +17,19 @@ class MapFullScreen(BaseState):
 
     def handle_event(self, event, pos):
         if event.type == pygame.KEYDOWN:
-            if event.key == KEY_BINDINGS["exit_current_menu"]:#or event.key==KEY_BINDINGS["open_map"]:
+            # Fermer la carte avec la touche "exit_current_menu"
+            if event.key == KEY_BINDINGS["exit_current_menu"]:
                 from .game_state import GameState
                 # On passe existing_game=self.game pour réutiliser l’instance
                 new_game_state = GameState(self.state_manager, existing_game=self.game)
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
-            
-            if event.key==pygame.K_LEFT:
-                #self.camera=self.game._get_camera_view()
-                pass
 
     def update(self, dt, actions, pos, mouse_clicked):
-        pass
+        # Permet le déplacement de la caméra avec les flèches directionnelles,
+        # tout en limitant le déplacement à RENDER_DISTANCE autour du vaisseau
+        spaceship_position = (self.game.spaceship.x, self.game.spaceship.y)
+        self.camera.manual_update(actions, spaceship_position)
     
     def draw(self, screen, pos):
         screen.fill((0, 0, 0))

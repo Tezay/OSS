@@ -1,5 +1,5 @@
 import pygame
-from config import WINDOW_WIDTH, WINDOW_HEIGHT, CAMERA_SPEED, DEBUG_MODE
+from config import WINDOW_WIDTH, WINDOW_HEIGHT, CAMERA_SPEED, DEBUG_MODE, RENDER_DISTANCE
 
 class Camera:
     def __init__(self, world_width, world_height):
@@ -71,6 +71,51 @@ class Camera:
         view_height = WINDOW_HEIGHT / self.zoom
 
         # Détermination de la zone de vue (view_rect)
+        self.view_rect = pygame.Rect(
+            int(center_x - view_width // 2),
+            int(center_y - view_height // 2),
+            int(view_width),
+            int(view_height)
+        )
+
+    def manual_update(self, actions, spaceship_position):
+        """
+        Permet le déplacement manuel de la caméra avec les flèches directionnelles,
+        tout en limitant le déplacement à une certaine distance du vaisseau.
+        """
+        prop_camera_speed = CAMERA_SPEED / self.zoom
+        ship_x, ship_y = spaceship_position
+
+        # Calculer la distance entre la caméra et le vaisseau
+        def within_render_distance(new_x, new_y):
+            dx = new_x - ship_x
+            dy = new_y - ship_y
+            return (dx**2 + dy**2) <= RENDER_DISTANCE**2
+
+        # Tenter de déplacer la caméra et vérifier si elle reste dans la zone autorisée
+        if actions.get("camera_left"):
+            new_x = self.x - prop_camera_speed
+            if within_render_distance(new_x, self.y):
+                self.x = new_x
+        if actions.get("camera_right"):
+            new_x = self.x + prop_camera_speed
+            if within_render_distance(new_x, self.y):
+                self.x = new_x
+        if actions.get("camera_up"):
+            new_y = self.y - prop_camera_speed
+            if within_render_distance(self.x, new_y):
+                self.y = new_y
+        if actions.get("camera_down"):
+            new_y = self.y + prop_camera_speed
+            if within_render_distance(self.x, new_y):
+                self.y = new_y
+
+        # Mettre à jour camera_rect et view_rect après le déplacement manuel
+        self.camera_rect = pygame.Rect(self.x, self.y, WINDOW_WIDTH, WINDOW_HEIGHT)
+        center_x = self.camera_rect.x + WINDOW_WIDTH // 2
+        center_y = self.camera_rect.y + WINDOW_HEIGHT // 2
+        view_width = WINDOW_WIDTH / self.zoom
+        view_height = WINDOW_HEIGHT / self.zoom
         self.view_rect = pygame.Rect(
             int(center_x - view_width // 2),
             int(center_y - view_height // 2),
