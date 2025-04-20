@@ -19,7 +19,7 @@ class CreditsState(BaseState):
         if event.type == pygame.KEYDOWN:
 
             if event.key == KEY_BINDINGS["exit_current_menu"]:
-                from menu_state import MenuState
+                from states.menu_state import MenuState
                 self.state_manager.set_state(MenuState(self.state_manager))
 
     def update(self, dt, actions, pos, mouse_clicked):
