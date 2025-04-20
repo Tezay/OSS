@@ -20,7 +20,10 @@
       "min_radius": 97,
       "max_radius": 127,
       "texture": ["volcanic_01", "volcanic_02", "volcanic_03", "volcanic_04"],
-      "available_ressources": ["volcanic_plasma", "compressed_carbon"]
+      "available_ressources": [
+        { "name": "volcanic_plasma", "spawn_rate": 3 },
+        { "name": "compressed_carbon", "spawn_rate": 4 }
+      ]
     },
     {
       "planet_type": "ice",
@@ -31,7 +34,9 @@
       "min_radius": 75,
       "max_radius": 105,
       "texture": ["ice_01", "ice_02", "ice_03", "ice_04", "ice_05", "ice_06"],
-      "available_ressources": ["frozen_water"]
+      "available_ressources": [
+        { "name": "frozen_water", "spawn_rate": 5 }
+      ]
     },
     {
       "planet_type": "oceanic",
@@ -42,7 +47,9 @@
       "min_radius": 90,
       "max_radius": 120,
       "texture": ["oceanic_01", "oceanic_02", "oceanic_03", "oceanic_04", "oceanic_05", "oceanic_06", "oceanic_07"],
-      "available_ressources": ["liquid_water"]
+      "available_ressources": [
+        { "name": "liquid_water", "spawn_rate": 3 }
+      ]
     },
     {
       "planet_type": "dust",
@@ -53,7 +60,9 @@
       "min_radius": 75,
       "max_radius": 105,
       "texture": ["dust_01", "dust_02", "dust_03", "dust_04", "dust_05", "dust_06"],
-      "available_ressources": ["stellar_dust"]
+      "available_ressources": [
+        { "name": "stellar_dust", "spawn_rate": 10 }
+      ]
     },
     {
       "planet_type": "bioluminescent",
@@ -64,7 +73,9 @@
       "min_radius": 75,
       "max_radius": 105,
       "texture": ["default"],
-      "available_ressources": ["luminous_lithium"]
+      "available_ressources": [
+        { "name": "luminous_lithium", "spawn_rate": 2 }
+      ]
     },
     {
       "planet_type": "alien",
@@ -75,7 +86,10 @@
       "min_radius": 90,
       "max_radius": 120,
       "texture": ["default"],
-      "available_ressources": ["antimatter", "organic_fibers"]
+      "available_ressources": [
+        { "name": "antimatter", "spawn_rate": 1 },
+        { "name": "organic_fibers", "spawn_rate": 5 }
+      ]
     },
     {
       "planet_type": "gaseous_orange",
@@ -86,7 +100,9 @@
       "min_radius": 225,
       "max_radius": 300,
       "texture": ["gaseous_orange_01", "gaseous_orange_02", "gaseous_orange_03", "gaseous_orange_04"],
-      "available_ressources": ["hydrogen_gas"]
+      "available_ressources": [
+        { "name": "hydrogen_gas", "spawn_rate": 8 }
+      ]
     },
     {
       "planet_type": "gaseous_blue",
@@ -97,7 +113,9 @@
       "min_radius": 225,
       "max_radius": 300,
       "texture": ["default"],
-      "available_ressources": ["neutral_gas"]
+      "available_ressources": [
+        { "name": "neutral_gas", "spawn_rate": 6 }
+      ]
     },
     {
       "planet_type": "gaseous_green",
@@ -108,7 +126,10 @@
       "min_radius": 210,
       "max_radius": 285,
       "texture": ["gaseous_green_01", "gaseous_green_02", "gaseous_green_03", "gaseous_green_04", "gaseous_green_05", "gaseous_green_06", "gaseous_green_07"],
-      "available_ressources": ["hydrogen_gas", "neutral_gas"]
+      "available_ressources": [
+        { "name": "hydrogen_gas", "spawn_rate": 8 },
+        { "name": "neutral_gas", "spawn_rate": 6 }
+      ]
     },
     {
       "planet_type": "silicon",
@@ -119,7 +140,9 @@
       "min_radius": 90,
       "max_radius": 120,
       "texture": ["default"],
-      "available_ressources": ["raw_silicon"]
+      "available_ressources": [
+        { "name": "raw_silicon", "spawn_rate": 7 }
+      ]
     },
     {
       "planet_type": "habitable",
@@ -130,7 +153,13 @@
       "min_radius": 90,
       "max_radius": 120,
       "texture": ["habitable_01", "habitable_02", "habitable_03", "habitable_04", "habitable_05"],
-      "available_ressources": ["organic_fibers","compressed_carbon", "raw_silicon", "iron_ore", "liquid_water"]
+      "available_ressources": [
+        { "name": "organic_fibers", "spawn_rate": 5 },
+        { "name": "compressed_carbon", "spawn_rate": 4 },
+        { "name": "raw_silicon", "spawn_rate": 7 },
+        { "name": "iron_ore", "spawn_rate": 6 },
+        { "name": "liquid_water", "spawn_rate": 3 }
+      ]
     },
     {
       "planet_type": "mineral",
@@ -141,7 +170,11 @@
       "min_radius": 90,
       "max_radius": 120,
       "texture": ["default"],
-      "available_ressources": ["raw_silicon", "compressed_carbon", "iron_ore"]
+      "available_ressources": [
+        { "name": "raw_silicon", "spawn_rate": 7 },
+        { "name": "compressed_carbon", "spawn_rate": 4 },
+        { "name": "iron_ore", "spawn_rate": 6 }
+      ]
     }
   ]
 }
