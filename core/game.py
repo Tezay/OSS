@@ -50,6 +50,7 @@ class Game():
         """
         # Mise à jour de la caméra (en mode debug, on bouge avec les touches)
         self.camera.update(actions)
+        #print("ppppppppppppppppppp",self.camera)
 
         # Appliquer la gravité des planètes + collisions 
         # Renvoie un booléen pour savoir si le vaisseau est rentré en collision avec la planète

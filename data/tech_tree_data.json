@@ -18,7 +18,11 @@
                 },
                 "tier_2": {
                     "description": "Permet d'installer une colonie sur des planetes, permet de recuperer des ressources plus rapidement (regeneration des ressources plus rapide).",
-                    "required_resources": []
+                    "required_resources": [
+                        {
+                        "name": "liquid_water",
+                        "quantity": 15
+                    }]
                 },
                 "tier_3": {
                     "description":  "Permet de recuperer directement les ressources a la base centrale (plus necessaire de se rendre sur la planete).",

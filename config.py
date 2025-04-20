@@ -101,7 +101,11 @@ button_size_height = 4  # Hauteur : 10% de la hauteur de la fenêtre
 
 # ----------------------------- PARAMÈTRES DE RENDU -----------------------------
 # Distance de rendu autour du vaisseau
-RENDER_DISTANCE = WINDOW_WIDTH * 2  # Rayon en pixels
+if DEBUG_MODE==True:
+    RENDER_DISTANCE = WINDOW_WIDTH * 10  # Rayon en pixels
+else:
+        RENDER_DISTANCE = WINDOW_WIDTH * 2  # Rayon en pixels
+
 
 # ----------------------------- PARAMÈTRES DE LA CAMÉRA -----------------------------
 # Vitesse de déplacement de la caméra en mode debug
@@ -125,6 +129,7 @@ KEY_BINDINGS = {
     "spaceship_rotate_left": pygame.K_q,
     "spaceship_rotate_right": pygame.K_d,
     "exit_current_menu" : pygame.K_ESCAPE,
+    "open_map" : pygame.K_m,
 }
 
 
@@ -136,6 +141,7 @@ TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
 ITEMS_LIST_PATH = "data/items_list.json"
+HUD_TEXTURE_PATH = "assets/hud/"
 
 
 # ----------------------------- VARIABLES INTERNES (NE PAS MODIFIER) -----------------------------
@@ -174,8 +180,8 @@ buttons = {
         "color":(255,255,255),"text":"Paramètres","file":"assets/button.png"},
 
     "game_settings":{
-        "x":15,"y":30,
-        "color":(255,255,255),"text":"Paramètres","file":"assets/button.png"},
+        "x":47,"y":33,
+        "color":(255,255,255),"text":"","file":"assets\hud\settings.png"},
 
     "quit":{
         "x":15,"y":25,
@@ -256,6 +262,10 @@ buttons = {
         "x":24,"y":22,
         "color":(255,255,255),"text":"Respawn","file":"assets/button.png"},
 
+    "default_planet":{
+        "x":24,"y":22,
+        "color":(255,255,255),"text":"Respawn","file":"assets/planet/default.png"},
+
     # Bouton pour tester l'upgrade de module de tier dans l'arbre technologique
     "test_upgrade_tech_tree_module":{
         "x":20,"y":30,
@@ -275,8 +285,12 @@ buttons = {
 
 
     "tech_tree":{
-        "x":31,"y":30,
-        "color":(255,255,255),"text":"Abre technologique","file":"assets/button.png"},
+        "x":11,"y":33,
+        "color":(255,255,255),"text":"","file":'assets\hud/tech_tree.png'},
+
+    "inventory":{
+        "x":11,"y":31,
+        "color":(255,255,255),"text":"","file":'assets\hud/inventory.png'},
 
 
     # Boutons de l'arbre technologique de la branche "moteurs"

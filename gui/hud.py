@@ -89,27 +89,33 @@ class Hud:
         position_text = f"Position: x: {self.position[0]:.2f}, y: {self.position[1]:.2f}"
         velocity_text = f"Velocity: {self.velocity:.2f}"
         forces_text = f"Spaceship resultant force: {self.resultant_force:.2f}"
-        left_propellant_text = f"Propellant: {self.left_propellant:.2f}"
         left_nitrogen_text = f"Nitrogen: {self.left_nitrogen:.2f}"
+        left_propellant_text = f"Propellant: {self.left_propellant:.2f}"
 
         # Création des surfaces de texte
         position_surface = self.font.render(position_text, True, (255, 255, 255))
         velocity_surface = self.font.render(velocity_text, True, (255, 255, 255))
         forces_surface = self.font.render(forces_text, True, (255, 255, 255))
-        left_propellant_surface = self.font.render(left_propellant_text, True, (255, 255, 255))
         left_nitrogen_surface = self.font.render(left_nitrogen_text, True, (255, 255, 255))
+        left_propellant_surface = self.font.render(left_propellant_text, True, (255, 255, 255))
 
         # Affichage des textes à l'écran
         surface.blit(position_surface, (20, 20))
         surface.blit(velocity_surface, (20, 50))
         surface.blit(forces_surface, (20, 80))
-        surface.blit(left_propellant_surface, (20, 110))
-        surface.blit(left_nitrogen_surface, (20, 140))
+        surface.blit(left_nitrogen_surface, (20, 110))
+        surface.blit(left_propellant_surface, (20, 140))
 
         
         # Dessin de l'HUD
         coord_hud=hud_draw(10,30,50,35)
-        pygame.draw.rect(screen,(255,0,0),coord_hud)
+        #print(coord_hud)
+        image = pygame.image.load('assets/hud/main_hud.png')  # Remplacez par le chemin de votre image
+
+        lenght, height = coord_hud[2], coord_hud[3]  # Définissez la nouvelle taille souhaitée
+        image = pygame.transform.scale(image, (lenght, height))
+
+        screen.blit(image, coord_hud)  # Dessin de l'image à la position spécifiée
 
         # Dessin de la mini-map
         self.draw_minimap(surface, camera, world_surface)
@@ -122,5 +128,13 @@ class Hud:
         arrow_rect = rotated_arrow.get_rect(center=(arrow_x + self.arrow_texture.get_width() // 2, arrow_y + self.arrow_texture.get_height() // 2))
         surface.blit(rotated_arrow, arrow_rect.topleft)
 
-        draw_buttons("game_settings")
-        draw_buttons("tech_tree")
+        draw_buttons("game_settings",(30,30))
+        draw_buttons("tech_tree",(30,30))
+        draw_buttons("inventory",(30,30))
+
+
+
+
+
+
+

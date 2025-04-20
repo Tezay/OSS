@@ -2,7 +2,7 @@ import pygame
 import math
 import random
 
-from config import KEY_BINDINGS, SPACESHIP_ROTATION_SPEED, SPACESHIP_MASS, respawning
+from config import *
 from .base_state import BaseState
 from gui.buttons import *
 from core.game import Game
@@ -117,20 +117,30 @@ class GameState(BaseState):
 
         # Récupération des coordonnées de la souris dans un tuple
         mouse_x, mouse_y = pos
+
+        if actions["open_map"]:
+            from states.map_full_screen_state import MapFullScreen
+            # Passe l'état courant à game_settings_state
+            self.state_manager.set_state(MapFullScreen(self.state_manager,self.game))  # changer le state
+
         
         if mouse_clicked:
             # Vérification du clique de la souris sur le bouton
-            if click_button('game_settings',pos):
+            if click_button('game_settings',pos,(20,20)):
                 from .settings_state.settings_game_state import GameSettingsState
                 # Passe l'état courant à game_settings_state
                 self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))  # changer le state
 
             # Vérification du clique de la souris sur le bouton
-            if click_button("tech_tree",pos):
+            if click_button("tech_tree",pos,(20,20)):
                 from .tech_tree_state import TechTreeState
                 # Définie l'état courant à TechTreeState
                 # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
                 self.state_manager.set_state(TechTreeState(self.state_manager,self.game))
+            if click_button("inventory",pos,(20,20)):
+                from .inventory_state import InventoryState
+                # Passe l'état courant à inventory_state
+                self.state_manager.set_state(InventoryState(self.state_manager,self.game))
 
         # Rotation gauche (si nitrogène > 0)
         if actions["spaceship_rotate_left"] and self.game.spaceship.nitrogen > 0:
@@ -247,8 +257,71 @@ class GameState(BaseState):
         # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
         self.game.draw(screen)
 
+        nitrogen=self.game.spaceship.nitrogen
+        propellant=self.game.spaceship.propellant
+
+        #print(propellant,nitrogen)
+
+        if propellant==SPACESHIP_MAX_PROPELLANT:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant\propellant_max.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*90:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_9.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*80:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_8.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*70:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_7.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*60:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_6.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*50:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_5.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*40:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_4.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*30:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_3.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*20:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_2.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*10:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_1.png").convert_alpha()
+        else:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_0.png").convert_alpha()
+
+        coord_hud=hud_draw(38,31,50,35)
+        screen.blit(propellant_image, coord_hud)
+
+        
+        if nitrogen==SPACESHIP_MAX_NITROGEN:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_max.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*90:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_9.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*80:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_8.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*70:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_7.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*60:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_6.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*50:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_5.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*40:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_4.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*30:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_3.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*20:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_2.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*10:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_1.png").convert_alpha()
+        else:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_0.png").convert_alpha()
+
+        coord_hud=hud_draw(38,33,50,35)
+        screen.blit(nitrogen_image, coord_hud)
+
         # Affichage du message d'alerte pour l'afk
         if (self.game.afk_timer > AFK_TIME-10):
             self.font = custom_font
             warning_text = self.font.render(f"Il vous reste {AFK_TIME - self.game.afk_timer} secondes avant d'être AFK", True, (255, 0, 0))
             ect = warning_text.get_rect(center=screen.get_rect().center)
+        
+        """if self.game.spaceship.landed_planet!=None:
+            radius=self.game.spaceship.landed_planet.
+            draw_buttons("default_planet")
+            if colide_circle_button()"""

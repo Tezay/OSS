@@ -27,11 +27,22 @@ class Button():
         # Vérifier si la souris est sur l'image
         if texture.get_rect(topleft=(self.x, self.y)).collidepoint(pygame.mouse.get_pos()):
             # Charger la texture avec des contours blancs
-            texture = pygame.transform.scale(pygame.image.load("assets/button_highlighted.png"), (self.width, self.height))
+            if self.file=="assets/button.png":
+                texture = pygame.transform.scale(pygame.image.load("assets/button_highlighted.png"), (self.width, self.height))
+                screen.blit(texture, (self.x, self.y))
+            elif self.file=="assets\hud\settings.png":
+                texture = pygame.transform.scale(pygame.image.load("assets\hud\settings.png"), (self.width+4, self.height+4))
+                screen.blit(texture, (self.x-2, self.y-2))
+            elif self.file=="assets\hud/tech_tree.png":
+                texture = pygame.transform.scale(pygame.image.load("assets\hud/tech_tree_hoover.png"), (self.width+4, self.height+4))
+                screen.blit(texture, (self.x-2, self.y-2))
+            elif self.file=="assets\hud/inventory.png":
+                texture = pygame.transform.scale(pygame.image.load("assets\hud/inventory_hoover.png"), (self.width, self.height))
+                screen.blit(texture, (self.x, self.y))
+        else:
+            screen.blit(texture, (self.x, self.y))
 
-
-        # Blitter la texture sur l'écran
-        screen.blit(texture, (self.x, self.y))
+        
 
         # Rendu du texte avec la police custom
         text_surface = self.font.render(self.text, True, self.text_color)
@@ -197,6 +208,20 @@ def colide_button(name,mouse_pos,size=normal_size()):
         return True
     else:
         return False
+    
+#circle_click(self,button_center,button_radius,mouse_x,mouse_y)    
+def colide_circle_button(radius,mouse_pos,coord):
+    distance = math.sqrt((mouse_pos[0] - coord[0]) ** 2 + (mouse_pos[1] - coord[1]) ** 2)
+    # Vérification si la souris est dans le cercle
+    if distance <= radius:
+        print("Bouton circulaire cliqué")
+        return True
+    else:
+        return False
+    """if x <= mouse_pos[0] <= x + widht and y <= mouse_pos[1] <= y + height:
+        return True
+    else:
+        return False"""
 
 def colide_image(mouse_pos,x,y,cell_size):
     if x <= mouse_pos[0] <= x + cell_size and y <= mouse_pos[1] <= y + cell_size:

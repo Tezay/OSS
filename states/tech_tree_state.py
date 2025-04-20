@@ -42,29 +42,33 @@ class TechTreeState(BaseState):
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
             
+        
+                        
+
+
             unlocked_tiers=self.game.data_manager.tech_tree.session_data
+            #print("unlocked_tiers",unlocked_tiers["tech_tree"])
 
             
-
-
-
-            txt=""
             for module in unlocked_tiers["tech_tree"]:
+                #print("module",module)
                 for tier in unlocked_tiers["tech_tree"][module]["tiers"]:
+                    #print("tier",tier)
                     txt=module+"_"+tier
-
-                    if int(tier[5])!=0:
-                        verif_tier=tier[:4]+"_"+str(int(tier[5])-1)
-                    else:
-                        verif_tier=tier
-                    
-
-                    #print("verif_tier",verif_tier)
                     if click_button(txt,pos):
-                        if unlocked_tiers["tech_tree"][module]["tiers"][tier]["unlocked"]==False and unlocked_tiers["tech_tree"][module]["tiers"][verif_tier]["unlocked"]==True:
-                            inventory = self.game.data_manager.inventory
-                            print("000000000000000000000000000000000",module)
-                            self.game.data_manager.tech_tree.upgrade_module(module,inventory)
+                        if int(tier[5])!=0:
+                            verif_tier=tier[:4]+"_"+str(int(tier[5])-1)
+                        else:
+                            verif_tier=tier
+
+                        print("click",txt)
+                        print("avant",verif_tier)
+                        #print("verif_tier",verif_tier)
+                        #print("verif_tier[5]",verif_tier[5])
+                        if int(verif_tier[5])==int(tier[5])-1:
+                            if unlocked_tiers["tech_tree"][module]["tiers"][tier]["unlocked"]==False and unlocked_tiers["tech_tree"][module]["tiers"][verif_tier]["unlocked"]==True:
+                                inventory = self.game.data_manager.inventory
+                                self.game.data_manager.tech_tree.upgrade_module(module,inventory)
                     txt=""
 
 
