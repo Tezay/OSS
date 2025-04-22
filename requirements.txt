@@ -1,6 +1,1 @@
-pygame
-random
-math
-os
-json
-datetime
+pygame==2.6.1
