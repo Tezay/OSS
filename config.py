@@ -163,7 +163,7 @@ except:
     custom_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE)
 
 # Temps écoulé avant d'être considéré comme AFK
-AFK_TIME = 30 # 120 secondes (2 minutes)
+AFK_TIME = 3000 # 120 secondes (2 minutes)
 
 # ----------------------------- DÉFINITION DES BOUTONS -----------------------------
 # Dictionaire des boutons du jeu
@@ -390,4 +390,9 @@ buttons = {
     "button_test_click":{
         "x":40,"y":20,
         "color":(255,255,255),"text":"Bouton test click","file":"assets/button.png"},
+
+
+    "extractor_buy":{
+        "x":13,"y":15,
+        "color":(255,255,255),"text":"acheter","file":"assets/button.png"},
 }

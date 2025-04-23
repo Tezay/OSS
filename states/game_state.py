@@ -10,7 +10,7 @@ from world.map_generator import generate_map
 from entities.spaceship import Spaceship
 from world.camera import Camera
 import config
-
+from core.json_manager import *
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -254,6 +254,7 @@ class GameState(BaseState):
 
     def draw(self, screen, pos):
 
+
         # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
         self.game.draw(screen)
 
@@ -321,7 +322,36 @@ class GameState(BaseState):
             warning_text = self.font.render(f"Il vous reste {AFK_TIME - self.game.afk_timer} secondes avant d'être AFK", True, (255, 0, 0))
             ect = warning_text.get_rect(center=screen.get_rect().center)
         
-        """if self.game.spaceship.landed_planet!=None:
-            radius=self.game.spaceship.landed_planet.
-            draw_buttons("default_planet")
-            if colide_circle_button()"""
+
+
+
+        if self.game.spaceship.is_landed:
+            planet=self.game.spaceship.landed_planet
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            color = screen.get_at((mouse_x, mouse_y))
+
+            #print(color)
+
+            radius=self.game.spaceship.landed_planet.radius
+            info = pygame.display.Info()
+            spaceship_x=info.current_w//2
+            spaceship_y=info.current_h//2
+
+            distance = math.sqrt((mouse_x - spaceship_x) ** 2 + (mouse_y - spaceship_y) ** 2)
+            #print("distanceeeeeeeee",distance)
+            if color != (0,0,50,255) and distance<=radius*3:
+                planet_info=planet.planet_type
+                #print("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",planet.planet_type)
+                ressource=""
+                planet_data=get_planet_data(planet_info)
+                for ressources in planet_data["available_ressources"]:
+                    #print(ressources)
+                    ressource+=ressources["name"]+" avec un taux d'apparition de "+str(ressources["spawn_rate"])+" \n "
+                txt=planet.name+" \n resources disponibles : \n "+ressource
+                overlay(txt,pygame.mouse.get_pos())
+
+                for event in pygame.event.get():
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        from states.planet_base_state import BaseState
+                        # Passe l'état courant à game_settings_state
+                        self.state_manager.set_state(BaseState(self.state_manager,self.game))  # changer le state

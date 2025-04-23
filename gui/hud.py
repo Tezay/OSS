@@ -76,7 +76,7 @@ class Hud:
         center_y = minimap_y + minimap_height // 2
         pygame.draw.circle(surface, (255, 0, 0), (center_x, center_y), 2)
 
-    def draw(self, surface, camera, world_surface):
+    def draw(self, surface, camera, world_surface,world_surface_wiouth_stars):
         """
         Dessine l'HUD.
         """
@@ -100,11 +100,12 @@ class Hud:
         left_propellant_surface = self.font.render(left_propellant_text, True, (255, 255, 255))
 
         # Affichage des textes à l'écran
-        surface.blit(position_surface, (20, 20))
-        surface.blit(velocity_surface, (20, 50))
-        surface.blit(forces_surface, (20, 80))
-        surface.blit(left_nitrogen_surface, (20, 110))
-        surface.blit(left_propellant_surface, (20, 140))
+
+        #surface.blit(position_surface, (20, 20))
+        #surface.blit(velocity_surface, (20, 50))
+        #surface.blit(forces_surface, (20, 80))
+        #surface.blit(left_nitrogen_surface, (20, 110))
+        #surface.blit(left_propellant_surface, (20, 140))
 
         
         # Dessin de l'HUD
@@ -118,11 +119,11 @@ class Hud:
         screen.blit(image, coord_hud)  # Dessin de l'image à la position spécifiée
 
         # Dessin de la mini-map
-        self.draw_minimap(surface, camera, world_surface)
+        self.draw_minimap(surface, camera, world_surface_wiouth_stars)
 
         # Dessiner la flèche directionnelle de la force résultante
-        arrow_x = 20
-        arrow_y = 170
+        arrow_x= custom_size(20, 32)[0]
+        arrow_y=custom_size(20, 32)[1]
         # Rotation de la flèche pour pointer dans la direction de la force résultante (+270 pour l'angle initial de la flèche)
         rotated_arrow = pygame.transform.rotate(self.arrow_texture, -self.resultant_angle + 270)
         arrow_rect = rotated_arrow.get_rect(center=(arrow_x + self.arrow_texture.get_width() // 2, arrow_y + self.arrow_texture.get_height() // 2))
@@ -131,6 +132,18 @@ class Hud:
         draw_buttons("game_settings",(30,30))
         draw_buttons("tech_tree",(30,30))
         draw_buttons("inventory",(30,30))
+        propelent=left_propellant_text[11:]+str("/50")
+        draw_text(custom_size(34.25,31.25),propelent)
+        nitrogen=left_nitrogen_text[9:]+str("/20")
+        draw_text(custom_size(34.25,33.25),nitrogen)
+        #print(position_text)
+        position_x=position_text[9:17]
+        draw_text(custom_size(13,31),position_x)
+        position_y=position_text[21:29]
+        draw_text(custom_size(13,31.75),position_y)
+        draw_text(custom_size(13,33),velocity_text)    
+
+
 
 
 

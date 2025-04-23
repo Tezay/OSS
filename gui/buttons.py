@@ -126,6 +126,9 @@ def custom_size(widht, height):
     elif type(widht)==float and type(height)==int:
         custom_widht=square[int(widht)][int(height)][1]+widht%1*square[1][0][1]   #x sur la grille
         custom_height=square[int(widht)][int(height)][0]    #y sur la grille
+    elif type(widht)==float and type(height)==float:
+        custom_widht=square[int(widht)][int(height)][1]+widht%1*square[1][0][1]   #x sur la grille
+        custom_height=square[int(widht)][int(height)][0]+height%1*square[0][1][0]    #y sur la grille
     return (custom_widht,custom_height)
 
 def normal_size():
@@ -314,3 +317,16 @@ def overlay(txt, mouse):
     # Afficher l'image redimensionnée avec texte sur l'écran
     screen.blit(resized_image, (mouse[0], mouse[1]))
 
+def draw_text(coord, txt, font_size=12, color=(255, 255, 255)):
+    x = coord[0]
+    y = coord[1]
+    font = pygame.font.Font(FONT_PATH, font_size)
+
+    # Diviser le texte en lignes
+    lines = txt.split('\n')
+
+    # Rendre et dessiner chaque ligne de texte
+    for line in lines:
+        text_surface = font.render(line, True, color)
+        screen.blit(text_surface, (x, y))
+        y += font.get_linesize()  # Déplacer la position y pour la ligne suivante 

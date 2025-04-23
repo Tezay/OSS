@@ -333,6 +333,7 @@ class Game():
         # "Nettoyage" du fond (dans self.world)
         self.world.fill((0, 0, 50))
 
+        self.world_wiouth_stars = self.world
         # Dessiner les étoiles de fond directement sur le fond
         for star in self.background_stars:
             half_size = star.size // 2
@@ -401,7 +402,7 @@ class Game():
                             draw_segment = not draw_segment
 
         # Dessin de l'HUD avec la caméra et la surface du monde
-        self.hud.draw(screen, self.camera, self.world)
+        self.hud.draw(screen, self.camera, self.world,self.world_wiouth_stars)
 
         # En mode debug, affichage d'infos
         if DEBUG_MODE:
@@ -432,3 +433,4 @@ class Game():
         scaled_view = pygame.transform.scale(view_surface, (pygame.display.get_surface().get_width(), 
                                                             pygame.display.get_surface().get_height()))
         return view_surface, scaled_view
+    
