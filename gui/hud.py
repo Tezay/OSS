@@ -141,7 +141,10 @@ class Hud:
         draw_text(custom_size(13,31),position_x)
         position_y=position_text[21:29]
         draw_text(custom_size(13,31.75),position_y)
-        draw_text(custom_size(13,33),velocity_text)    
+        draw_text(custom_size(13,33),velocity_text)
+
+
+
 
 
 

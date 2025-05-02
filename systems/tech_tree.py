@@ -91,3 +91,4 @@ class TechTree:
                 # Retourne True si toutes les ressources nécessaires sont présentes dans l'inventaire
                 if all(inventory.has_item(resource["name"], resource["quantity"]) for resource in required_resources):
                     return True
+    

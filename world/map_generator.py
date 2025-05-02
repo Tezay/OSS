@@ -23,6 +23,10 @@ class Planet:
         # Chemin d'accès de la texture
         self.texture_path = os.path.join(DEFAULT_PLANET_TEXTURE_PATH, f"{self.texture}.png")
 
+        self.visited=False
+        self.mines=False
+        self.ressources={}
+
         # Type de la planète
         self.planet_type = planet_type
         # Nom de la planète
@@ -51,7 +55,7 @@ class Planet:
 
     # Méthode pour renvoyer tous les attribus d'une planète
     def __repr__(self):
-        return (f"Planet(x={self.x}, y={self.y}, radius={self.radius}, mass={self.mass}, texture={self.texture}, type={self.planet_type})")
+        return (f"Planet(x={self.x}, y={self.y}, radius={self.radius}, mass={self.mass}, texture={self.texture},type={self.planet_type}, visited={self.visited}), ressources={self.ressources}),mines={self.mines}")
 
 
 class BackgroundStar:

@@ -45,12 +45,12 @@ class GameState(BaseState):
             print(f"Seed: {seed}")
 
             # Génération de la map
-            background_stars, planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT)
+            background_stars, self.planets = generate_map(seed, WORLD_WIDTH, WORLD_HEIGHT)
             print("Map generated.")
 
             # Injecter les étoiles et planètes dans Game
             self.game.set_background_stars(background_stars)
-            self.game.set_planets(planets)
+            self.game.set_planets(self.planets)
 
             # Création du vaisseau
             spaceship = Spaceship(
@@ -327,6 +327,7 @@ class GameState(BaseState):
 
         if self.game.spaceship.is_landed:
             planet=self.game.spaceship.landed_planet
+            planet.visited=True
             mouse_x, mouse_y = pygame.mouse.get_pos()
             color = screen.get_at((mouse_x, mouse_y))
 
@@ -341,7 +342,7 @@ class GameState(BaseState):
             #print("distanceeeeeeeee",distance)
             if color != (0,0,50,255) and distance<=radius*3:
                 planet_info=planet.planet_type
-                #print("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",planet.planet_type)
+                print("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",planet)
                 ressource=""
                 planet_data=get_planet_data(planet_info)
                 for ressources in planet_data["available_ressources"]:
@@ -352,6 +353,11 @@ class GameState(BaseState):
 
                 for event in pygame.event.get():
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        from states.planet_base_state import BaseState
+                        from states.planet_base_state import PlanetBaseState
                         # Passe l'état courant à game_settings_state
-                        self.state_manager.set_state(BaseState(self.state_manager,self.game))  # changer le state
+                        self.state_manager.set_state(PlanetBaseState(self.state_manager,self.game))  # changer le state
+
+        from gui.ressources_mined import RessourcesMined
+        planets=RessourcesMined(self.game).update()
+
+

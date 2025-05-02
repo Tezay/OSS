@@ -12,7 +12,7 @@
                     "required_resources": [
                         {
                             "name": "liquid_water",
-                            "quantity": 5
+                            "quantity": 0
                         }
                     ]
                 },
@@ -21,7 +21,7 @@
                     "required_resources": [
                         {
                         "name": "liquid_water",
-                        "quantity": 15
+                        "quantity": 0
                     }]
                 },
                 "tier_3": {

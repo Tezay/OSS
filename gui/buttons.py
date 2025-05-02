@@ -251,7 +251,7 @@ def position_button(name):
 
 
 
-def overlay(txt, mouse):
+def overlay(txt, mouse,font_size=17):
     coord_buttons=grille(False)
     # Chemin de l'image source
     image_path = "assets/overlay_texture.png"
@@ -260,7 +260,7 @@ def overlay(txt, mouse):
 
     # Taille de l'image
     tech_button_size_widht =coord_buttons[16][0][1]    #x sur la grille
-    tech_button_size_height = coord_buttons[0][9][0]   #y sur la grille
+    tech_button_size_height = coord_buttons[0][12][0]   #y sur la grille
     # Recadrer et forcer le redimensionnement exact
     resized_image = pygame.transform.scale(original_image, (tech_button_size_widht, tech_button_size_height))
 
@@ -269,7 +269,7 @@ def overlay(txt, mouse):
     resized_image.set_alpha(alpha)
 
     # Initialisation police
-    font = pygame.font.Font(FONT_PATH, 17)
+    font = pygame.font.Font(FONT_PATH, font_size)
 
     # Gestion du texte (multi-lignes si nécessaire)
     padding = 20

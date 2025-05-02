@@ -434,3 +434,4 @@ class Game():
                                                             pygame.display.get_surface().get_height()))
         return view_surface, scaled_view
     
+

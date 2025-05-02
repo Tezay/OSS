@@ -76,6 +76,12 @@
       "description": "Matériau instable utilisé pour les réacteurs à fusion et les armes avancées.",
       "texture": "assets/textures/items/antimatter.png",
       "generation": 1
+    },
+    "mines": {
+      "name": "Mines",
+      "description": "Unite de production de ressources.",
+      "texture": "assets/textures/items/mines.png",
+      "generation": 0
     }
   }
   

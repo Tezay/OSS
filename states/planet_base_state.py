@@ -12,39 +12,15 @@ from core.json_manager import *
 # - handles_event : surveille les événements (touches clavier)
 # - update : update la logique relative à l'état en cours
 # - draw : déssine l'état courant
-class BaseState(BaseState):
+class PlanetBaseState(BaseState):
     def __init__(self, state_manager, game):
         super().__init__()
         self.state_manager = state_manager
         self.game = game
         self.font = custom_font
-        self.cell_size = 64  # Taille d'une cellule de la grille
-        self.grid_margin = 10  # Espace entre les cellules
-        self.grid_cols = 8  # Nombre de colonnes dans la grille
-        self.item_images = self._load_item_images()
+        self.inventory = self.game.data_manager.inventory
+        self.tech_tree = self.game.data_manager.tech_tree.session_data
 
-        # Calcul des coordonnées pour centrer la grille
-        self.grid_width = self.grid_cols * self.cell_size + (self.grid_cols - 1) * self.grid_margin
-        self.grid_x = (WINDOW_WIDTH - self.grid_width) // 2
-        self.grid_y = 100  # Position verticale de la grille
-
-    def _load_item_images(self):
-        """Charge les images des items depuis items_list.json."""
-        item_images = {}
-        try:
-            with open(ITEMS_LIST_PATH, 'r', encoding='utf-8') as file:
-                items_data = json.load(file)
-                for item_key, item_info in items_data.items():
-                    texture_path = item_info.get("texture")
-                    if texture_path and os.path.exists(texture_path):
-                        item_images[item_key] = pygame.image.load(texture_path).convert_alpha()
-                    else:
-                        print(f"Warning: Texture not found for item '{item_key}' at path '{texture_path}'")
-        except FileNotFoundError:
-            print(f"Error: {ITEMS_LIST_PATH} not found.")
-        except json.JSONDecodeError:
-            print(f"Error: Failed to parse {ITEMS_LIST_PATH}.")
-        return item_images
 
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels
@@ -55,8 +31,17 @@ class BaseState(BaseState):
                 new_game_state = GameState(self.state_manager, existing_game=self.game)
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
-
+        if pygame.mouse.get_pressed()[0]:
+            if not self.game.spaceship.landed_planet.mines:
+                if click_button('mines_buy',pos):
+                    #print("icii")
+                    if self.inventory.has_item("mines", 1):
+                        print("Mine placed")
+                        self.inventory.remove_item("mines",1)
+                        self.game.spaceship.landed_planet.mines =True
+                    #print(self.inventory.data)
     def update(self, dt, actions, pos, mouse_clicked):
+
         pass
 
     def draw(self, screen, pos):
@@ -72,6 +57,7 @@ class BaseState(BaseState):
         planet=self.game.spaceship.landed_planet
         planet_info=planet.planet_type
         planet_data=get_planet_data(planet_info)
+        #print(planet_data)
         ressource=""
         for ressources in planet_data["available_ressources"]:
             #print(ressources)
@@ -83,10 +69,16 @@ class BaseState(BaseState):
             elif ressources["spawn_rate"]<=6:
                 quantity="grande quantite de "
             else:
-                pass
-            ressource+=quantity+ressources["name"]+" \n "
+                quantity="tres grande quantite de "
+            ressource+=quantity+ressources["name"]+"\n"
         
         draw_text(custom_size(13,7),ressource,24)
-        draw_buttons("extractor_buy")
+        print(self.tech_tree)
+        print(self.tech_tree["tech_tree"]["terraforming"]["tiers"]["tier_2"]["unlocked"])
+        if self.tech_tree["tech_tree"]["terraforming"]["tiers"]["tier_2"]["unlocked"]:
+            draw_buttons("mines_buy")
+        else:
+            print("tech not unlocked")
+
 
         

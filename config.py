@@ -83,7 +83,8 @@ DEFAULT_INVENTORY = {
         {"name": "volcanic_plasma", "quantity": 1},
         {"name": "frozen_water", "quantity": 1},
         {"name": "liquid_water", "quantity": 1},
-        {"name": "antimatter", "quantity": 1}
+        {"name": "antimatter", "quantity": 1},
+        {"name": "mines", "quantity": 10}
     ]
 }
 
@@ -392,7 +393,7 @@ buttons = {
         "color":(255,255,255),"text":"Bouton test click","file":"assets/button.png"},
 
 
-    "extractor_buy":{
+    "mines_buy":{
         "x":13,"y":15,
         "color":(255,255,255),"text":"acheter","file":"assets/button.png"},
 }
