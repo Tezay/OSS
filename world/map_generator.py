@@ -23,9 +23,12 @@ class Planet:
         # Chemin d'accès de la texture
         self.texture_path = os.path.join(DEFAULT_PLANET_TEXTURE_PATH, f"{self.texture}.png")
 
-        self.visited=False
-        self.mines=False
-        self.ressources={}
+        self.visited = False
+        self.mines = False
+        # Dictionnaire pour stocker les quantités de ressources actuelles
+        self.resources = {}
+        # Temps (en secondes depuis le début du jeu) de la dernière visite
+        self.last_visited_time = None
 
         # Type de la planète
         self.planet_type = planet_type
@@ -34,7 +37,57 @@ class Planet:
 
         self.rect = pygame.Rect(0, 0, radius*2, radius*2)
         self.rect.center = (x, y)
-        
+
+        # Initialiser les ressources de base
+        self._initialize_resources()
+
+    def _initialize_resources(self):
+        """
+        Initialise les ressources de la planète lors de sa création.
+        La quantité initiale est basée sur spawn_rate * 12 (équivalent à 2 minutes de génération).
+        """
+        planet_data = get_planet_data(self.planet_type)
+        if planet_data and "available_ressources" in planet_data:
+            for resource_info in planet_data["available_ressources"]:
+                resource_name = resource_info["name"]
+                spawn_rate = resource_info["spawn_rate"]
+                # Quantité initiale = 12 * spawn_rate (pour 12 * 10 secondes = 120s = 2min)
+                initial_quantity = spawn_rate * 12
+                self.resources[resource_name] = initial_quantity
+
+    def update_resources_offline(self, elapsed_time):
+        """
+        Met à jour les ressources en fonction du temps écoulé depuis la dernière visite.
+        Appelé lorsqu'on revisite une planète déjà visitée.
+        """
+        planet_data = get_planet_data(self.planet_type)
+        if planet_data and "available_ressources" in planet_data:
+            for resource_info in planet_data["available_ressources"]:
+                resource_name = resource_info["name"]
+                spawn_rate = resource_info["spawn_rate"]
+                # Ressources générées = (temps écoulé en sec / 10 sec) * spawn_rate
+                resources_to_add = (elapsed_time / 10.0) * spawn_rate
+                if resource_name in self.resources:
+                    self.resources[resource_name] += resources_to_add
+                else:
+                    # Au cas où la ressource n'était pas là initialement
+                    self.resources[resource_name] = resources_to_add
+
+    def update_resources_while_landed(self):
+        """
+        Met à jour les ressources en ajoutant le spawn_rate.
+        Appelé toutes les 10 secondes lorsque le vaisseau est posé sur la planète.
+        """
+        planet_data = get_planet_data(self.planet_type)
+        if planet_data and "available_ressources" in planet_data:
+            for resource_info in planet_data["available_ressources"]:
+                resource_name = resource_info["name"]
+                spawn_rate = resource_info["spawn_rate"]
+                if resource_name in self.resources:
+                    self.resources[resource_name] += spawn_rate
+                else:
+                    self.resources[resource_name] = spawn_rate
+
     def draw(self, world_surface):
         """
         Dessine la planète en tenant compte de la caméra (pour le décalage).
@@ -55,7 +108,11 @@ class Planet:
 
     # Méthode pour renvoyer tous les attribus d'une planète
     def __repr__(self):
-        return (f"Planet(x={self.x}, y={self.y}, radius={self.radius}, mass={self.mass}, texture={self.texture},type={self.planet_type}, visited={self.visited}), ressources={self.ressources}),mines={self.mines}")
+        # Formatage des ressources pour l'affichage
+        resources_str = ", ".join([f"{name}: {quantity:.2f}" for name, quantity in self.resources.items()])
+        return (f"Planet(x={self.x}, y={self.y}, radius={self.radius}, mass={self.mass}, "
+                f"texture={self.texture}, type={self.planet_type}, visited={self.visited}, "
+                f"last_visited_time={self.last_visited_time}, resources={{{resources_str}}}, mines={self.mines})")
 
 
 class BackgroundStar:

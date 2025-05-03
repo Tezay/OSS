@@ -21,7 +21,8 @@ class RessourcesMined():
         planets_with_mines=self.get_planet_with_mines()
         ressources=[]
         if len(planets_with_mines)==0:
-            print("aucune planette avec des mines")
+            # Test d'Edouard
+            # print("aucune planette avec des mines")
             pass
         else:
             for planet in planets_with_mines:

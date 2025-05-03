@@ -11,6 +11,7 @@ from entities.spaceship import Spaceship
 from world.camera import Camera
 import config
 from core.json_manager import *
+from systems.planet_resources import collect_planet_resources
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -77,6 +78,9 @@ class GameState(BaseState):
         self.last_time = pygame.time.get_ticks()  # Initialise une fois
         self.last_ship_pos = (0, 1000)  # Initialisation de la position initiale du vaisseau
 
+        # Timer pour la mise à jour des ressources quand on est posé sur une planète
+        self.landed_update_timer = 0.0
+
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels
         if event.type == pygame.KEYDOWN:
@@ -141,6 +145,16 @@ class GameState(BaseState):
                 from .inventory_state import InventoryState
                 # Passe l'état courant à inventory_state
                 self.state_manager.set_state(InventoryState(self.state_manager,self.game))
+
+        # Collecter les ressources de la planète si le vaisseau est posé dessus
+        if self.game.spaceship.is_landed and mouse_clicked:
+            # Récupération du rect du bouton "collecter" dans le HUD
+            collect_rect = self.game.hud.collect_button_rect
+            # Si le bouton "collecter" est cliqué
+            if collect_rect and collect_rect.collidepoint(pos):
+                # Appel de la fonction pour collecter les ressources de la planète
+                collect_planet_resources(self.game.spaceship.landed_planet, self.game.data_manager.inventory)
+                print("Collect resources button clicked!")
 
         # Rotation gauche (si nitrogène > 0)
         if actions["spaceship_rotate_left"] and self.game.spaceship.nitrogen > 0:
@@ -252,6 +266,17 @@ class GameState(BaseState):
             self.state_manager.set_state(AFKState(self.state_manager, self.game))
             print("AFK triggered")
 
+        # Mise à jour des ressources si le vaisseau est posé
+        if self.game.spaceship.is_landed:
+            self.landed_update_timer += dt
+            # Toutes les 10 secondes
+            if self.landed_update_timer >= 10.0:
+                landed_planet = self.game.spaceship.landed_planet
+                if landed_planet:
+                    landed_planet.update_resources_while_landed()
+                # Réinitialise le timer pour la prochaine mise à jour
+                self.landed_update_timer -= 10.0
+
     def draw(self, screen, pos):
 
 
@@ -321,17 +346,26 @@ class GameState(BaseState):
             self.font = custom_font
             warning_text = self.font.render(f"Il vous reste {AFK_TIME - self.game.afk_timer} secondes avant d'être AFK", True, (255, 0, 0))
             ect = warning_text.get_rect(center=screen.get_rect().center)
-        
-
-
+            screen.blit(warning_text, ect)
 
         if self.game.spaceship.is_landed:
-            planet=self.game.spaceship.landed_planet
-            planet.visited=True
+            planet = self.game.spaceship.landed_planet
+            current_time_seconds = pygame.time.get_ticks() / 1000.0
+
+            # Si la planète n'a pas encore été marquée comme visitée dans cette session d'atterrissage
+            if not planet.visited:
+                # Vérifier si elle a déjà été visitée auparavant (last_visited_time existe)
+                if planet.last_visited_time is not None:
+                    elapsed_time = current_time_seconds - planet.last_visited_time
+                    # Mettre à jour les ressources générées pendant l'absence
+                    planet.update_resources_offline(elapsed_time)
+
+                # Marquer la planète comme visitée et enregistrer le temps actuel
+                planet.visited = True
+                planet.last_visited_time = current_time_seconds
+
             mouse_x, mouse_y = pygame.mouse.get_pos()
             color = screen.get_at((mouse_x, mouse_y))
-
-            #print(color)
 
             radius=self.game.spaceship.landed_planet.radius
             info = pygame.display.Info()
@@ -339,23 +373,25 @@ class GameState(BaseState):
             spaceship_y=info.current_h//2
 
             distance = math.sqrt((mouse_x - spaceship_x) ** 2 + (mouse_y - spaceship_y) ** 2)
-            #print("distanceeeeeeeee",distance)
             if color != (0,0,50,255) and distance<=radius*3:
-                planet_info=planet.planet_type
-                print("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",planet)
-                ressource=""
-                planet_data=get_planet_data(planet_info)
-                for ressources in planet_data["available_ressources"]:
-                    #print(ressources)
-                    ressource+=ressources["name"]+" avec un taux d'apparition de "+str(ressources["spawn_rate"])+" \n "
-                txt=planet.name+" \n resources disponibles : \n "+ressource
-                overlay(txt,pygame.mouse.get_pos())
+                planet_info = planet.planet_type
 
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        from states.planet_base_state import PlanetBaseState
-                        # Passe l'état courant à game_settings_state
-                        self.state_manager.set_state(PlanetBaseState(self.state_manager,self.game))  # changer le state
+                # Construction du texte pour l'overlay avec les quantités actuelles
+                resource_texts = []
+                # Trie des ressources par nom
+                sorted_resource_names = sorted(planet.resources.keys())
+                for resource_name in sorted_resource_names:
+                    quantity = planet.resources[resource_name]
+                    # Affichage des ressources et quantités
+                    resource_texts.append(f"- {resource_name}: {quantity:.0f}")
+
+                if not resource_texts:
+                    ressource_display = "Aucune ressource disponible"
+                else:
+                    ressource_display = "\n ".join(resource_texts)
+
+                txt = f"{planet.name} ({planet_info})\n Ressources actuelles :\n {ressource_display}"
+                overlay(txt, pygame.mouse.get_pos())
 
         from gui.ressources_mined import RessourcesMined
         planets=RessourcesMined(self.game).update()

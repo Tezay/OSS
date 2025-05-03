@@ -61,7 +61,9 @@ class Game():
             self.spaceship.update_physics(dt)
 
         # Mise à jour de l'HUD
-        self.hud.update(self.spaceship.x, self.spaceship.y, self.spaceship.vx, self.spaceship.vy, self.spaceship.propellant, self.spaceship.nitrogen)
+        # Passe l'objet vaisseau à l'HUD pour mettre à jour les infos (vitesse, forces, etc.)
+        if self.spaceship:
+            self.hud.update(self.spaceship)
       
         return deadly_collision
 
@@ -322,6 +324,7 @@ class Game():
             # Transmet la planète sur laquelle le vaisseau a atterri
             self.spaceship.landed_planet = landed_planet
             print(f"Successful landing on {landed_planet.name}!")
+            print(f"Actual items on : {self.spaceship.landed_planet.resources}")
         
         return deadly_collision
 
@@ -433,5 +436,3 @@ class Game():
         scaled_view = pygame.transform.scale(view_surface, (pygame.display.get_surface().get_width(), 
                                                             pygame.display.get_surface().get_height()))
         return view_surface, scaled_view
-    
-
