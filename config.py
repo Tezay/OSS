@@ -131,7 +131,7 @@ KEY_BINDINGS = {
     "spaceship_rotate_right": pygame.K_d,
     "exit_current_menu" : pygame.K_ESCAPE,
     "open_map" : pygame.K_m,
-    "crafting": pygame.K_c, # Ajout de la touche pour le craft
+    "crafting": pygame.K_c,
 }
 
 
@@ -143,7 +143,7 @@ TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
 ITEMS_LIST_PATH = "data/items_list.json"
-CRAFT_LIST_PATH = "data/craft_list.json" # Ajout du chemin pour les recettes
+CRAFT_LIST_PATH = "data/craft_list.json"
 HUD_TEXTURE_PATH = "assets/hud/"
 DIALOGUES_PATH = "data/dialogues.json"
 
