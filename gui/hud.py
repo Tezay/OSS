@@ -45,6 +45,13 @@ class Hud:
         # Rect pour le bouton de collecte des ressources
         self.collect_button_rect = None
 
+        # Attributs pour les dialogues
+        self.dialogues = []
+        self.current_dialogue_index = -1
+        self.show_dialogues = False
+        self.dialogue_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE)
+        self.prompt_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE - 8)
+
     def update(self, spaceship):  # Changed signature to accept spaceship
         # Position du vaisseau
         self.position = (spaceship.x, spaceship.y)
@@ -75,6 +82,41 @@ class Hud:
         # Réinitialiser le rect du bouton si pas atterri (après avoir redécollé)
         if not self.landed_planet:
             self.collect_button_rect = None
+
+    def load_dialogues(self, dialogues_list):
+        """
+        Charge une liste de dialogues à afficher.
+
+        :param dialogues_list: Liste de chaînes de caractères (dialogues).
+        """
+        # Vérifie si la liste de dialogues est valide
+        if dialogues_list:
+            # Charge les dialogues dans l'attribut de la classe
+            self.dialogues = dialogues_list
+            # Passe au premier dialogue de la liste (index 0)
+            self.current_dialogue_index = 0
+            # Indique que les dialogues doivent être affichés
+            self.show_dialogues = True
+        # Si pas de dialogues, vider les attributs
+        else:
+            self.dialogues = []
+            # Index négatif pour indiquer qu'aucun dialogue n'est affiché
+            self.current_dialogue_index = -1
+            # Indique que les dialogues ne doivent pas être affichés
+            self.show_dialogues = False
+
+    def next_dialogue(self):
+        """Passe au dialogue suivant ou désactive l'affichage si c'est le dernier."""
+        # Vérifie si l'affichage des dialogues est actif
+        if self.show_dialogues:
+            # Passe au dialogue suivant (incrémente index)
+            self.current_dialogue_index += 1
+            # Vérifie si l'index dépasse la longueur de la liste de dialogues (pour fin de liste)
+            if self.current_dialogue_index >= len(self.dialogues):
+                # Fin des dialogues
+                self.show_dialogues = False
+                self.current_dialogue_index = -1
+                self.dialogues = []
 
     def draw_minimap(self, surface, camera, world_surface):
         """
@@ -227,6 +269,54 @@ class Hud:
         button_text_rect = button_text_surf.get_rect(center=self.collect_button_rect.center)
         surface.blit(button_text_surf, button_text_rect)
 
+    def draw_dialogue(self, surface):
+        """Dessine le dialogue actuel si l'affichage est actif."""
+        if self.show_dialogues and 0 <= self.current_dialogue_index < len(self.dialogues):
+            dialogue_text = self.dialogues[self.current_dialogue_index]
+            
+            # Paramètres d'affichage
+            # Fond noir semi-transparent
+            dialogue_bg_color = (0, 0, 0, 75)
+            # Couleur texte blanc
+            dialogue_text_color = (255, 255, 255)
+            # Couleur texte gris clair (pour le texte "Appuyer sur [Entrée]...")
+            prompt_text_color = (200, 200, 200)
+            # Marge pour le fond
+            padding = 15
+            # Marge par rapport au bas de l'écran (pour laisser la place à l'HUD)
+            bottom_margin = 200
+            # Marge entre dialogue et texte "Appuyer sur [Entrée]..."
+            prompt_margin_top = 5
+
+            # Rendu du texte principal
+            text_surface = self.dialogue_font.render(dialogue_text, True, dialogue_text_color)
+            text_rect = text_surface.get_rect()
+
+            # Calcul de la taille et position du fond
+            # Largeur et hauteur du fond = largeur et hauteur du texte + 2*marges (pour marge à gauche et droite)
+            bg_width = text_rect.width + 2 * padding
+            bg_height = text_rect.height + 2 * padding
+            # Position du fond
+            bg_x = (surface.get_width() - bg_width) // 2
+            bg_y = surface.get_height() - bottom_margin - bg_height
+
+            # Création et dessin du fond
+            bg_surface = pygame.Surface((bg_width, bg_height), pygame.SRCALPHA)
+            bg_surface.fill(dialogue_bg_color)
+            surface.blit(bg_surface, (bg_x, bg_y))
+
+            # Positionnement et dessin du texte sur le fond
+            text_rect.center = (bg_x + bg_width // 2, bg_y + bg_height // 2)
+            surface.blit(text_surface, text_rect)
+
+            # Rendu et dessin du texte "Appuyer sur [Entrée]..."
+            prompt_text = "Appuyer sur [Entrée] pour continuer"
+            prompt_surface = self.prompt_font.render(prompt_text, True, prompt_text_color)
+            prompt_rect = prompt_surface.get_rect()
+            # Positionner le petit texte en dessous à droite du dialogue
+            prompt_rect.topright = (bg_x + bg_width, bg_y + bg_height + prompt_margin_top)
+            surface.blit(prompt_surface, prompt_rect)
+
     def draw(self, surface, camera, world_surface, world_surface_wiouth_stars):
         """
         Dessine l'HUD.
@@ -307,6 +397,9 @@ class Hud:
         else:
             # S'assurer que le rect est None si pas atterri
             self.collect_button_rect = None
+
+        # Dessiner le dialogue actuel si nécessaire
+        self.draw_dialogue(surface)
 
 
 

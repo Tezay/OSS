@@ -143,6 +143,7 @@ DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
 ITEMS_LIST_PATH = "data/items_list.json"
 HUD_TEXTURE_PATH = "assets/hud/"
+DIALOGUES_PATH = "data/dialogues.json"
 
 
 # ----------------------------- VARIABLES INTERNES (NE PAS MODIFIER) -----------------------------
@@ -164,7 +165,7 @@ except:
     custom_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE)
 
 # Temps écoulé avant d'être considéré comme AFK
-AFK_TIME = 3000 # 120 secondes (2 minutes)
+AFK_TIME = 120 # 120 secondes (2 minutes)
 
 # ----------------------------- DÉFINITION DES BOUTONS -----------------------------
 # Dictionaire des boutons du jeu

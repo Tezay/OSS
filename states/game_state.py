@@ -23,6 +23,8 @@ class GameState(BaseState):
         super().__init__()
         self.state_manager = state_manager
         self.font = custom_font
+        # Booléen pour stocker si le joueur a déjà eu les dialogues d'introduction
+        self.showing_initial_dialogues = False
 
         # Vérification si un état game déjà crée a été transmis en paramètre
         # Note : Permet d'éviter de regénérer entièrement la map lors de changement d'état
@@ -70,6 +72,16 @@ class GameState(BaseState):
                 camera.set_target(spaceship)
             self.game.set_camera(camera)
 
+            # Charge les dialogues d'introduction avec la fonction dédiée
+            initial_dialogues = get_dialogues("initial_tutorial")
+            # Si les dialogues existent, les charger dans l'HUD
+            if initial_dialogues:
+                self.game.hud.load_dialogues(initial_dialogues)
+                # Passe le booléen à True pour dire que les dialogues ont été affichés
+                self.showing_initial_dialogues = True
+            else:
+                print("Warning: Could not load initial tutorial dialogues.")
+
         # Booléen pour savoir si le son "engine_powered" est en cours de lecture
         self.engine_sound_playing = False
 
@@ -83,7 +95,19 @@ class GameState(BaseState):
 
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels
-        if event.type == pygame.KEYDOWN:
+
+        # Vérifie si le joueur a déjà eu les dialogues d'introduction, et s'il appuie sur la touche "start_game"
+        if self.showing_initial_dialogues and event.type == pygame.KEYDOWN:
+            if event.key == KEY_BINDINGS["start_game"]:
+                # Appelle la méthode next_dialogue() de l'HUD pour passer au dialogue suivant
+                self.game.hud.next_dialogue()
+                # Met à jour le booléen pour dire que les dialogues sont affichés
+                self.showing_initial_dialogues = self.game.hud.show_dialogues
+                # Return pour ne pas traiter d'autres événements
+                return
+
+        # Si les dialogues d'introduction ne sont pas affichés, gérer les autres événements
+        if not self.showing_initial_dialogues and event.type == pygame.KEYDOWN:
 
             # Vérification de la touche associée au menu inventaire (si préssée, change l'état courant à inventory_state)
             if event.key == KEY_BINDINGS["inventory"]:
@@ -117,37 +141,8 @@ class GameState(BaseState):
                 self.game.spaceship.vx = 0
                 self.game.spaceship.vy = 0
 
-    def update(self, dt, actions, pos, mouse_clicked):
-
-        # Récupération des coordonnées de la souris dans un tuple
-        mouse_x, mouse_y = pos
-
-        if actions["open_map"]:
-            from states.map_full_screen_state import MapFullScreen
-            # Passe l'état courant à game_settings_state
-            self.state_manager.set_state(MapFullScreen(self.state_manager,self.game))  # changer le state
-
-        
-        if mouse_clicked:
-            # Vérification du clique de la souris sur le bouton
-            if click_button('game_settings',pos,(20,20)):
-                from .settings_state.settings_game_state import GameSettingsState
-                # Passe l'état courant à game_settings_state
-                self.state_manager.set_state(GameSettingsState(self.state_manager,self.game))  # changer le state
-
-            # Vérification du clique de la souris sur le bouton
-            if click_button("tech_tree",pos,(20,20)):
-                from .tech_tree_state import TechTreeState
-                # Définie l'état courant à TechTreeState
-                # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
-                self.state_manager.set_state(TechTreeState(self.state_manager,self.game))
-            if click_button("inventory",pos,(20,20)):
-                from .inventory_state import InventoryState
-                # Passe l'état courant à inventory_state
-                self.state_manager.set_state(InventoryState(self.state_manager,self.game))
-
-        # Collecter les ressources de la planète si le vaisseau est posé dessus
-        if self.game.spaceship.is_landed and mouse_clicked:
+        # Handle click for resource collection only if dialogues are not active
+        if not self.showing_initial_dialogues and self.game.spaceship.is_landed and event.type == pygame.MOUSEBUTTONDOWN:
             # Récupération du rect du bouton "collecter" dans le HUD
             collect_rect = self.game.hud.collect_button_rect
             # Si le bouton "collecter" est cliqué
@@ -156,71 +151,111 @@ class GameState(BaseState):
                 collect_planet_resources(self.game.spaceship.landed_planet, self.game.data_manager.inventory)
                 print("Collect resources button clicked!")
 
-        # Rotation gauche (si nitrogène > 0)
-        if actions["spaceship_rotate_left"] and self.game.spaceship.nitrogen > 0:
-            # Rotation du vaisseau (angle en degrés)
-            self.game.spaceship.rotate(-SPACESHIP_ROTATION_SPEED * dt)
-            # Mise à jour de l'image du vaisseau
-            self.game.spaceship.update_image_angle()
-            # Consommation de nitrogène
-            self.game.spaceship.consume_nitrogen(0.2 * dt)
-            # Activation de la texture RCS propulsion gauche
-            self.game.spaceship.set_rcs_texture_state(True, "left")
+    def update(self, dt, actions, pos, mouse_clicked):
 
-        # Rotation droite (si nitrogène > 0)
-        elif actions["spaceship_rotate_right"] and self.game.spaceship.nitrogen > 0:
-            # Rotation du vaisseau (angle en degrés)
-            self.game.spaceship.rotate(SPACESHIP_ROTATION_SPEED * dt)
-            # Mise à jour de l'image du vaisseau
-            self.game.spaceship.update_image_angle()
-            # Consommation de nitrogène
-            self.game.spaceship.consume_nitrogen(0.2 * dt)
-            # Activation de la texture RCS propulsion droite
-            self.game.spaceship.set_rcs_texture_state(True, "right")
+        # Récupération des coordonnées de la souris dans un tuple
+        mouse_x, mouse_y = pos
 
-        # Désactivation des textures RCS si aucune rotation    
-        else:
-            self.game.spaceship.set_rcs_texture_state(False)
+        # Disable map opening and button clicks if dialogues are showing
+        if not self.showing_initial_dialogues:
+            if actions["open_map"]:
+                from states.map_full_screen_state import MapFullScreen
+                # Passe l'état courant à game_settings_state
+                self.state_manager.set_state(MapFullScreen(self.state_manager, self.game))  # changer le state
 
-        # Poussée continue si touche préssée (si propellant > 0)
-        if actions["spaceship_move"] and self.game.spaceship.propellant > 0:
-
-            # Active la texture powered quand la touche est préssée
-            self.game.spaceship.set_powered_texture(True)
-
-            # Conversion de l’angle en radians
-            rad = math.radians(self.game.spaceship.angle)
-
-            # Application de la force en direction du vaisseau
-            fx = SPACESHIP_THRUST_FORCE * math.sin(rad)
-            fy = -SPACESHIP_THRUST_FORCE * math.cos(rad)
-
-            # Si le vaisseau est dans l'état atterri, lui permettre de redécoller
-            if self.game.spaceship.is_landed:
-                # Le booléen repasse à False 
-                self.game.spaceship.is_landed = False
-                # Application d'une force de poussé supplémentaire, pour facilité le décrochement du vaisseau de l'attraction gravitationnelle de la planète
-                planet_mass = self.game.spaceship.landed_planet.mass
-                # Arbitrairement, j'ai trouvé que la masse de la planète / 1e5*G fonctionnait bien
-                takeoff_force_coeff = planet_mass/1e4
-                self.game.spaceship.add_force(fx*takeoff_force_coeff, fy*takeoff_force_coeff)
-
-            # Application de la force au vaisseau
-            self.game.spaceship.add_force(fx, fy)
-
-            # Jouer le son "engine_powered" si non déjà joué
-            if not self.engine_sound_playing:
-                self.game.sound_manager.play_sound("engine_powered", "engine_powered.ogg")
-                self.engine_sound_playing = True
             
-            # Consomme du propergol lors de la poussée
-            self.game.spaceship.consume_propellant(0.5 * dt)
+            if mouse_clicked:
+                # Vérification du clique de la souris sur le bouton
+                if click_button('game_settings', pos, (20, 20)):
+                    from .settings_state.settings_game_state import GameSettingsState
+                    # Passe l'état courant à game_settings_state
+                    self.state_manager.set_state(GameSettingsState(self.state_manager, self.game))  # changer le state
 
+                # Vérification du clique de la souris sur le bouton
+                if click_button("tech_tree", pos, (20, 20)):
+                    from .tech_tree_state import TechTreeState
+                    # Définie l'état courant à TechTreeState
+                    # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
+                    self.state_manager.set_state(TechTreeState(self.state_manager, self.game))
+                if click_button("inventory", pos, (20, 20)):
+                    from .inventory_state import InventoryState
+                    # Passe l'état courant à inventory_state
+                    self.state_manager.set_state(InventoryState(self.state_manager, self.game))
+
+        # Disable spaceship controls if dialogues are showing
+        if not self.showing_initial_dialogues:
+            # Rotation gauche (si nitrogène > 0)
+            if actions["spaceship_rotate_left"] and self.game.spaceship.nitrogen > 0:
+                # Rotation du vaisseau (angle en degrés)
+                self.game.spaceship.rotate(-SPACESHIP_ROTATION_SPEED * dt)
+                # Mise à jour de l'image du vaisseau
+                self.game.spaceship.update_image_angle()
+                # Consommation de nitrogène
+                self.game.spaceship.consume_nitrogen(0.2 * dt)
+                # Activation de la texture RCS propulsion gauche
+                self.game.spaceship.set_rcs_texture_state(True, "left")
+
+            # Rotation droite (si nitrogène > 0)
+            elif actions["spaceship_rotate_right"] and self.game.spaceship.nitrogen > 0:
+                # Rotation du vaisseau (angle en degrés)
+                self.game.spaceship.rotate(SPACESHIP_ROTATION_SPEED * dt)
+                # Mise à jour de l'image du vaisseau
+                self.game.spaceship.update_image_angle()
+                # Consommation de nitrogène
+                self.game.spaceship.consume_nitrogen(0.2 * dt)
+                # Activation de la texture RCS propulsion droite
+                self.game.spaceship.set_rcs_texture_state(True, "right")
+
+            # Désactivation des textures RCS si aucune rotation    
+            else:
+                self.game.spaceship.set_rcs_texture_state(False)
+
+            # Poussée continue si touche préssée (si propellant > 0)
+            if actions["spaceship_move"] and self.game.spaceship.propellant > 0:
+
+                # Active la texture powered quand la touche est préssée
+                self.game.spaceship.set_powered_texture(True)
+
+                # Conversion de l’angle en radians
+                rad = math.radians(self.game.spaceship.angle)
+
+                # Application de la force en direction du vaisseau
+                fx = SPACESHIP_THRUST_FORCE * math.sin(rad)
+                fy = -SPACESHIP_THRUST_FORCE * math.cos(rad)
+
+                # Si le vaisseau est dans l'état atterri, lui permettre de redécoller
+                if self.game.spaceship.is_landed:
+                    # Le booléen repasse à False 
+                    self.game.spaceship.is_landed = False
+                    # Application d'une force de poussé supplémentaire, pour facilité le décrochement du vaisseau de l'attraction gravitationnelle de la planète
+                    planet_mass = self.game.spaceship.landed_planet.mass
+                    # Arbitrairement, j'ai trouvé que la masse de la planète / 1e5*G fonctionnait bien
+                    takeoff_force_coeff = planet_mass/1e4
+                    self.game.spaceship.add_force(fx*takeoff_force_coeff, fy*takeoff_force_coeff)
+
+                # Application de la force au vaisseau
+                self.game.spaceship.add_force(fx, fy)
+
+                # Jouer le son "engine_powered" si non déjà joué
+                if not self.engine_sound_playing:
+                    self.game.sound_manager.play_sound("engine_powered", "engine_powered.ogg")
+                    self.engine_sound_playing = True
+                
+                # Consomme du propergol lors de la poussée
+                self.game.spaceship.consume_propellant(0.5 * dt)
+
+            else:
+                # Désactiver la texture powered quand la touche est relâchée
+                self.game.spaceship.set_powered_texture(False)
+
+                # Arrêter le son "engine_powered" si la touche n'est plus préssée
+                if self.engine_sound_playing:
+                    self.game.sound_manager.stop_sound("engine_powered")
+                    self.engine_sound_playing = False
         else:
-            # Désactiver la texture powered quand la touche est relâchée
+            # S'assure que les textures et sons du vaisseau sont désactivés si les dialogues sont actifs
             self.game.spaceship.set_powered_texture(False)
-
-            # Arrêter le son "engine_powered" si la touche n'est plus préssée
+            self.game.spaceship.set_rcs_texture_state(False)
             if self.engine_sound_playing:
                 self.game.sound_manager.stop_sound("engine_powered")
                 self.engine_sound_playing = False
