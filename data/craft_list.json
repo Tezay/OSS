@@ -1,0 +1,12 @@
+{
+    "recipes": [
+      {
+        "result": {"name": "mines", "quantity": 1},
+        "ingredients": [
+          {"name": "iron_ore", "quantity": 8},
+          {"name": "liquid_water", "quantity": 5},
+          {"name": "compressed_carbon", "quantity": 3}
+        ]
+      }
+    ]
+  }

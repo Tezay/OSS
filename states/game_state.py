@@ -59,7 +59,7 @@ class GameState(BaseState):
             spaceship = Spaceship(
                 x=WORLD_WIDTH//2,
                 y=WORLD_HEIGHT//2,
-                vx=0, vy=-10, # Vitesse par défaut de 10 pixel vers le haut
+                vx=0, vy=-5, # Vitesse par défaut de 10 pixel vers le haut
                 width=23, height=23,
                 image_path=SPACESHIP_TEXTURE_DEFAULT_PATH,
                 mass=SPACESHIP_MASS
@@ -113,6 +113,11 @@ class GameState(BaseState):
             if event.key == KEY_BINDINGS["inventory"]:
                 from .inventory_state import InventoryState
                 self.state_manager.set_state(InventoryState(self.state_manager, self.game))
+
+            # Vérification de la touche associée au menu craft (si préssée, change l'état courant à crafting_state)
+            if event.key == KEY_BINDINGS["crafting"]:
+                from .crafting_state import CraftingState
+                self.state_manager.set_state(CraftingState(self.state_manager, self.game))
 
             # Vérification de la touche associée au menu de paramètres (si préssée, change l'état courant à game_settings_state)
             if event.key == KEY_BINDINGS["exit_current_menu"]:
@@ -177,10 +182,16 @@ class GameState(BaseState):
                     # Définie l'état courant à TechTreeState
                     # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
                     self.state_manager.set_state(TechTreeState(self.state_manager, self.game))
+                
                 if click_button("inventory", pos, (20, 20)):
                     from .inventory_state import InventoryState
                     # Passe l'état courant à inventory_state
                     self.state_manager.set_state(InventoryState(self.state_manager, self.game))
+                
+                if click_button("crafting", pos, (20, 20)):
+                    from .crafting_state import CraftingState
+                    # Passe l'état courant à crafting_state
+                    self.state_manager.set_state(CraftingState(self.state_manager, self.game))
 
         # Disable spaceship controls if dialogues are showing
         if not self.showing_initial_dialogues:

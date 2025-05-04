@@ -71,19 +71,19 @@ STAR_COLORS = [
 # Inventaire par défaut
 DEFAULT_INVENTORY = {
     "items": [
-        {"name": "iron_ore", "quantity": 1},
-        {"name": "azure_crystals", "quantity": 1},
-        {"name": "organic_fibers", "quantity": 1},
-        {"name": "hydrogen_gas", "quantity": 1},
-        {"name": "neutral_gas", "quantity": 1},
-        {"name": "compressed_carbon", "quantity": 1},
-        {"name": "raw_silicon", "quantity": 1},
-        {"name": "stellar_dust", "quantity": 1},
-        {"name": "luminous_lithium", "quantity": 1},
-        {"name": "volcanic_plasma", "quantity": 1},
-        {"name": "frozen_water", "quantity": 1},
-        {"name": "liquid_water", "quantity": 1},
-        {"name": "antimatter", "quantity": 1},
+        {"name": "iron_ore", "quantity": 10},
+        {"name": "azure_crystals", "quantity": 10},
+        {"name": "organic_fibers", "quantity": 10},
+        {"name": "hydrogen_gas", "quantity": 10},
+        {"name": "neutral_gas", "quantity": 10},
+        {"name": "compressed_carbon", "quantity": 10},
+        {"name": "raw_silicon", "quantity": 10},
+        {"name": "stellar_dust", "quantity": 10},
+        {"name": "luminous_lithium", "quantity": 10},
+        {"name": "volcanic_plasma", "quantity": 10},
+        {"name": "frozen_water", "quantity": 10},
+        {"name": "liquid_water", "quantity": 10},
+        {"name": "antimatter", "quantity": 10},
         {"name": "mines", "quantity": 10}
     ]
 }
@@ -131,6 +131,7 @@ KEY_BINDINGS = {
     "spaceship_rotate_right": pygame.K_d,
     "exit_current_menu" : pygame.K_ESCAPE,
     "open_map" : pygame.K_m,
+    "crafting": pygame.K_c, # Ajout de la touche pour le craft
 }
 
 
@@ -142,6 +143,7 @@ TECH_TREE_TEMPLATE_PATH = "data/tech_tree_session_template.json"
 DEFAULT_PLANET_TEXTURE_PATH = "assets/planets/"
 JSON_PLANET_DATA_PATH = "data/planets.json"
 ITEMS_LIST_PATH = "data/items_list.json"
+CRAFT_LIST_PATH = "data/craft_list.json" # Ajout du chemin pour les recettes
 HUD_TEXTURE_PATH = "assets/hud/"
 DIALOGUES_PATH = "data/dialogues.json"
 
@@ -223,10 +225,18 @@ buttons = {
         "x":20,"y":18,
         "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
 
+    "crafting_return":{ # Bouton retour pour le menu craft
+        "x":6,"y":30,
+        "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
+
+    "craft_button":{ # Bouton pour lancer le craft
+        "x":40,"y":25, # Position à ajuster dans CraftingState.draw
+        "color":(0,255,0),"text":"Assembler","file":"assets/button.png"},
+
     "resolution_return":{
         "x":20,"y":29,
         "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
-    
+
     "resolution_game_return":{
         "x":20,"y":29,
         "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
@@ -294,6 +304,9 @@ buttons = {
         "x":11,"y":31,
         "color":(255,255,255),"text":"","file":'assets\hud/inventory.png'},
 
+    "crafting":{ # Bouton pour ouvrir le menu craft depuis le HUD
+        "x":11,"y":29, # Position à ajuster si nécessaire
+        "color":(255,255,255),"text":"","file":'assets/hud/crafting_icon.png'}, # Assurez-vous d'avoir une icone
 
     # Boutons de l'arbre technologique de la branche "moteurs"
 

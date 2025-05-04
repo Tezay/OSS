@@ -374,6 +374,8 @@ class Hud:
         draw_buttons("game_settings", (30, 30))
         draw_buttons("tech_tree", (30, 30))
         draw_buttons("inventory", (30, 30))
+        draw_buttons("crafting", (30, 30))
+        
         propelent = left_propellant_text[11:] + str("/50")
         draw_text(custom_size(34.25, 31.25), propelent)
         nitrogen = left_nitrogen_text[9:] + str("/20")

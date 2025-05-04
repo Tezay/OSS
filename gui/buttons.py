@@ -329,4 +329,41 @@ def draw_text(coord, txt, font_size=12, color=(255, 255, 255)):
     for line in lines:
         text_surface = font.render(line, True, color)
         screen.blit(text_surface, (x, y))
-        y += font.get_linesize()  # Déplacer la position y pour la ligne suivante 
+        y += font.get_linesize()  # Déplacer la position y pour la ligne suivante
+
+def draw_button_manual(screen, button_data, x, y, width, height):
+    """Dessine un bouton manuellement à des coordonnées pixel et retourne son Rect."""
+    # Charger la police de caractères
+    font = custom_font
+    rect = pygame.Rect(x, y, width, height)
+    color = button_data.get("color", (150, 150, 150))
+    text = button_data.get("text", "")
+    # Couleur texte par défaut
+    text_color = (0,0,0)
+
+    # Dessiner l'image de fond si elle existe
+    image_path = button_data.get("file")
+    if image_path:
+        try:
+            button_image = pygame.image.load(image_path).convert_alpha()
+            # Redimensionner l'image pour qu'elle corresponde à la taille du bouton
+            button_image = pygame.transform.scale(button_image, (int(width), int(height)))
+            screen.blit(button_image, rect.topleft)
+        except:
+            print(f"Error charging image: {image_path}")
+            # Dessiner un rectangle si l'image échoue
+            pygame.draw.rect(screen, color, rect)
+    else:
+        # Dessiner un rectangle si pas d'image
+        pygame.draw.rect(screen, color, rect)
+
+    # Dessiner le texte par-dessus
+    if text:
+        text_surf = font.render(text, True, text_color)
+        text_rect = text_surf.get_rect(center=rect.center)
+        screen.blit(text_surf, text_rect)
+
+    # Dessiner une bordure pour la visibilité
+    pygame.draw.rect(screen, (200, 200, 200), rect, 1)
+
+    return rect

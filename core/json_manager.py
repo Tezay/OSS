@@ -1,6 +1,6 @@
 import json
-
-from config import JSON_PLANET_DATA_PATH, DIALOGUES_PATH
+import os
+from config import JSON_PLANET_DATA_PATH, DEFAULT_PLANET_TEXTURE_PATH, DIALOGUES_PATH, ITEMS_LIST_PATH, CRAFT_LIST_PATH
 
 
 def get_planet_types():
@@ -49,3 +49,28 @@ def get_dialogues(dialogue_key):
     except json.JSONDecodeError:
         print(f"Error: Could not decode JSON from {DIALOGUES_PATH}")
         return None
+
+def get_items_data():
+    """Charge les données des items depuis items_list.json."""
+    try:
+        with open(ITEMS_LIST_PATH, 'r', encoding='utf-8') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        print(f"Error: {ITEMS_LIST_PATH} not found.")
+        return {}
+    except json.JSONDecodeError:
+        print(f"Error : Could not decode JSON from {ITEMS_LIST_PATH}.")
+        return {}
+
+def get_crafting_recipes():
+    """Charge les recettes de craft depuis craft_list.json."""
+    try:
+        with open(CRAFT_LIST_PATH, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            return data["recipes"]
+    except FileNotFoundError:
+        print(f"Error : {CRAFT_LIST_PATH} not found.")
+        return []
+    except json.JSONDecodeError:
+        print(f"Error: Could not decode JSON from {CRAFT_LIST_PATH}.")
+        return []
