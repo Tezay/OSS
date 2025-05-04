@@ -102,6 +102,7 @@ OSS/
 *   **Arbre Technologique :** Les joueurs peuvent débloquer des améliorations pour leur vaisseau et leurs capacités via un arbre technologique, nécessitant des ressources spécifiques trouvées dans le monde du jeu. La progression est sauvegardée par session.
 *   **Système d'Inventaire :** Les joueurs collectent des ressources sur les planètes, qui sont stockées dans un inventaire. Ces ressources sont utilisées pour l'artisanat ou le déblocage de technologies. L'état de l'inventaire est sauvegardé par session.
 *   **Gestion des Ressources :** Les planètes possèdent des ressources spécifiques qui se régénèrent avec le temps, à la fois lorsque le joueur est posé et lorsqu'il est absent (calcul de la progression hors ligne au retour).
+*   **Système de craft :** Les joueurs peuvent assembler les items de leur inventaire afin d'en créer de nouveaux, avec un système de craft intégré. La liste des crafts disponible est stockée dans un fichier JSON.
 *   **HUD Dynamique :** L'HUD fournit des informations en temps réel sur l'état du vaisseau (position, vitesse, niveaux de carburant), une mini-carte, des indicateurs de force directionnelle et des informations contextuelles (messages d'atterrissage, invites de collecte de ressources, dialogues).
 *   **Persistance de Session :** La progression clé du joueur, comme le contenu de l'inventaire et les technologies débloquées, est sauvegardée dans un dossier unique dans `local_data/` pour chaque session de jeu.
 
