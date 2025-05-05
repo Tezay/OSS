@@ -3,7 +3,7 @@ import json
 import pygame
 from .base_state import BaseState
 from gui.buttons import *
-from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_LIST_PATH
+from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_LIST_PATH, KEY_BINDINGS, SPACESHIP_MAX_NITROGEN, SPACESHIP_MAX_PROPELLANT
 
 
 # Classe enfant de BaseState
@@ -17,10 +17,16 @@ class InventoryState(BaseState):
         self.state_manager = state_manager
         self.game = game
         self.font = custom_font
-        self.cell_size = 64  # Taille d'une cellule de la grille
-        self.grid_margin = 10  # Espace entre les cellules
-        self.grid_cols = 8  # Nombre de colonnes dans la grille
+        # Taille d'une cellule de la grille
+        self.cell_size = 64
+        # Espace entre les cellules
+        self.grid_margin = 10
+        # Nombre de colonnes dans la grille
+        self.grid_cols = 8
+        # Charge les images des items
         self.item_images = self._load_item_images()
+        # Dico pour stocker les Rect des items dans la grille pour la détection de clic
+        self.inventory_clickable_rects = {}
 
         # Calcul des coordonnées pour centrer la grille
         self.grid_width = self.grid_cols * self.cell_size + (self.grid_cols - 1) * self.grid_margin
@@ -55,6 +61,51 @@ class InventoryState(BaseState):
                 # Change l'état courant à GameState
                 self.state_manager.set_state(new_game_state)
 
+        # Gestion des clics sur les items de l'inventaire
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Vérif clic gauche
+            if event.button == 1:
+                # Itère sur chaque rects des items de l'inventaire
+                for item_name, rect in self.inventory_clickable_rects.items():
+                    # Vérifie si le clic est à l'intérieur du rect de l'item
+                    if rect.collidepoint(pos):
+                        print(f"Clicked on item: {item_name}")
+
+                        # Recharge fuel neutral_gas
+                        if item_name == "neutral_gas":
+                            # Check si le joueur a l'item avant de le retirer
+                            if self.game.data_manager.inventory.has_item(item_name, 1):
+                                # Retire l'item de l'inventaire
+                                if self.game.data_manager.inventory.remove_item(item_name, 1):
+                                    current_nitrogen = self.game.spaceship.nitrogen
+                                    add_nitrogen = 1.0
+                                    new_nitrogen = min(current_nitrogen + add_nitrogen, SPACESHIP_MAX_NITROGEN)
+                                    self.game.spaceship.nitrogen = new_nitrogen
+                                    print(f"Refilled Nitrogen. Current: {new_nitrogen:.2f}/{SPACESHIP_MAX_NITROGEN}")
+                                else:
+                                    print(f"Failed to remove {item_name}.")
+                            else:
+                                print(f"Not enough {item_name} to refuel.")
+
+                        # Recharge fuel hydrogen_gas
+                        elif item_name == "hydrogen_gas":
+                            # Check si le joueur a l'item avant de le retirer
+                            if self.game.data_manager.inventory.has_item(item_name, 1):
+                                # Retire l'item de l'inventaire
+                                if self.game.data_manager.inventory.remove_item(item_name, 1):
+                                    current_propellant = self.game.spaceship.propellant
+                                    add_propellant = 5.0
+                                    new_propellant = min(current_propellant + add_propellant, SPACESHIP_MAX_PROPELLANT)
+                                    self.game.spaceship.propellant = new_propellant
+                                    print(f"Refilled Propellant. Current: {new_propellant:.2f}/{SPACESHIP_MAX_PROPELLANT}")
+                                else:
+                                    print(f"Failed to remove {item_name}.")
+                            else:
+                                print(f"Not enough {item_name} to refuel.")
+
+                        # Break si un item est cliqué
+                        break
+
     def update(self, dt, actions, pos, mouse_clicked):
         
         if mouse_clicked:
@@ -76,6 +127,8 @@ class InventoryState(BaseState):
         mouse=pygame.mouse.get_pos()
 
         position_save={}
+        # Vide dictonnaire des rects cliquables avant de redessiner
+        self.inventory_clickable_rects.clear()
         # On parcourt chaque item de l'inventaire en utilisant son index
         for index, item in enumerate(self.game.data_manager.inventory.get_inventory()):
             # Calcul de la colonne actuelle dans la grille (modulo du nombre de colonnes)
@@ -87,9 +140,12 @@ class InventoryState(BaseState):
             # Calcul de la position verticale (y) de la cellule dans la grille
             y = self.grid_y + row * (self.cell_size + self.grid_margin)
             # Dessine un rectangle représentant une cellule de la grille
-            pygame.draw.rect(screen, (50, 50, 50), (x, y, self.cell_size, self.cell_size))
+            item_rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
+            pygame.draw.rect(screen, (50, 50, 50), item_rect)
             # Vérifie si l'item a une image associée dans le dictionnaire des images d'items
             position_save[item["name"]] = (x, y)
+            # Stock les coordonnées de l'item dans le dictionnaire pour la détection de clics
+            self.inventory_clickable_rects[item["name"]] = item_rect
 
             if item["name"] in self.item_images:
                 # Si une image est trouvée, elle est dessinée dans la cellule correspondante
