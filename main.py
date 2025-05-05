@@ -22,6 +22,11 @@ def main():
     # Definition du titre de la fenêtre
     pygame.display.set_caption("OSS - Orbital Space Simulator")
 
+    # Charge l'icon du jeu
+    game_icon = pygame.image.load("assets/OSS_icon.png")
+    # Set l'icon du jeu
+    pygame.display.set_icon(game_icon)
+
     # Initialisation de la clock pygame
     clock = pygame.time.Clock()
     # Initialisation de la variable running (passe à False pour arrêter l'exécution du programme)
