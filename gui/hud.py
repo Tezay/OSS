@@ -1,5 +1,6 @@
 import pygame
 import math
+import os
 
 from gui.buttons import *
 from config import *
@@ -28,6 +29,8 @@ class Hud:
 
         # Police de caractères pour les ressources de la planète atterrie (police plus petite)
         self.resource_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE - 6)
+        # Police pour les textes des contrôles
+        self.controls_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE - 10)
 
         # Chargement de la texture de la flèche directionnelle
         self.arrow_texture = pygame.image.load(DIRECTIONAL_ARROW_TEXTURE_PATH).convert_alpha()
@@ -52,7 +55,35 @@ class Hud:
         self.dialogue_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE)
         self.prompt_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE - 8)
 
-    def update(self, spaceship):  # Changed signature to accept spaceship
+        # Chargement des images des touches pour l'affichage des contrôles
+        key_img_path = "assets/key/"
+        try:
+            self.key_q_img = pygame.image.load(os.path.join(key_img_path, "q_key.png")).convert_alpha()
+            self.key_d_img = pygame.image.load(os.path.join(key_img_path, "d_key.png")).convert_alpha()
+            self.key_space_img = pygame.image.load(os.path.join(key_img_path, "space_key.png")).convert_alpha()
+            self.key_i_img = pygame.image.load(os.path.join(key_img_path, "i_key.png")).convert_alpha()
+            self.key_c_img = pygame.image.load(os.path.join(key_img_path, "c_key.png")).convert_alpha()
+            self.key_m_img = pygame.image.load(os.path.join(key_img_path, "m_key.png")).convert_alpha()
+            self.key_t_img = pygame.image.load(os.path.join(key_img_path, "t_key.png")).convert_alpha()
+            self.key_esc_img = pygame.image.load(os.path.join(key_img_path, "escape_key.png")).convert_alpha()
+           
+            # Redimensionnement des images des touches
+            key_size = (30, 30)
+            space_key_height = 30
+            space_key_width = 130
+            self.key_q_img = pygame.transform.scale(self.key_q_img, key_size)
+            self.key_d_img = pygame.transform.scale(self.key_d_img, key_size)
+            self.key_i_img = pygame.transform.scale(self.key_i_img, key_size)
+            self.key_c_img = pygame.transform.scale(self.key_c_img, key_size)
+            self.key_m_img = pygame.transform.scale(self.key_m_img, key_size)
+            self.key_t_img = pygame.transform.scale(self.key_t_img, key_size)
+            self.key_esc_img = pygame.transform.scale(self.key_esc_img, key_size)
+            self.key_space_img = pygame.transform.scale(self.key_space_img, (space_key_width, space_key_height))
+
+        except pygame.error as e:
+            print(f"Error while charing key texture : {e}")
+
+    def update(self, spaceship):
         # Position du vaisseau
         self.position = (spaceship.x, spaceship.y)
         # Calcul de la vélocité du vaisseau
@@ -152,7 +183,7 @@ class Hud:
         pygame.draw.circle(surface, (255, 0, 0), (center_x, center_y), 2)
 
     def draw_landed_planet_resources(self, surface):
-        """Dessine la liste des ressources de la planète atterrie sur le côté droit, avec un fond."""
+        """Dessine la liste des ressources de la planète atterrie sur le côté gauche, avec un fond."""
         if not self.landed_planet:
             # Repasse le rect à None si pas atterri (redécollé)
             self.collect_button_rect = None
@@ -160,8 +191,8 @@ class Hud:
 
         # Définition des constantes
 
-        # Position X de départ pour le contenu (texte, images)
-        start_x = WINDOW_WIDTH - 375
+        # Position X de départ pour le contenu (marge à gauche)
+        start_x = 20
         # Position Y de départ pour le contenu
         start_y = WINDOW_HEIGHT // 2 - 100
         # Hauteur de ligne pour chaque ressource
@@ -197,7 +228,7 @@ class Hud:
         bg_surface = pygame.Surface((bg_width, bg_height), pygame.SRCALPHA)
         # Remplissage de la surface avec une couleur semi-transparente
         bg_surface.fill((0, 0, 0, 80))
-        # Dessiner de la surface de fond sur l'écran principal
+        # Dessiner de la surface de fond sur l'écran principal - Position X ajustée
         surface.blit(bg_surface, (start_x - padding, start_y - padding))
 
         # Dessin du contenu (par-dessus le fond)
@@ -224,7 +255,7 @@ class Hud:
                 img = self.item_images[resource_name]
                 surface.blit(img, (current_x, current_y))
                 img_width = img.get_width()
-            else: # Si pas d'image, dessiner un carré gris
+            else:
                 pygame.draw.rect(surface, (100, 100, 100), (current_x, current_y, 32, 32))
                 img_width = 32
             # Décaler X pour le texte, après l'image et une marge
@@ -253,10 +284,10 @@ class Hud:
         self.collect_button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
 
         # Couleur de fond du bouton (change si survolé)
-        button_color = (80, 80, 120) # Couleur de base
+        button_color = (80, 80, 120)
         mouse_pos = pygame.mouse.get_pos()
         if self.collect_button_rect.collidepoint(mouse_pos):
-            button_color = (100, 100, 150) # Couleur plus claire au survol
+            button_color = (100, 100, 150)  # Couleur plus claire au survol
 
         # Dessiner le fond du bouton
         pygame.draw.rect(surface, button_color, self.collect_button_rect)
@@ -273,7 +304,7 @@ class Hud:
         """Dessine le dialogue actuel si l'affichage est actif."""
         if self.show_dialogues and 0 <= self.current_dialogue_index < len(self.dialogues):
             dialogue_text = self.dialogues[self.current_dialogue_index]
-            
+
             # Paramètres d'affichage
             # Fond noir semi-transparent
             dialogue_bg_color = (0, 0, 0, 75)
@@ -316,6 +347,130 @@ class Hud:
             # Positionner le petit texte en dessous à droite du dialogue
             prompt_rect.topright = (bg_x + bg_width, bg_y + bg_height + prompt_margin_top)
             surface.blit(prompt_surface, prompt_rect)
+
+    def draw_controls_info(self, surface):
+        """Dessine les informations des contrôles de base en bas à droite,
+           uniquement si aucun dialogue n'est affiché."""
+        # Ne pas afficher les contrôles si un dialogue est en cours (pour le tuto)
+        if self.show_dialogues:
+            return
+
+        # Variables pour mise en page
+        # Marges autour du bloc de contrôles
+        margin_right = 20
+        # Marge en bas de l'écran
+        margin_bottom = 20
+        # Espace entre image et texte
+        padding_horizontal = 8
+        # Espace entre les lignes
+        padding_vertical = 5
+        # Largeur d'une image de touche (toutes les images ont la mm hauteur normalement)
+        line_height = self.key_q_img.get_height()
+
+        # Textes des contrôles
+        labels = {
+            "q": "Rotation Gauche",
+            "d": "Rotation Droite",
+            "space": "Moteur",
+            "i": "Inventaire",
+            "c": "Zone Assemblage",
+            "m": "Ouvrir Map",
+            "t": "Arbre Technologie",
+            "esc": "Menu Pause"
+        }
+
+        # Rendu des surfaces de texte
+        rendered_labels = {key: self.controls_font.render(text, True, (200, 200, 200)) for key, text in labels.items()}
+
+        # Calcul de la largeur max pour le bloc de contrôles
+        max_line_width = 0
+        # Itère sur les touches (pour trouver largeur max)
+        for key in ["q", "d", "space", "i", "c", "m", "t", "esc"]:
+            key_img = getattr(self, f"key_{key}_img") # Récupère l'image dynamiquement
+            line_width = key_img.get_width() + padding_horizontal + rendered_labels[key].get_width()
+            max_line_width = max(max_line_width, line_width)
+
+        # Récupère taille écran
+        screen_width = surface.get_width()
+        screen_height = surface.get_height()
+
+        # Position X de départ pour les images (alignées à gauche du bloc)
+        start_x_img = screen_width - margin_right - max_line_width
+
+        # Position Y de départ (pour dernière ligne)
+        current_y = screen_height - margin_bottom - line_height
+
+        # Dessin des lignes (bas en haut)
+
+        # Ligne 8: Echap
+        # récupère l'image de la touche Echap
+        key_img = self.key_esc_img
+        # récupère le texte de la touche Echap (depuis dico)
+        label = rendered_labels["esc"]
+        # Position X du texte = Position X de l'image + largeur de l'image + espace horizontal
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        # Dessine l'image de la touche Echap et le texte à l'écran
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        # Remonter la position Y pour la prochaine ligne
+        current_y -= (line_height + padding_vertical)
+
+        # Ligne 7: T (tjr pareil)
+        key_img = self.key_t_img
+        label = rendered_labels["t"]
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        current_y -= (line_height + padding_vertical)
+
+        # Ligne 6: M
+        key_img = self.key_m_img
+        label = rendered_labels["m"]
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        current_y -= (line_height + padding_vertical)
+
+        # Ligne 5: C
+        key_img = self.key_c_img
+        label = rendered_labels["c"]
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        current_y -= (line_height + padding_vertical)
+
+        # Ligne 4: I
+        key_img = self.key_i_img
+        label = rendered_labels["i"]
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        current_y -= (line_height + padding_vertical)
+
+        # Ligne 3: Espace
+        key_img = self.key_space_img
+        label = rendered_labels["space"]
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        current_y -= (line_height + padding_vertical)
+
+        # Ligne 2: D
+        key_img = self.key_d_img
+        label = rendered_labels["d"]
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        current_y -= (line_height + padding_vertical)
+
+        # Ligne 1: Q
+        key_img = self.key_q_img
+        label = rendered_labels["q"]
+        pos_x_text = start_x_img + key_img.get_width() + padding_horizontal
+        surface.blit(key_img, (start_x_img, current_y))
+        surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
+        # Pas besoin de décrémenter current_y car dernière ligne (+ haute)
+
 
     def draw(self, surface, camera, world_surface, world_surface_wiouth_stars):
         """
@@ -375,7 +530,7 @@ class Hud:
         draw_buttons("tech_tree", (30, 30))
         draw_buttons("inventory", (30, 30))
         draw_buttons("crafting", (30, 30))
-        
+
         propelent = left_propellant_text[11:] + str("/50")
         draw_text(custom_size(34.25, 31.25), propelent)
         nitrogen = left_nitrogen_text[9:] + str("/20")
@@ -402,6 +557,9 @@ class Hud:
 
         # Dessiner le dialogue actuel si nécessaire
         self.draw_dialogue(surface)
+
+        # Dessiner les informations des touches de contrôles
+        self.draw_controls_info(surface)
 
 
 

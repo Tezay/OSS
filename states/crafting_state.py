@@ -17,6 +17,8 @@ class CraftingState(BaseState):
         self.game = game
         self.font = custom_font
         self.inventory = self.game.data_manager.inventory
+        # Taille des images d'items dans la liste
+        self.item_image_size = (32, 32)
         # Charger les images des items
         self.item_images = self._load_item_images()
         # Charger les données de tous les items (pour noms/descriptions)
@@ -35,8 +37,6 @@ class CraftingState(BaseState):
         self.item_list_start_y = self.list_area_rect.top + 10
         # Espacement entre les items dans la liste
         self.item_list_spacing = 40
-        # Taille des images d'items dans la liste
-        self.item_image_size = (32, 32)
 
         #Variables pour la logique de craft
         # Dictionnaire {item_name: quantity} des items sélectionnés pour le craft
