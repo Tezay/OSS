@@ -2,6 +2,7 @@ import pygame
 import math
 
 from config import *
+from core.sound_manager import SoundManager
 
 
 class Button():
@@ -16,6 +17,7 @@ class Button():
         self.text_color = text_color
         self.text_size = text_size
         self.font = pygame.font.Font(FONT_PATH, self.text_size)
+        self.sound_manager = SoundManager()
 
     def draw(self):
         # Charger la texture du bouton
@@ -52,6 +54,7 @@ class Button():
     def click(self,mouse_x,mouse_y):
         # Vérifie si les coordonnées de la position de la souris sont comprisent dans les coordonnées du bouton
         if self.button_rect.collidepoint(mouse_x, mouse_y):
+            self.sound_manager.play_sound("button_click", "button_click.ogg")
             return True
         else:
             return False
