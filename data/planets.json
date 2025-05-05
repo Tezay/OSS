@@ -1,4 +1,4 @@
-{
+ {
   "planets": [
     {
       "planet_type": "desert",
@@ -72,7 +72,7 @@
       "max_mass": "1e4",
       "min_radius": 75,
       "max_radius": 105,
-      "texture": ["default"],
+      "texture": ["bioluminescent_01","bioluminescent_02","bioluminescent_03","bioluminescent_04","bioluminescent_05","bioluminescent_06"],
       "available_ressources": [
         { "name": "luminous_lithium", "spawn_rate": 2 }
       ]
@@ -85,7 +85,7 @@
       "max_mass": "3e4",
       "min_radius": 90,
       "max_radius": 120,
-      "texture": ["default"],
+      "texture": ["alien_01","alien_02","alien_03","alien_04","alien_05","alien_06","alien_07","alien_08"],
       "available_ressources": [
         { "name": "antimatter", "spawn_rate": 1 },
         { "name": "organic_fibers", "spawn_rate": 5 }
@@ -112,7 +112,7 @@
       "max_mass": "3e5",
       "min_radius": 225,
       "max_radius": 300,
-      "texture": ["default"],
+      "texture": ["gaseous_blue_01","gaseous_blue_02","gaseous_blue_03","gaseous_blue_04","gaseous_blue_05"],
       "available_ressources": [
         { "name": "neutral_gas", "spawn_rate": 6 }
       ]
@@ -139,7 +139,7 @@
       "max_mass": "3e4",
       "min_radius": 90,
       "max_radius": 120,
-      "texture": ["default"],
+      "texture": ["silicon_01","silicon_02","silicon_03","silicon_04"],
       "available_ressources": [
         { "name": "raw_silicon", "spawn_rate": 7 }
       ]
@@ -169,7 +169,7 @@
       "max_mass": "3e4",
       "min_radius": 90,
       "max_radius": 120,
-      "texture": ["default"],
+      "texture": ["mineral_01","mineral_02","mineral_03","mineral_04","mineral_05","mineral_06","mineral_07","mineral_08"],
       "available_ressources": [
         { "name": "raw_silicon", "spawn_rate": 7 },
         { "name": "compressed_carbon", "spawn_rate": 4 },
