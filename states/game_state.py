@@ -104,6 +104,8 @@ class GameState(BaseState):
         # Timer pour la mise à jour des ressources quand on est posé sur une planète
         self.landed_update_timer = 0.0
 
+        self.tech_tree = self.game.data_manager.tech_tree.session_data
+
     def handle_event(self, event, pos):
         # Gestion des événements ponctuels
 
@@ -181,21 +183,21 @@ class GameState(BaseState):
                 self.state_manager.set_state(GameSettingsState(self.state_manager, self.game))  # changer le state
 
                 # Vérification du clique de la souris sur le bouton
-                if click_button("tech_tree", pos, (20, 20)):
-                    from .tech_tree_state import TechTreeState
-                    # Définie l'état courant à TechTreeState
-                    # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
-                    self.state_manager.set_state(TechTreeState(self.state_manager, self.game))
+            if click_button("tech_tree", pos, (20, 20)):
+                from .tech_tree_state import TechTreeState
+                # Définie l'état courant à TechTreeState
+                # Note : self.game passé en paramètre, pour pouvoir récupérer la game en court (ne pas regénérer la map)
+                self.state_manager.set_state(TechTreeState(self.state_manager, self.game))
                 
-                if click_button("inventory", pos, (20, 20)):
-                    from .inventory_state import InventoryState
-                    # Passe l'état courant à inventory_state
-                    self.state_manager.set_state(InventoryState(self.state_manager, self.game))
+            if click_button("inventory", pos, (20, 20)):
+                from .inventory_state import InventoryState
+                # Passe l'état courant à inventory_state
+                self.state_manager.set_state(InventoryState(self.state_manager, self.game))
                 
-                if click_button("crafting", pos, (20, 20)):
-                    from .crafting_state import CraftingState
-                    # Passe l'état courant à crafting_state
-                    self.state_manager.set_state(CraftingState(self.state_manager, self.game))
+            if click_button("crafting", pos, (20, 20)):
+                from .crafting_state import CraftingState
+                # Passe l'état courant à crafting_state
+                self.state_manager.set_state(CraftingState(self.state_manager, self.game))
 
         # Rotation gauche (si nitrogène > 0)
         if actions["spaceship_rotate_left"] and self.game.spaceship.nitrogen > 0:
@@ -233,6 +235,20 @@ class GameState(BaseState):
             rad = math.radians(self.game.spaceship.angle)
 
             # Application de la force en direction du vaisseau
+            print(self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_1"]["unlocked"])
+            if self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_3"]["unlocked"]:
+                print("4")
+                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T3
+            elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_2"]["unlocked"]:
+                print("3")
+                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T2
+            elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_1"]["unlocked"]:
+                print("2")
+                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T1
+            elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_0"]["unlocked"]:
+                print("1")
+                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T0
+                
             fx = SPACESHIP_THRUST_FORCE * math.sin(rad)
             fy = -SPACESHIP_THRUST_FORCE * math.cos(rad)
 

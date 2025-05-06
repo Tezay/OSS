@@ -679,8 +679,8 @@ class Hud:
 
         # Création des textes à afficher
         position_text = f"Position: x: {self.position[0]:.2f}, y: {self.position[1]:.2f}"
-        velocity_text = f"Velocity: {self.velocity:.2f}"
-        forces_text = f"Spaceship resultant force: {self.resultant_force:.2f}"
+        velocity_text = f"Vitesse: {self.velocity:.2f}"
+        forces_text = f"resultant force: {self.resultant_force:.2f}"
         left_nitrogen_text = f"Nitrogen: {self.left_nitrogen:.2f}"
         left_propellant_text = f"Propellant: {self.left_propellant:.2f}"
 
@@ -737,6 +737,7 @@ class Hud:
         position_y = position_text[21:29]
         draw_text(custom_size(13, 31.75), position_y)
         draw_text(custom_size(13, 33), velocity_text)
+        draw_text(custom_size(18, 31), forces_text)
 
         # Draw landing message if it exists
         if self.landing_message:

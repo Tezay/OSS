@@ -254,18 +254,17 @@ def position_button(name):
 
 
 
-def overlay(txt, mouse,font_size=17):
-    coord_buttons=grille(False)
+def overlay(txt, mouse, font_size=17):
+    coord_buttons = grille(False)
     # Chemin de l'image source
     image_path = "assets/overlay_texture.png"
     original_image = pygame.image.load(image_path).convert_alpha()
 
-
     # Taille de l'image
-    tech_button_size_widht =coord_buttons[16][0][1]    #x sur la grille
-    tech_button_size_height = coord_buttons[0][12][0]   #y sur la grille
+    tech_button_size_width = coord_buttons[16][0][1]    # x sur la grille
+    tech_button_size_height = coord_buttons[0][12][0]  # y sur la grille
     # Recadrer et forcer le redimensionnement exact
-    resized_image = pygame.transform.scale(original_image, (tech_button_size_widht, tech_button_size_height))
+    resized_image = pygame.transform.scale(original_image, (tech_button_size_width, tech_button_size_height))
 
     # Ajouter transparence
     alpha = 240
@@ -276,7 +275,7 @@ def overlay(txt, mouse,font_size=17):
 
     # Gestion du texte (multi-lignes si nécessaire)
     padding = 20
-    max_text_width = tech_button_size_widht - 2 * padding
+    max_text_width = tech_button_size_width - 2 * padding
     words = txt.split(' ')
     lines = []
     line = []
@@ -287,9 +286,9 @@ def overlay(txt, mouse,font_size=17):
         word_width = font.size(word)[0]
         if word == "\n":  # Saut de ligne explicite
             lines.append(' '.join(line))
-            line=[]
+            line = []
             line_width = word_width
-        elif line_width + word_width + space_width > max_text_width or word== "\n":  # Nouvelle ligne nécessaire
+        elif line_width + word_width + space_width > max_text_width or word == "\n":  # Nouvelle ligne nécessaire
             lines.append(' '.join(line))
             line = [word]
             line_width = word_width
@@ -316,9 +315,16 @@ def overlay(txt, mouse,font_size=17):
         resized_image.blit(text_surface, (text_x, text_y))
         text_y += line_height  # Avancer vers la ligne suivante
 
+    # Vérifier si l'overlay dépasse les limites de l'écran
+    screen_width, screen_height = pygame.display.get_surface().get_size()
+    overlay_x = mouse[0]
+    overlay_y = mouse[1]
+
+    if overlay_y + tech_button_size_height > screen_height:
+        overlay_y = screen_height - tech_button_size_height
 
     # Afficher l'image redimensionnée avec texte sur l'écran
-    screen.blit(resized_image, (mouse[0], mouse[1]))
+    screen.blit(resized_image, (overlay_x, overlay_y))
 
 def draw_text(coord, txt, font_size=12, color=(255, 255, 255)):
     x = coord[0]

@@ -15,7 +15,10 @@ DEBUG_MODE = False  # Active ou désactive le mode debug
 # ----------------------------- PARAMÈTRES DU VAISSEAU -----------------------------
 # Rotation et vitesse du vaisseau 
 SPACESHIP_ROTATION_SPEED = 90  # Vitesse de rotation en degrés par seconde
-SPACESHIP_THRUST_FORCE = 600  # Force de poussée en Newton
+SPACESHIP_THRUST_FORCE_T0 = 600  # Force de poussée en Newton
+SPACESHIP_THRUST_FORCE_T1=1000 # Force de poussée en Newton pour le moteur T2
+SPACESHIP_THRUST_FORCE_T2=1500 # Force de poussée en Newton pour le moteur T3
+SPACESHIP_THRUST_FORCE_T3=2000 # Force de poussée en Newton pour le moteur T4
 SPACESHIP_MAX_SPEED = 100  # Vitesse maximale du vaisseau
 SPACESHIP_MASS = 40  # Masse du vaisseau en unités arbitraires
 SPACESHIP_MAX_PROPELLANT = 50  # Quantité maximale de propergol
