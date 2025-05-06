@@ -75,6 +75,7 @@ OSS/
 │   ├── menu_state.py   # État du menu principal
 │   ├── inventory_state.py # État de l'écran d'inventaire
 │   ├── tech_tree_state.py # État de l'écran de l'arbre technologique
+│   ├── tutorial_state.py # État pour le tutoriel initial
 │   ├── settings_state/ # Sous-répertoire pour les états du menu des paramètres
 │   │   ├── settings_menu_state.py
 │   │   └── ... (autres sous-états des paramètres)

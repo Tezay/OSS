@@ -149,6 +149,12 @@ class Hud:
                 self.current_dialogue_index = -1
                 self.dialogues = []
 
+    def clear_dialogues(self):
+        """Efface tous les dialogues et réinitialise les attributs liés."""
+        self.dialogues = []
+        self.current_dialogue_index = 0
+        self.show_dialogues = False
+
     def draw_minimap(self, surface, camera, world_surface):
         """
         Dessine la mini-map en utilisant une vue réduite de la caméra.
@@ -300,7 +306,7 @@ class Hud:
         button_text_rect = button_text_surf.get_rect(center=self.collect_button_rect.center)
         surface.blit(button_text_surf, button_text_rect)
 
-    def draw_dialogue(self, surface):
+    def draw_dialogues(self, surface):
         """Dessine le dialogue actuel si l'affichage est actif."""
         if self.show_dialogues and 0 <= self.current_dialogue_index < len(self.dialogues):
             dialogue_text = self.dialogues[self.current_dialogue_index]
@@ -556,7 +562,7 @@ class Hud:
             self.collect_button_rect = None
 
         # Dessiner le dialogue actuel si nécessaire
-        self.draw_dialogue(surface)
+        self.draw_dialogues(surface)
 
         # Dessiner les informations des touches de contrôles
         self.draw_controls_info(surface)

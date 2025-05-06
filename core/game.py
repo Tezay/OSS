@@ -35,6 +35,7 @@ class Game():
         self.camera = None
         self.data_manager = DataManager()
         self.sound_manager = SoundManager()
+        self.tutorial_completed_this_session = False
 
         # Surface "monde" 
         self.world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
@@ -410,7 +411,7 @@ class Game():
         # En mode debug, affichage d'infos
         if DEBUG_MODE:
             font = pygame.font.Font(None, 24)
-            debug_text = f"Camera pos: ({self.camera.view_rect.x}, {self.camera.view_rect.y})  Zoom: {self.camera.zoom:.2f}  Seed: self.seed"
+            debug_text = f"Camera pos: ({self.camera.view_rect.x}, {self.camera.view_rect.y})  Zoom: {self.camera.zoom:.2f}"
             text = font.render(debug_text, True, (255, 255, 255))
             screen.blit(text, (10, 10))
 
