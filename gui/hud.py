@@ -1,10 +1,12 @@
 import pygame
 import math
 import os
+import time
 
 from gui.buttons import *
 from config import *
 from systems.planet_resources import load_item_images
+from core.json_manager import get_dialogues
 
 
 # Classe pour gérer l'interface dans le jeu
@@ -83,6 +85,19 @@ class Hud:
         except pygame.error as e:
             print(f"Error while charing key texture : {e}")
 
+        # Liste des boites d'info
+        self.info_boxes = []
+        # Police des boites d'info
+        self.info_box_font = pygame.font.Font(FONT_PATH, INFO_BOX_FONT_SIZE)
+        
+        # Récup icon ampoule pour les boites info
+        self.bulb_icon = pygame.image.load(BULB_ICON_PATH).convert_alpha()
+        # Redimensionnement de l'icon
+        self.bulb_icon = pygame.transform.scale(self.bulb_icon, (30, 30))
+        
+        # Chargement des textes des boites d'infos depuis le fichier JSON
+        self.info_box_texts = get_dialogues("info_boxes") or {}
+
     def update(self, spaceship):
         # Position du vaisseau
         self.position = (spaceship.x, spaceship.y)
@@ -113,6 +128,9 @@ class Hud:
         # Réinitialiser le rect du bouton si pas atterri (après avoir redécollé)
         if not self.landed_planet:
             self.collect_button_rect = None
+
+        # Update boites d'info
+        self.update_info_boxes()
 
     def load_dialogues(self, dialogues_list):
         """
@@ -154,6 +172,159 @@ class Hud:
         self.dialogues = []
         self.current_dialogue_index = 0
         self.show_dialogues = False
+
+    def add_info_box(self, key_or_text, duration=None):
+        """
+        Ajoute une boîte d'information à afficher.
+        
+        :param key_or_text: Clé du texte dans info_box_texts ou texte direct à afficher
+        :param duration: Durée d'affichage en secondes (None = valeur par défaut)
+        """
+        # Si duration est None : utilise durée par défaut
+        if duration is None:
+            duration = INFO_BOX_DISPLAY_DURATION
+        
+        # Récup texte à partir de la clé si présente dans dico
+        text = self.info_box_texts.get(key_or_text, key_or_text)
+        
+        # Création dico pour stocker infos des boites d'infos
+        info_box = {
+            "text": text,
+            # Heure création (pour calculer temps d'affichage)
+            "creation_time": time.time(),
+            # Durée d'affichage
+            "duration": duration,
+            # Transparence
+            "opacity": 180,
+            "rendered_lines": [],
+        }
+        
+        # Découper texte en lignes pour retours à la lignes
+        # Liste vide pour stocker les lignes de texte
+        lines = []
+        ## Découper le texte en mots
+        words = text.split()
+        # Première ligne de texte (avec premier mot)
+        current_line = words[0]
+        
+        # Itère sur les mots restants de la ligne
+        for word in words[1:]:
+            # Test si le prochain mot rentre encore sur la ligne
+            test_line = current_line + " " + word
+            # Récup largeur ligne testée
+            test_width, _ = self.info_box_font.size(test_line)
+            
+            # Si largeur ligne testée inférieure à largeur max
+            if test_width <= INFO_BOX_MAX_WIDTH:
+                # Ajoute le mot à la ligne courante
+                current_line = test_line
+            # Sinon ajoute la ligne courante à la liste et vérif la ligne suivante
+            else:
+                lines.append(current_line)
+                current_line = word
+        
+        # Ajouter dernière ligne
+        if current_line:
+            lines.append(current_line)
+        
+        # Render chaque ligne de texte
+        for line in lines:
+            rendered_line = self.info_box_font.render(line, True, (255, 255, 255))
+            info_box["rendered_lines"].append(rendered_line)
+        
+        # Ajouter la boite d'info à la liste
+        self.info_boxes.append(info_box)
+
+    def update_info_boxes(self):
+        """
+        Met à jour les boîtes d'information (durée, animations, etc.)
+        et supprime celles qui ont dépassé leur durée d'affichage.
+        """
+        current_time = time.time()
+        updated_boxes = []
+        
+        for box in self.info_boxes:
+            # Calculer le temps écoulé depuis la création
+            elapsed = current_time - box["creation_time"]
+            
+            # Vérifier si la boîte d'info doit être conservée
+            if elapsed < box["duration"]:
+                # Animation transparence
+                if elapsed < 0.5:
+                    # Fade-in 0.5sec
+                    box["opacity"] = int(230 * (elapsed / 0.5))
+                elif elapsed > box["duration"] - 0.5:
+                    # Fade-out 0.5sec
+                    box["opacity"] = int(230 * ((box["duration"] - elapsed) / 0.5))
+                else:
+                    box["opacity"] = 230
+                
+                # Conserver cette boîte
+                updated_boxes.append(box)
+        
+        # Update liste des boites d'info
+        self.info_boxes = updated_boxes
+
+    def draw_info_boxes(self, surface):
+        """
+        Dessine les boîtes d'information actives sur l'écran.
+        """
+        if not self.info_boxes:
+            return
+        
+        # Position départ pour les boîtes d'info
+        start_x, start_y = 10, 40
+        # Espace entre bord et contenu
+        padding = 10
+        # Espace entre lignes
+        line_spacing = 5
+        # Espace entre boites (si plusieurs)
+        box_spacing = 10
+        # Coordonnée y première boite
+        current_y = start_y
+        
+        #Itérer sur chaque boîte d'info
+        for box in self.info_boxes:
+            # Récup dimensions des lignes affichées
+            line_heights = [line.get_height() for line in box["rendered_lines"]]
+            max_width = max([line.get_width() for line in box["rendered_lines"]], default=0)
+            
+            # Calculer dimensions icon ampoule
+            icon_width = self.bulb_icon.get_width()
+            # Calculer dimensions boite info (avec marge sur les côtés)
+            box_width = max(icon_width, max_width) + 2 * padding + 40
+            box_height = sum(line_heights) + (len(line_heights) - 1) * line_spacing + 2 * padding
+            
+            # Créer surface boite
+            box_surface = pygame.Surface((box_width, box_height), pygame.SRCALPHA)
+            
+            # Remplir avec une couleur semi-transparente
+            box_surface.fill((0, 0, 0, int(box["opacity"] * 0.8)))
+            
+            # Dessiner contour boite
+            pygame.draw.rect(box_surface, (100, 100, 100, box["opacity"]), (0, 0, box_width, box_height), 1)
+            
+            # Dessiner icon ampoule
+            icon_with_opacity = self.bulb_icon.copy()
+            icon_with_opacity.set_alpha(box["opacity"])
+            box_surface.blit(icon_with_opacity, (padding, padding))
+            
+            # Dessiner le texte ligne par ligne
+            text_x = padding + icon_width + 5
+            text_y = padding
+            
+            # Itère sur les lignes de texte
+            for line in box["rendered_lines"]:
+                # Dessine ligne
+                box_surface.blit(line, (text_x, text_y))
+                # Update coordonnée Y pour ligne suivante
+                text_y += line.get_height() + line_spacing
+            
+            # Dessiner boite d'info sur l'écran
+            surface.blit(box_surface, (start_x, current_y))
+            
+            # Update de la coordonnée Y pour la prochaine boite
+            current_y += box_height + box_spacing
 
     def draw_minimap(self, surface, camera, world_surface):
         """
@@ -477,8 +648,27 @@ class Hud:
         surface.blit(label, (pos_x_text, current_y + (line_height - label.get_height()) // 2))
         # Pas besoin de décrémenter current_y car dernière ligne (+ haute)
 
+    def draw_game_timer(self, surface, timer_value):
+        """
+        Dessine le timer du jeu en bas au centre de l'écran.
+        :param surface: La surface sur laquelle dessiner.
+        :param timer_value: Le temps restant en secondes.
+        """
+        # Formater le temps en MM:SS
+        minutes = int(timer_value // 60)
+        seconds = int(timer_value % 60)
+        # Création texte timer
+        timer_text = f"{minutes:02d}:{seconds:02d}"
+        
+        # Render le texte
+        timer_surface = self.font.render(timer_text, True, (255, 255, 255))
+        
+        # Positionner le texte en bas au centre
+        timer_rect = timer_surface.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 50))
+        
+        surface.blit(timer_surface, timer_rect)
 
-    def draw(self, surface, camera, world_surface, world_surface_wiouth_stars):
+    def draw(self, surface, camera, world_surface, world_surface_wiouth_stars, persistent_game_timer_value):
         """
         Dessine l'HUD.
         """
@@ -561,11 +751,17 @@ class Hud:
             # S'assurer que le rect est None si pas atterri
             self.collect_button_rect = None
 
+        # Dessiner les boîtes d'information
+        self.draw_info_boxes(surface)
+
         # Dessiner le dialogue actuel si nécessaire
         self.draw_dialogues(surface)
 
         # Dessiner les informations des touches de contrôles
         self.draw_controls_info(surface)
+
+        # Dessiner le timer du jeu
+        self.draw_game_timer(surface, persistent_game_timer_value)
 
 
 

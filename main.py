@@ -1,17 +1,30 @@
 import pygame
 import sys
-from config import WINDOW_WIDTH, WINDOW_HEIGHT, FPS
+from config import WINDOW_WIDTH, WINDOW_HEIGHT, FPS, GAME_TIMER_DURATION
 from states.menu_state import *
 from core.input_manager import get_actions
+import time  # Import time
 
 
 # Classe pour gérer les différents état du jeu (les menus)
 class StateManager:
     def __init__(self):
         self.current_state = None
+        # Temps démarrage du timer de jeu
+        self.game_timer_start_time = None
+        # Durée totale du timer de jeu
+        self.persistent_game_timer_value = GAME_TIMER_DURATION
 
     def set_state(self, new_state):
         self.current_state = new_state
+
+    def reset_persistent_timer(self):
+        """
+        Réinitialise les attributs du timer persistant pour une nouvelle partie.
+        """
+        print("Reset game timer.")
+        self.game_timer_start_time = None
+
 
 # Fonction principale
 def main():

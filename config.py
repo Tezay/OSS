@@ -99,6 +99,19 @@ DIRECTIONAL_ARROW_TEXTURE_PATH = "assets/directional_arrow.png"  # Texture de la
 button_size_widht = 12  # Largeur : 20% de la largeur de la fenêtre
 button_size_height = 4  # Hauteur : 10% de la hauteur de la fenêtre
 
+# ----------------------------- PARAMÈTRES DU TIMER DE JEU -----------------------------
+# Durée du timer de jeu en secondes (20 minutes)
+GAME_TIMER_DURATION = 1200  # 20 minutes * 60 secondes
+
+# ----------------------------- PARAMÈTRES DES BOÎTES DE DIALOGUE -----------------------------
+# Chemins pour les assets des boîtes de dialogue
+BULB_ICON_PATH = "assets/bulb.png"
+# Durée d'affichage des boîtes de dialogue en secondes
+INFO_BOX_DISPLAY_DURATION = 20  # Durée par défaut d'affichage (10 secondes)
+# Taille de la police pour les boîtes de dialogue
+INFO_BOX_FONT_SIZE = 16
+# Largeur maximale des boîtes de dialogue en pixels
+INFO_BOX_MAX_WIDTH = 350
 
 # ----------------------------- PARAMÈTRES DE RENDU -----------------------------
 # Distance de rendu autour du vaisseau

@@ -24,6 +24,8 @@ class MenuState(BaseState):
             # Vérification de la touche associée au démarrage du jeu
             if event.key == KEY_BINDINGS["start_game"]:
                 from .game_state import GameState
+                # Réinitialiser le timer persistant avant de lancer une nouvelle partie
+                self.state_manager.reset_persistent_timer()
                 # Passe l'état courant à game_state
                 self.state_manager.set_state(GameState(self.state_manager))
 
@@ -35,6 +37,8 @@ class MenuState(BaseState):
         # Vérification du clique de la souris sur le bouton
         if mouse_clicked:
             if click_button("launch",pos,self.size): 
+                # Réinitialiser le timer persistant avant de lancer une nouvelle partie
+                self.state_manager.reset_persistent_timer()
                 # Passe l'état courant à game_state
                 self.state_manager.set_state(GameState(self.state_manager))
 

@@ -330,7 +330,7 @@ class Game():
         return deadly_collision
 
 
-    def draw(self, screen, respawning=False):
+    def draw(self, screen, respawning=False, persistent_game_timer_value=0):
         """
         Dessine le jeu sur l'écran (surface "screen").
         """
@@ -406,7 +406,7 @@ class Game():
                             draw_segment = not draw_segment
 
         # Dessin de l'HUD avec la caméra et la surface du monde
-        self.hud.draw(screen, self.camera, self.world,self.world_wiouth_stars)
+        self.hud.draw(screen, self.camera, self.world,self.world_wiouth_stars, persistent_game_timer_value)
 
         # En mode debug, affichage d'infos
         if DEBUG_MODE:

@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+import time
 
 from config import *
 from .base_state import BaseState
@@ -24,6 +25,15 @@ class GameState(BaseState):
         self.state_manager = state_manager
         self.font = custom_font
         self.pending_tutorial_state = False
+
+        # Initialisation du timer de jeu via StateManager (si pas déjà fait)
+        if self.state_manager.game_timer_start_time is None:
+            self.state_manager.game_timer_start_time = time.time()
+
+        # Indicateur pour savoir si les missions ont déjà été affichées
+        self.first_tip_shown = False
+        self.landing_tip_shown = False
+        self.resources_tip_shown = False
 
         # Vérification si un état game déjà crée a été transmis en paramètre
         # Note : Permet d'éviter de regénérer entièrement la map lors de changement d'état
@@ -308,11 +318,36 @@ class GameState(BaseState):
                 # Réinitialise le timer pour la prochaine mise à jour
                 self.landed_update_timer -= 10.0
 
+        # Mise à jour du timer de jeu via StateManager
+        current_time = time.time()
+        elapsed_since_start = current_time - self.state_manager.game_timer_start_time
+        self.state_manager.persistent_game_timer_value = max(0, GAME_TIMER_DURATION - elapsed_since_start)
+        
+        # Vérif pour afficher conseil récup fuel
+        if ( not self.first_tip_shown and self.game.spaceship.propellant < SPACESHIP_MAX_PROPELLANT - 10 ) or self.game.spaceship.propellant < 20:
+            self.first_tip_shown = True
+            self.game.hud.add_info_box("first_tip")
+            print("Affichage de la première mission")
+        
+        # Vérif pour afficher conseil atterrissage
+        if not self.landing_tip_shown and self.game.hud.resultant_force > 8:
+            self.landing_tip_shown = True
+            self.game.hud.add_info_box("landing_tip")
+            print("Affichage de la mission d'atterrissage")
+
+        # Vérif pour afficher conseil ressources planète
+        if not self.resources_tip_shown:
+            self.resources_tip_shown = True
+            self.game.hud.add_info_box("resources_tip")
+            print("Affichage de la mission ressources")
+
     def draw(self, screen, pos):
 
-
+        # Récup la valeur actuelle du timer persistant depuis le StateManager pour afficher
+        timer_value_to_display = self.state_manager.persistent_game_timer_value
+        
         # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
-        self.game.draw(screen)
+        self.game.draw(screen, persistent_game_timer_value=timer_value_to_display)
 
         nitrogen=self.game.spaceship.nitrogen
         propellant=self.game.spaceship.propellant
