@@ -2,6 +2,7 @@ import pygame
 import math
 import random
 import time
+import os
 
 from config import *
 from .base_state import BaseState
@@ -13,6 +14,7 @@ from world.camera import Camera
 import config
 from core.json_manager import *
 from systems.planet_resources import collect_planet_resources
+from core.sound_manager import SoundManager
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -93,8 +95,10 @@ class GameState(BaseState):
             if not self.game.tutorial_completed_this_session and self.game.hud.show_dialogues:
                 self.pending_tutorial_state = True
 
-        # Booléen pour savoir si le son "engine_powered" est en cours de lecture
+        # Booléen pour savoir si le son "engine_powered" et "ambiance" est en cours de lecture
         self.engine_sound_playing = False
+        self.ambiance_sound_playing = False
+        self.landed_sound_playing = False
 
         # Initialisation du timer afk
         self.afk_timer = 0
@@ -157,6 +161,8 @@ class GameState(BaseState):
                 # Appel de la fonction pour collecter les ressources de la planète
                 collect_planet_resources(self.game.spaceship.landed_planet, self.game.data_manager.inventory)
                 print("Collect resources button clicked!")
+                # Joue le son de collecte de ressources
+                self.game.sound_manager.play_sound("collect_resources", "collect_resources.wav")
 
     def update(self, dt, actions, pos, mouse_clicked):
 
@@ -305,17 +311,17 @@ class GameState(BaseState):
         # anti-Afk
         # Initialisation du timer avec Pygame
         current_ship_pos = (self.game.spaceship.x, self.game.spaceship.y)
-        current_time = pygame.time.get_ticks()
+        current_time_afk = pygame.time.get_ticks()
         # Vérification si une touche est préssée
         if ( not (math.isclose(current_ship_pos[0], self.last_ship_pos[0], abs_tol=0.001) and math.isclose(current_ship_pos[1], self.last_ship_pos[1], abs_tol=0.001 ))):
             self.game.afk_timer = 0
             self.last_ship_pos = current_ship_pos
-            self.last_time = current_time  # Met à jour le temps actuel
+            self.last_time = current_time_afk  # Met à jour le temps actuel
         else:
             # Vérifie si une seconde (1000 ms) est passée
-            if current_time - self.last_time >= 1000:
+            if current_time_afk - self.last_time >= 1000:
                 self.game.afk_timer += 1
-                self.last_time = current_time  # Met à jour le temps actuel
+                self.last_time = current_time_afk  # Met à jour le temps actuel
 
         # Si le joueur est afk depuis 90 secondes déclenche l'état AFK (NE MARCHE PAS )
         if (self.game.afk_timer > AFK_TIME):
@@ -356,6 +362,49 @@ class GameState(BaseState):
             self.resources_tip_shown = True
             self.game.hud.add_info_box("resources_tip")
             print("Affichage de la mission ressources")
+
+        # Vérifie en permanence si le vaisseau n'est pas détruit ou posé avant de jouer le son d'ambiance
+        if not dead and not self.game.spaceship.is_landed:
+            if not self.ambiance_sound_playing: 
+                random_sound = random.choice(["ambiance_1.wav", "ambiance_2.wav", "ambiance_3.wav", "ambiance_4.wav", "ambiance_5.wav", "ambiance_6.wav"])
+                print(f"Loading sound: {random_sound}")
+                name_without_extension, extension = os.path.splitext(random_sound)
+                self.game.sound_manager.play_sound(name_without_extension, random_sound)
+                self.ambiance_sound_playing = True
+                self.ambiance_wait_timer = pygame.time.get_ticks()  # Start the timer
+                random_sound_path = os.path.join("assets/sounds", random_sound)
+                self.current_ambiance_duration = pygame.mixer.Sound(random_sound_path).get_length() * 1000  # Récupérer la durée du son en millisecondes
+
+            if self.ambiance_sound_playing:
+                play_or_not = random.choice([ultra_pause, long_pause, short_pause, mini_pause])
+                current_time_song = pygame.time.get_ticks()
+                # Vérifie si le son d'ambiance a été joué pendant la durée spécifiée
+                if current_time_song - self.ambiance_wait_timer >= self.current_ambiance_duration + play_or_not * 1000:
+                    self.game.sound_manager.stop_sound(name_without_extension)
+                    self.ambiance_sound_playing = False
+        else:
+            # Arrête le son d'ambiance si le vaisseau est détruit ou posé
+            if self.ambiance_sound_playing:
+                self.game.sound_manager.stop_sound("ambiance")
+                self.ambiance_sound_playing = False
+
+
+        # Son pour l'atterrissage du vaisseau sur une planète
+        if self.game.spaceship.is_landed:
+            # Si le vaisseau est posé sur une planète et que le son n'est pas déjà joué
+            if not self.landed_sound_playing:
+                # Joue le son d'atterrissage
+                random_sound_landed = random.choice(["success_landing.ogg", "success_landing_2.ogg"])
+                print(f"Loading sound: {random_sound_landed}")
+                name_without_extension_landed, extension = os.path.splitext(random_sound_landed)
+                self.game.sound_manager.play_sound(name_without_extension_landed, random_sound_landed)
+                self.game.sound_manager.stop_sound(name_without_extension_landed)
+                # Marque le son comme joué
+                self.game.spaceship.landed_planet.sound_playing = True
+        
+            
+
+
 
     def draw(self, screen, pos):
 

@@ -123,7 +123,13 @@ if DEBUG_MODE==True:
 else:
         RENDER_DISTANCE = WINDOW_WIDTH * 2  # Rayon en pixels
 
-
+# ----------------------------- PARAMÈTRES DU SON -----------------------------
+# Temps d'attente entre les sons (en secondes)
+ultra_pause = 300 
+long_pause =  180
+short_pause = 60
+mini_pause = 30
+  
 # ----------------------------- PARAMÈTRES DE LA CAMÉRA -----------------------------
 # Vitesse de déplacement de la caméra en mode debug
 CAMERA_SPEED = 50  # Vitesse de déplacement en pixels par frame
