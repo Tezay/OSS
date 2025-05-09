@@ -14,7 +14,6 @@ from world.camera import Camera
 import config
 from core.json_manager import *
 from systems.planet_resources import collect_planet_resources
-from core.sound_manager import SoundManager
 
 # Classe enfant de BaseState
 # Méthodes utilisées :
@@ -99,6 +98,9 @@ class GameState(BaseState):
         self.engine_sound_playing = False
         self.ambiance_sound_playing = False
         self.landed_sound_playing = False
+        self.propulsion_sound_playing = False
+        self.game.spaceship.propellant_alert_playing = False
+        self.game.spaceship.nitrogen_alert_playing = False
 
         # Initialisation du timer afk
         self.afk_timer = 0
@@ -226,10 +228,23 @@ class GameState(BaseState):
             self.game.spaceship.consume_nitrogen(0.2 * dt)
             # Activation de la texture RCS propulsion droite
             self.game.spaceship.set_rcs_texture_state(True, "right")
-
+      
+        if actions["spaceship_rotate_left"] or actions["spaceship_rotate_right"]:
+            # Si le vaisseau est en rotation, on joue le son de propulsion
+            if not self.propulsion_sound_playing:
+                self.game.sound_manager.play_sound("propulsion_sound", "propulsion_sound.wav")
+                self.propulsion_sound_playing = True
+       
         # Désactivation des textures RCS si aucune rotation    
         else:
             self.game.spaceship.set_rcs_texture_state(False)
+        
+            # Arrêter le son de propulsion si aucune rotation
+            if self.propulsion_sound_playing:
+                self.game.sound_manager.stop_sound("propulsion_sound")
+                self.propulsion_sound_playing = False
+
+        
 
         # Poussée continue si touche préssée (si propellant > 0)
         if actions["spaceship_move"] and self.game.spaceship.propellant > 0:
@@ -380,7 +395,6 @@ class GameState(BaseState):
                 current_time_song = pygame.time.get_ticks()
                 # Vérifie si le son d'ambiance a été joué pendant la durée spécifiée
                 if current_time_song - self.ambiance_wait_timer >= self.current_ambiance_duration + play_or_not * 1000:
-                    self.game.sound_manager.stop_sound(name_without_extension)
                     self.ambiance_sound_playing = False
         else:
             # Arrête le son d'ambiance si le vaisseau est détruit ou posé
@@ -398,11 +412,33 @@ class GameState(BaseState):
                 print(f"Loading sound: {random_sound_landed}")
                 name_without_extension_landed, extension = os.path.splitext(random_sound_landed)
                 self.game.sound_manager.play_sound(name_without_extension_landed, random_sound_landed)
-                self.game.sound_manager.stop_sound(name_without_extension_landed)
                 # Marque le son comme joué
-                self.game.spaceship.landed_planet.sound_playing = True
-        
+                self.landed_sound_playing = True
+        if not self.game.spaceship.is_landed:
+            self.landed_sound_playing = False
             
+
+        # Son d'alerte pour le vaisseau (si propellant < 10% de la capacité max)
+        if (self.game.spaceship.propellant < SPACESHIP_MAX_PROPELLANT * 0.1 ):
+            if not self.game.spaceship.propellant_alert_playing:
+                # Joue le son d'alerte
+                self.game.sound_manager.play_sound("propellant_alert", "propellant_alert.wav")
+                # Marque le son comme joué
+                self.game.spaceship.propellant_alert_playing = True
+
+        if (self.game.spaceship.propellant >= SPACESHIP_MAX_PROPELLANT * 0.1) :
+            self.game.spaceship.propellant_alert_playing = False
+
+        # Son d'alerte pour le vaisseau (si nitrogen < 10% de la capacité max)
+        if (self.game.spaceship.nitrogen < SPACESHIP_MAX_NITROGEN * 0.1 ):
+            if not self.game.spaceship.nitrogen_alert_playing:
+                # Joue le son d'alerte
+                self.game.sound_manager.play_sound("propellant_alert", "propellant_alert.wav")
+                # Marque le son comme joué
+                self.game.spaceship.nitrogen_alert_playing = True
+
+        if (self.game.spaceship.nitrogen >= SPACESHIP_MAX_NITROGEN * 0.1) :
+            self.game.spaceship.nitrogen_alert_playing = False
 
 
 

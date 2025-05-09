@@ -70,7 +70,7 @@ class InventoryState(BaseState):
                     # Vérifie si le clic est à l'intérieur du rect de l'item
                     if rect.collidepoint(pos):
                         print(f"Clicked on item: {item_name}")
-
+                        self.game.sound_manager.play_sound("use_item", "use_item.wav")
                         # Recharge fuel neutral_gas
                         if item_name == "neutral_gas":
                             # Check si le joueur a l'item avant de le retirer
