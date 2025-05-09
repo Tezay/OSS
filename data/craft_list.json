@@ -7,6 +7,104 @@
           {"name": "liquid_water", "quantity": 5},
           {"name": "compressed_carbon", "quantity": 3}
         ]
+      },
+      {
+        "result": {"name": "advance_circuit", "quantity": 1},
+        "ingredients": [
+          {"name": "raw_silicon", "quantity": 5},
+          {"name": "stellar_dust", "quantity": 3}
+        ]
+      },
+      {
+        "result": {"name": "metal_fusion", "quantity": 1},
+        "ingredients": [
+          {"name": "iron_ore", "quantity": 5},
+          {"name": "compressed_carbon", "quantity": 2}
+        ]
+      },
+      {
+        "result": {"name": "composant_bio", "quantity": 1},
+        "ingredients": [
+          {"name": "organic_fibers", "quantity": 4},
+          {"name": "liquid_water", "quantity": 3}
+        ]
+      },
+      {
+        "result": {"name": "oxygenator", "quantity": 1},
+        "ingredients": [
+          {"name": "raw_silicon", "quantity": 3},
+          {"name": "frozen_water", "quantity": 4}
+        ]
+      },{
+        "result": {"name": "propellant_mix", "quantity": 1},
+        "ingredients": [
+          {"name": "neutral_gas", "quantity": 3},
+          {"name": "compressed_carbon", "quantity": 3}
+        ]
+      },
+      {
+        "result": {"name": "ice_cell", "quantity": 1},
+        "ingredients": [
+          {"name": "frozen_water", "quantity": 2},
+          {"name": "hydrogen_gas", "quantity": 4}
+        ]
+      },
+      {
+        "result": {"name": "radar_update", "quantity": 1},
+        "ingredients": [
+          {"name": "advance_curcuit", "quantity": 1},
+          {"name": "luminous_lithium", "quantity": 2}
+        ]
+      },
+      {
+        "result": {"name": "engine_update_1", "quantity": 1},
+        "ingredients": [
+          {"name": "advance_circuit", "quantity": 1},
+          {"name": "metal_fusion", "quantity": 2}
+        ]
+      },
+      {
+        "result": {"name": "engine_update_2", "quantity": 1},
+        "ingredients": [
+          {"name": "engine_update_1", "quantity": 1},
+          {"name": "metal_fusion", "quantity": 1}
+        ]
+      },
+      {
+        "result": {"name": "colony_kit", "quantity": 1},
+        "ingredients": [
+          {"name": "metal_fusion", "quantity": 2},
+          {"name": "composant_bio", "quantity": 2},
+          {"name": "oxygenator", "quantity": 1}
+        ]
+      },
+      {
+        "result": {"name": "propellant_tank_1", "quantity": 1},
+        "ingredients": [
+          {"name": "metal_fusion", "quantity": 1},
+          {"name": "propellant_mix", "quantity": 1}
+        ]
+      },
+      {
+        "result": {"name": "propellant_tank_2", "quantity": 1},
+        "ingredients": [
+          {"name": "propellant_tank_1", "quantity": 1},
+          {"name": "ice_cell", "quantity": 1}
+        ]
+      },
+      {
+        "result": {"name": "nitrogen_tank_1", "quantity": 1},
+        "ingredients": [
+          {"name": "metal_fusion", "quantity": 1},
+          {"name": "neutral_gas", "quantity": 4}
+        ]
+      },
+      {
+        "result": {"name": "nitrogen_tank_2", "quantity": 1},
+        "ingredients": [
+          {"name": "nitrogen_tank_&", "quantity": 1},
+          {"name": "ice_cell", "quantity": 1}
+        ]
       }
     ]
   }
