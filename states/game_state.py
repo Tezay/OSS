@@ -100,7 +100,6 @@ class GameState(BaseState):
         self.landed_sound_playing = False
         self.propulsion_sound_playing = False
         self.game.spaceship.propellant_alert_playing = False
-        self.game.spaceship.nitrogen_alert_playing = False
 
         # Initialisation du timer afk
         self.afk_timer = 0
