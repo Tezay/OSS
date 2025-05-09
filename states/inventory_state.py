@@ -3,7 +3,7 @@ import json
 import pygame
 from .base_state import BaseState
 from gui.buttons import *
-from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_LIST_PATH, KEY_BINDINGS, SPACESHIP_MAX_NITROGEN, SPACESHIP_MAX_PROPELLANT
+from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_LIST_PATH, KEY_BINDINGS, SPACESHIP_MAX_NITROGEN, SPACESHIP_MAX_PROPELLANT, FONT_PATH
 
 
 # Classe enfant de BaseState
@@ -17,6 +17,15 @@ class InventoryState(BaseState):
         self.state_manager = state_manager
         self.game = game
         self.font = custom_font
+        # Création d'une police plus petite pour afficher les quantités d'items
+        # Utilise FONT_PATH et DEFAULT_FONT_SIZE importés depuis config.py
+        # La taille est réduite (par exemple, de 8 points) pour une meilleure lisibilité.
+        try:
+            self.quantity_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE - 8)
+        except pygame.error as e:
+            print(f"Erreur lors du chargement de la police pour les quantités: {e}. Utilisation de la police système.")
+            self.quantity_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE - 8)
+        
         # Taille d'une cellule de la grille
         self.cell_size = 64
         # Espace entre les cellules
@@ -129,6 +138,10 @@ class InventoryState(BaseState):
         position_save={}
         # Vide dictonnaire des rects cliquables avant de redessiner
         self.inventory_clickable_rects.clear()
+        
+        # Liste pour stocker les informations nécessaires au dessin des quantités
+        items_to_draw_quantities = []
+
         # On parcourt chaque item de l'inventaire en utilisant son index
         for index, item in enumerate(self.game.data_manager.inventory.get_inventory()):
             # Calcul de la colonne actuelle dans la grille (modulo du nombre de colonnes)
@@ -141,20 +154,32 @@ class InventoryState(BaseState):
             y = self.grid_y + row * (self.cell_size + self.grid_margin)
             # Dessine un rectangle représentant une cellule de la grille
             item_rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
+            # Dessin du fond de la cellule
             pygame.draw.rect(screen, (50, 50, 50), item_rect)
-            # Vérifie si l'item a une image associée dans le dictionnaire des images d'items
-            position_save[item["name"]] = (x, y)
+            
             # Stock les coordonnées de l'item dans le dictionnaire pour la détection de clics
             self.inventory_clickable_rects[item["name"]] = item_rect
+            # Sauvegarde la position pour l'affichage des descriptions
+            position_save[item["name"]] = (x, y)
 
+            # Vérifie si l'item a une image associée dans le dico des images d'items
             if item["name"] in self.item_images:
                 # Si une image est trouvée, elle est dessinée dans la cellule correspondante
                 screen.blit(self.item_images[item["name"]], (x, y))
-                # Dessine la quantité de l'item dans le coin inférieur droit de la cellule
-                quantity_text = self.font.render(str(item["quantity"]), True, (255, 255, 255))
-                screen.blit(quantity_text, (x + self.cell_size - 20, y + self.cell_size - 20))  
+            
+            # Ajoute l'item et sa quantité à la liste
+            items_to_draw_quantities.append({'rect': item_rect, 'quantity': item["quantity"]})
 
-        #print("Position de l'item dans l'inventaire :", position_save)
+        # Dessiner les quantités par dessus
+        for item_info in items_to_draw_quantities:
+            item_rect = item_info['rect']
+            quantity = item_info['quantity']
+            
+            # Dessine la quantité de l'item dans le coin inférieur droit de la cellule
+            quantity_text_surface = self.quantity_font.render(str(quantity), True, (255, 255, 255))
+            # Positionnement texte en bas à droite de la cellule
+            text_rect = quantity_text_surface.get_rect(bottomright=(item_rect.right - 5, item_rect.bottom - 5))
+            screen.blit(quantity_text_surface, text_rect)
         
         items_list = self.game.data_manager.inventory.get_items_data()
         for key, item in items_list.items():
@@ -165,9 +190,6 @@ class InventoryState(BaseState):
                 # Dessin de l'item à la position correspondante
                 txt=item["name"]+" \n \n "+item["description"]
                 colide_draw_coord(txt, mouse, x, y,self.cell_size)
-
-
-        #print("Position de l'item dans l'inventaire :", position_save)
         
         # Dessin du texte
         text_surf = self.font.render("Inventaire - appuyez sur I pour reprendre", True, (255, 255, 255))
