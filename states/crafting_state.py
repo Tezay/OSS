@@ -29,15 +29,15 @@ class CraftingState(BaseState):
         # Variables pour l'interface
         spacing = 30  # Uniform spacing between areas
 
-        # Zone pour la liste des items de l'inventaire
-        self.list_area_rect = pygame.Rect(50, 80, WINDOW_WIDTH * 0.35, WINDOW_HEIGHT - 160)
-        # Zone pour les crafts possibles
-        self.crafts_area_rect = pygame.Rect(self.list_area_rect.right + spacing, 80, WINDOW_WIDTH * 0.55, WINDOW_HEIGHT * 0.4)
-        # Zone pour les items sélectionnés (réduire la hauteur)
-        self.selected_area_rect = pygame.Rect(self.crafts_area_rect.left, self.crafts_area_rect.bottom + spacing, self.crafts_area_rect.width, WINDOW_HEIGHT * 0.15)
-        # Zone pour le résultat du craft
-        self.result_area_rect = pygame.Rect(self.selected_area_rect.left, self.selected_area_rect.bottom + spacing, self.selected_area_rect.width, WINDOW_HEIGHT * 0.15)
-        # Coordonnées pour le début de la liste des items (+10 pour le padding)
+        # Zone pour la liste des items de l'inventaire 
+        self.list_area_rect = pygame.Rect(50, 80, WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.45)
+        # Zone pour les crafts possibles (inchangée)
+        self.crafts_area_rect = pygame.Rect(self.list_area_rect.right + spacing, 80, WINDOW_WIDTH * 0.55, WINDOW_HEIGHT * 0.6)
+        # Zone pour les items sélectionnés (déplacée en dessous de l'inventaire)
+        self.selected_area_rect = pygame.Rect(self.list_area_rect.left, self.list_area_rect.bottom + spacing, self.list_area_rect.width, WINDOW_HEIGHT * 0.15)
+        # Zone pour le résultat du craft (déplacée en dessous des crafts)
+        self.result_area_rect = pygame.Rect(self.crafts_area_rect.left, self.crafts_area_rect.bottom + spacing, self.crafts_area_rect.width, WINDOW_HEIGHT * 0.15)
+        # Coordonnées pour le début de la liste des iteaugmente legerement la hauteur de l'inventaires (+10 pour le padding)
         self.item_list_start_y = self.list_area_rect.top + 10
         # Espacement entre les items dans la liste
         self.item_list_spacing = 40
@@ -214,7 +214,7 @@ class CraftingState(BaseState):
             print("Crafting failed.")
 
     def _get_craftable_items(self):
-        """Retourne une liste des items craftables en fonction des ressources disponibles."""
+        """Retourne une liste de tous les items craftables et indique ceux réalisables avec les ressources disponibles."""
         craftable_items = []
         for recipe in self.crafting_recipes:
             ingredients = recipe.get("ingredients", [])
@@ -223,8 +223,10 @@ class CraftingState(BaseState):
                 if not self.inventory.has_item(ingredient["name"], ingredient["quantity"]):
                     can_craft = False
                     break
-            if can_craft:
-                craftable_items.append(recipe["result"])
+            craftable_items.append({
+                "result": recipe["result"],
+                "can_craft": can_craft
+            })
         return craftable_items
 
     def update(self, dt, actions, pos, mouse_clicked):
@@ -305,10 +307,15 @@ class CraftingState(BaseState):
         craft_y = self.crafts_area_rect.top + 15
         max_x = self.crafts_area_rect.right - self.item_image_size[0] - 15
 
-        for craft in craftable_items:
+        for craft_data in craftable_items:
+            craft = craft_data["result"]
             craft_name = craft["name"]
             craft_quantity = craft["quantity"]
             ingredients = next(recipe["ingredients"] for recipe in self.crafting_recipes if recipe["result"]["name"] == craft_name)
+
+            # Dessiner le fond (sans encadrement vert)
+            craft_rect = pygame.Rect(craft_x, craft_y, self.item_image_size[0] + 200, self.item_image_size[1] + 10)
+            pygame.draw.rect(screen, (30, 30, 30), craft_rect)
 
             # Afficher l'image du craft (sinon carré gris)
             if craft_name in self.item_images:
@@ -344,7 +351,7 @@ class CraftingState(BaseState):
                 ingredient_x += self.item_image_size[0] + quantity_surf.get_width() + 20
 
             # Décaler pour le prochain craft
-            craft_y += self.item_image_size[1] + 10
+            craft_y += self.item_image_size[1] + 20
             if craft_y + self.item_image_size[1] > self.crafts_area_rect.bottom:
                 craft_y = self.crafts_area_rect.top + 15
                 craft_x += self.crafts_area_rect.width // 2
