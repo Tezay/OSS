@@ -366,7 +366,7 @@ class GameState(BaseState):
         self.state_manager.persistent_game_timer_value = max(0, GAME_TIMER_DURATION - elapsed_since_start)
         
         # Vérif pour afficher conseil récup fuel
-        if ( not self.game.first_tip_shown and self.game.spaceship.propellant < SPACESHIP_MAX_PROPELLANT - 10 ) or self.game.spaceship.propellant < 20:
+        if ( not self.game.first_tip_shown and self.game.spaceship.propellant < SPACESHIP_MAX_PROPELLANT - 20 ) or self.game.spaceship.propellant < 15:
             self.game.first_tip_shown = True
             self.game.hud.add_info_box("first_tip")
             print("Affichage de la première mission")
