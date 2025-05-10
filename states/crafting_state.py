@@ -245,53 +245,50 @@ class CraftingState(BaseState):
             pygame.draw.rect(screen, (0, 0, 50), self.result_area_rect, 2)
 
         # Dessiner la liste des items de l'inventaire à gauche
-        # Vider la liste des rects avant de redessiner
         self.inventory_clickable_rects.clear()
-        # Récupérer la coordonnée Y de départ pour la liste
+        current_x = self.list_area_rect.left + 10
         current_y = self.item_list_start_y
-        # Récupérer les items de l'inventaire (liste de dictionnaires)
+        column_width = (self.list_area_rect.width - 30) // 2  # Diviser en deux colonnes
+
         inventory_items = self.inventory.get_inventory()
 
         # Titre de la liste
         title_surf = self.font.render("Inventaire", True, (255, 255, 255))
         screen.blit(title_surf, (self.list_area_rect.left + 10, self.list_area_rect.top - 30))
 
-        # Itère sur chaque item de l'inventaire
-        for item in inventory_items:
-            # Récupérer le nom et la quantité de l'item
+        for index, item in enumerate(inventory_items):
             item_name = item["name"]
             item_quantity = item["quantity"]
 
-            # Position de cet item dans la liste
-            item_rect = pygame.Rect(self.list_area_rect.left + 10, current_y, self.list_area_rect.width - 20, self.item_list_spacing - 5)
-            # Stocker le rect pour la détection de clic
+            # Position de cet item dans la grille
+            item_rect = pygame.Rect(current_x, current_y, column_width - 10, self.item_list_spacing - 5)
             self.inventory_clickable_rects[item_name] = item_rect
 
             # Couleur de fond si sélectionné
             if item_name in self.selected_items:
-                bg_color = (80, 80, 80)
+                bg_color = (80, 80, 80)  
             else:
                 bg_color = (40, 40, 40)
             pygame.draw.rect(screen, bg_color, item_rect)
 
-            # Récupérer la position de l'image de l'item
+            # Position de l'image
             img_pos = (item_rect.left + 5, item_rect.centery - self.item_image_size[1] // 2)
-            # Vérifier si l'image de l'item existe
             if item_name in self.item_images:
-                # Dessiner l'image de l'item
                 screen.blit(self.item_images[item_name], img_pos)
-            # Sinon : dessiner carré gris
             else:
-                 pygame.draw.rect(screen, (100, 100, 100), (img_pos[0], img_pos[1], self.item_image_size[0], self.item_image_size[1]), 1)
+                pygame.draw.rect(screen, (100, 100, 100), (img_pos[0], img_pos[1], self.item_image_size[0], self.item_image_size[1]), 1)
 
-            # Dessiner le nom et la quantité
-            item_info_text = f"{self.all_items_data.get(item_name, {}).get('name', item_name)} ({item_quantity})"
-            text_surf = self.font.render(item_info_text, True, (255, 255, 255))
-            text_pos = (img_pos[0] + self.item_image_size[0] + 10, item_rect.centery - text_surf.get_height() // 2)
-            screen.blit(text_surf, text_pos)
+            # Afficher uniquement la quantité
+            quantity_surf = self.font.render(f"x{item_quantity}", True, (255, 255, 255))
+            quantity_pos = (img_pos[0] + self.item_image_size[0] + 5, item_rect.centery - quantity_surf.get_height() // 2)
+            screen.blit(quantity_surf, quantity_pos)
 
-            # Passer la coordonnée Y à la ligne suivante
-            current_y += self.item_list_spacing
+            # Passer à la colonne suivante ou à la ligne suivante
+            if index % 2 == 0:
+                current_x += column_width
+            else:
+                current_x = self.list_area_rect.left + 10
+                current_y += self.item_list_spacing
 
             # Arrêter si dépasse la zone
             if current_y + self.item_list_spacing > self.list_area_rect.bottom:
