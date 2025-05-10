@@ -1,14 +1,6 @@
 {
     "recipes": [
       {
-        "result": {"name": "mines", "quantity": 1},
-        "ingredients": [
-          {"name": "iron_ore", "quantity": 8},
-          {"name": "liquid_water", "quantity": 5},
-          {"name": "compressed_carbon", "quantity": 3}
-        ]
-      },
-      {
         "result": {"name": "advance_circuit", "quantity": 1},
         "ingredients": [
           {"name": "raw_silicon", "quantity": 5},
@@ -35,7 +27,8 @@
           {"name": "raw_silicon", "quantity": 3},
           {"name": "frozen_water", "quantity": 4}
         ]
-      },{
+      },
+      {
         "result": {"name": "propellant_mix", "quantity": 1},
         "ingredients": [
           {"name": "neutral_gas", "quantity": 3},
@@ -52,7 +45,7 @@
       {
         "result": {"name": "radar_update", "quantity": 1},
         "ingredients": [
-          {"name": "advance_curcuit", "quantity": 1},
+          {"name": "advance_circuit", "quantity": 1},
           {"name": "luminous_lithium", "quantity": 2}
         ]
       },
@@ -102,7 +95,7 @@
       {
         "result": {"name": "nitrogen_tank_2", "quantity": 1},
         "ingredients": [
-          {"name": "nitrogen_tank_&", "quantity": 1},
+          {"name": "nitrogen_tank_1", "quantity": 1},
           {"name": "ice_cell", "quantity": 1}
         ]
       }

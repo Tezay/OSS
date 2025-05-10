@@ -87,7 +87,8 @@ DEFAULT_INVENTORY = {
         {"name": "frozen_water", "quantity": 10},
         {"name": "liquid_water", "quantity": 10},
         {"name": "antimatter", "quantity": 10},
-        {"name": "mines", "quantity": 10}
+        {"name": "nitrogen_tank_2", "quantity": 10},
+        {"name": "nitrogen_tank_1", "quantity": 10}
     ]
 }
 

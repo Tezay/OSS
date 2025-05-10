@@ -1,87 +1,142 @@
 {
     "iron_ore": {
       "name": "Minerai de Fer",
-      "description": "Un métal de base utilisé dans de nombreuses constructions spatiales.",
-      "texture": "assets/textures/items/iron_ore.png",
-      "generation": 5
+      "description": "Métal brut, essentiel pour forger des alliages résistants comme la Fusion Métallique.",
+      "texture": "assets/textures/items/iron_ore.png"
     },
     "azure_crystals": {
       "name": "Cristaux d'Azur",
-      "description": "Cristaux rares aux propriétés énergétiques instables.",
-      "texture": "assets/textures/items/azure_crystals.png",
-      "generation": 2
+      "description": "Cristaux énigmatiques aux propriétés énergétiques. Leur application en craft reste à découvrir.",
+      "texture": "assets/textures/items/azure_crystals.png"
     },
     "organic_fibers": {
       "name": "Fibres Organiques",
-      "description": "Matériau souple issu de plantes spatiales, utile pour les modules biologiques.",
-      "texture": "assets/textures/items/organic_fibers.png",
-      "generation": 4
+      "description": "Fibres végétales spatiales, indispensables à la fabrication de Composants Biologiques.",
+      "texture": "assets/textures/items/organic_fibers.png"
     },
     "hydrogen_gas": {
       "name": "Gaz Hydrogène",
-      "description": "Gaz léger essentiel au carburant des vaisseaux.",
-      "texture": "assets/textures/items/hydrogen_gas.png",
-      "generation": 6
+      "description": "Gaz léger, composant clé des Cellules de Glace et potentiellement d'autres systèmes avancés.",
+      "texture": "assets/textures/items/hydrogen_gas.png"
     },
     "neutral_gas": {
       "name": "Gaz Neutre",
-      "description": "Un gaz stable utilisé pour refroidir les moteurs stellaires.",
-      "texture": "assets/textures/items/neutral_gas.png",
-      "generation": 3
+      "description": "Gaz stable, utilisé pour créer des Mélanges Propulsifs et remplir les Réservoirs d'Azote.",
+      "texture": "assets/textures/items/neutral_gas.png"
     },
     "compressed_carbon": {
       "name": "Carbone Compressé",
-      "description": "Forme solide de carbone, parfait pour les boucliers renforcés.",
-      "texture": "assets/textures/items/compressed_carbon.png",
-      "generation": 4
+      "description": "Carbone densifié, crucial pour les Fusions Métalliques et les Mélanges Propulsifs.",
+      "texture": "assets/textures/items/compressed_carbon.png"
     },
     "raw_silicon": {
       "name": "Silicium Brute",
-      "description": "Matériau conducteur trouvé dans les astéroïdes de type rocheux.",
-      "texture": "assets/textures/items/raw_silicon.png",
-      "generation": 5
+      "description": "Silicium non traité, fondamental pour l'électronique des Circuits Avancés et des Oxygénateurs.",
+      "texture": "assets/textures/items/raw_silicon.png"
     },
     "stellar_dust": {
       "name": "Poussière Stellaires",
-      "description": "Résidu cosmique contenant des éléments rares.",
-      "texture": "assets/textures/items/stellar_dust.png",
-      "generation": 2
+      "description": "Poussière cosmique rare, nécessaire à la confection de Circuits Avancés.",
+      "texture": "assets/textures/items/stellar_dust.png"
     },
     "luminous_lithium": {
       "name": "Lithium Luminescent",
-      "description": "Source d'énergie brillante pour les batteries de haute capacité.",
-      "texture": "assets/textures/items/luminous_lithium.png",
-      "generation": 3
+      "description": "Lithium rayonnant, vital pour l'amélioration des systèmes radar.",
+      "texture": "assets/textures/items/luminous_lithium.png"
     },
     "volcanic_plasma": {
       "name": "Plasma Volcanique",
-      "description": "Plasma surchauffé collecté dans les geysers planétaires.",
-      "texture": "assets/textures/items/volcanic_plasma.png",
-      "generation": 1
+      "description": "Plasma instable d'origine volcanique. Son utilité pour le craft avancé est encore inexplorée.",
+      "texture": "assets/textures/items/volcanic_plasma.png"
     },
     "frozen_water": {
       "name": "Eau Gelée",
-      "description": "Glace pure utilisée pour l'hydratation et les systèmes de survie.",
-      "texture": "assets/textures/items/frozen_water.png",
-      "generation": 5
+      "description": "Glace pure, ressource clé pour les Oxygénateurs et la création de Cellules de Glace.",
+      "texture": "assets/textures/items/frozen_water.png"
     },
     "liquid_water": {
       "name": "Eau Liquide",
-      "description": "Eau pure et cristalline, idéale pour les systèmes de refroidissement.",
-      "texture": "assets/textures/items/liquid_water.png",
-      "generation": 4
+      "description": "Eau purifiée, ingrédient de base pour les Composants Biologiques et systèmes de survie.",
+      "texture": "assets/textures/items/liquid_water.png"
     },
     "antimatter": {
       "name": "Antimatière",
-      "description": "Matériau instable utilisé pour les réacteurs à fusion et les armes avancées.",
-      "texture": "assets/textures/items/antimatter.png",
-      "generation": 1
+      "description": "Matériau hautement énergétique et instable. Son potentiel en armement et propulsion est immense.",
+      "texture": "assets/textures/items/antimatter.png"
     },
     "mines": {
       "name": "Mines",
-      "description": "Unite de production de ressources.",
-      "texture": "assets/textures/items/mines.png",
-      "generation": 0
+      "description": "Ancienne unité de production de ressources. Sa méthode de fabrication actuelle est inconnue.",
+      "texture": "assets/textures/items/mines.png"
+    },
+    "advance_circuit": {
+      "name": "Circuit Avancé",
+      "description": "Circuit électronique sophistiqué, indispensable aux améliorations de radar et de moteur.",
+      "texture": "assets/textures/items/advance_circuit.png"
+    },
+    "metal_fusion": {
+      "name": "Fusion Métallique",
+      "description": "Alliage métallique avancé, utilisé dans de nombreuses améliorations de vaisseau et kits de colonisation.",
+      "texture": "assets/textures/items/metal_fusion.png"
+    },
+    "composant_bio": {
+      "name": "Composant Biologique",
+      "description": "Composant organique transformé, essentiel pour les Kits de Colonie et modules de vie.",
+      "texture": "assets/textures/items/composant_bio.png"
+    },
+    "oxygenator": {
+      "name": "Oxygénateur",
+      "description": "Dispositif de génération d'oxygène, crucial pour la survie et les Kits de Colonie.",
+      "texture": "assets/textures/items/oxygenator.png"
+    },
+    "propellant_mix": {
+      "name": "Mélange Propulsif",
+      "description": "Mélange carburant optimisé, destiné à alimenter les Réservoirs de Propulseur.",
+      "texture": "assets/textures/items/propellant_mix.png"
+    },
+    "ice_cell": {
+      "name": "Cellule de Glace",
+      "description": "Cellule cryogénique, utilisée pour améliorer les réservoirs ou comme source d'énergie compacte.",
+      "texture": "assets/textures/items/ice_cell.png"
+    },
+    "radar_update": {
+      "name": "Mise à Jour Radar",
+      "description": "Module d'amélioration augmentant la portée et la précision des systèmes radar.",
+      "texture": "assets/textures/items/radar_update.png"
+    },
+    "engine_update_1": {
+      "name": "Mise à Jour Moteur 1",
+      "description": "Première phase d'amélioration des propulseurs, augmentant l'efficacité et la poussée.",
+      "texture": "assets/textures/items/engine_update_1.png"
+    },
+    "engine_update_2": {
+      "name": "Mise à Jour Moteur 2",
+      "description": "Phase finale d'amélioration des propulseurs, maximisant la performance du moteur.",
+      "texture": "assets/textures/items/engine_update_2.png"
+    },
+    "colony_kit": {
+      "name": "Kit de Colonie",
+      "description": "Kit complet contenant les éléments de base pour établir une colonie.",
+      "texture": "assets/textures/items/colony_kit.png"
+    },
+    "propellant_tank_1": {
+      "name": "Réservoir de Propergol 1",
+      "description": "Réservoir standard pour le stockage de Mélange Propulsif.",
+      "texture": "assets/textures/items/propellant_tank_1.png"
+    },
+    "propellant_tank_2": {
+      "name": "Réservoir de Propergol 2",
+      "description": "Réservoir de propulseur de capacité étendue, grâce à l'intégration d'une Cellule de Glace.",
+      "texture": "assets/textures/items/propellant_tank_2.png"
+    },
+    "nitrogen_tank_1": {
+      "name": "Réservoir de Nitrogène 1",
+      "description": "Réservoir standard pour le stockage de Gaz Neutre ou d'autres gaz inertes.",
+      "texture": "assets/textures/items/nitrogen_tank_1.png"
+    },
+    "nitrogen_tank_2": {
+      "name": "Réservoir de Nitrogène 2",
+      "description": "Réservoir d'azote de capacité accrue, amélioré avec une Cellule de Glace.",
+      "texture": "assets/textures/items/nitrogen_tank_2.png"
     }
   }
-  
