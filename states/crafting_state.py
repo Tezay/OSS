@@ -27,12 +27,16 @@ class CraftingState(BaseState):
         self.crafting_recipes = get_crafting_recipes()
 
         # Variables pour l'interface
+        spacing = 30  # Uniform spacing between areas
+
         # Zone pour la liste des items de l'inventaire
-        self.list_area_rect = pygame.Rect(50, 80, WINDOW_WIDTH * 0.4, WINDOW_HEIGHT - 160)
-        # Zone pour les items sélectionnés
-        self.selected_area_rect = pygame.Rect(self.list_area_rect.right + 50, 80, WINDOW_WIDTH * 0.4, WINDOW_HEIGHT * 0.5)
+        self.list_area_rect = pygame.Rect(50, 80, WINDOW_WIDTH * 0.35, WINDOW_HEIGHT - 160)
+        # Zone pour les crafts possibles
+        self.crafts_area_rect = pygame.Rect(self.list_area_rect.right + spacing, 80, WINDOW_WIDTH * 0.55, WINDOW_HEIGHT * 0.4)
+        # Zone pour les items sélectionnés (réduire la hauteur)
+        self.selected_area_rect = pygame.Rect(self.crafts_area_rect.left, self.crafts_area_rect.bottom + spacing, self.crafts_area_rect.width, WINDOW_HEIGHT * 0.15)
         # Zone pour le résultat du craft
-        self.result_area_rect = pygame.Rect(self.selected_area_rect.left, self.selected_area_rect.bottom + 20, self.selected_area_rect.width, WINDOW_HEIGHT * 0.3)
+        self.result_area_rect = pygame.Rect(self.selected_area_rect.left, self.selected_area_rect.bottom + spacing, self.selected_area_rect.width, WINDOW_HEIGHT * 0.15)
         # Coordonnées pour le début de la liste des items (+10 pour le padding)
         self.item_list_start_y = self.list_area_rect.top + 10
         # Espacement entre les items dans la liste
@@ -203,13 +207,28 @@ class CraftingState(BaseState):
             self.selected_items = {}
             self.possible_craft = None
 
+            # Son de craft
+            self.game.sound_manager.play_sound("assembler_sound", "assembler_sound.wav")
+
         else:
             print("Crafting failed.")
 
+    def _get_craftable_items(self):
+        """Retourne une liste des items craftables en fonction des ressources disponibles."""
+        craftable_items = []
+        for recipe in self.crafting_recipes:
+            ingredients = recipe.get("ingredients", [])
+            can_craft = True
+            for ingredient in ingredients:
+                if not self.inventory.has_item(ingredient["name"], ingredient["quantity"]):
+                    can_craft = False
+                    break
+            if can_craft:
+                craftable_items.append(recipe["result"])
+        return craftable_items
 
     def update(self, dt, actions, pos, mouse_clicked):
         pass
-
 
     def draw(self, screen, pos):
         # Dessiner le fond (jeu + overlay sombre)
@@ -221,6 +240,7 @@ class CraftingState(BaseState):
         # Dessiner les zones principales (pour le debug)
         if DEBUG_MODE:
             pygame.draw.rect(screen, (50, 0, 0), self.list_area_rect, 2)
+            pygame.draw.rect(screen, (50, 50, 0), self.crafts_area_rect, 2)
             pygame.draw.rect(screen, (0, 50, 0), self.selected_area_rect, 2)
             pygame.draw.rect(screen, (0, 0, 50), self.result_area_rect, 2)
 
@@ -275,6 +295,65 @@ class CraftingState(BaseState):
 
             # Arrêter si dépasse la zone
             if current_y + self.item_list_spacing > self.list_area_rect.bottom:
+                break
+
+        # Dessiner les crafts possibles
+        crafts_title_surf = self.font.render("Crafts Possibles", True, (255, 255, 255))
+        screen.blit(crafts_title_surf, (self.crafts_area_rect.left + 10, self.crafts_area_rect.top - 30))
+        pygame.draw.rect(screen, (30, 30, 30), self.crafts_area_rect)
+
+        # Afficher tous les crafts possibles
+        craftable_items = self._get_craftable_items()
+        craft_x = self.crafts_area_rect.left + 15
+        craft_y = self.crafts_area_rect.top + 15
+        max_x = self.crafts_area_rect.right - self.item_image_size[0] - 15
+
+        for craft in craftable_items:
+            craft_name = craft["name"]
+            craft_quantity = craft["quantity"]
+            ingredients = next(recipe["ingredients"] for recipe in self.crafting_recipes if recipe["result"]["name"] == craft_name)
+
+            # Afficher l'image du craft (sinon carré gris)
+            if craft_name in self.item_images:
+                screen.blit(self.item_images[craft_name], (craft_x, craft_y))
+            else:
+                pygame.draw.rect(screen, (100, 100, 100), (craft_x, craft_y, self.item_image_size[0], self.item_image_size[1]), 1)
+
+            # Positionner les ingrédients après l'image du craft
+            ingredient_x = craft_x + self.item_image_size[0] + 10
+            ingredient_y = craft_y
+
+            # Afficher "=" après l'image du craft
+            equals_surf = self.font.render("=", True, (255, 255, 255))
+            screen.blit(equals_surf, (ingredient_x, ingredient_y + self.item_image_size[1] // 2 - equals_surf.get_height() // 2))
+            ingredient_x += equals_surf.get_width() + 10
+
+            # Afficher les images des ingrédients
+            for ingredient in ingredients:
+                ingredient_name = ingredient["name"]
+                ingredient_quantity = ingredient["quantity"]
+
+                # Afficher l'image de l'ingrédient (sinon carré gris)
+                if ingredient_name in self.item_images:
+                    screen.blit(self.item_images[ingredient_name], (ingredient_x, ingredient_y))
+                else:
+                    pygame.draw.rect(screen, (100, 100, 100), (ingredient_x, ingredient_y, self.item_image_size[0], self.item_image_size[1]), 1)
+
+                # Afficher la quantité de l'ingrédient
+                quantity_surf = self.font.render(f"x{ingredient_quantity}", True, (255, 255, 255))
+                screen.blit(quantity_surf, (ingredient_x + self.item_image_size[0] + 5, ingredient_y + self.item_image_size[1] // 2 - quantity_surf.get_height() // 2))
+
+                # Décaler pour le prochain ingrédient
+                ingredient_x += self.item_image_size[0] + quantity_surf.get_width() + 20
+
+            # Décaler pour le prochain craft
+            craft_y += self.item_image_size[1] + 10
+            if craft_y + self.item_image_size[1] > self.crafts_area_rect.bottom:
+                craft_y = self.crafts_area_rect.top + 15
+                craft_x += self.crafts_area_rect.width // 2
+
+            # Arrêter si dépasse la zone
+            if craft_x + self.item_image_size[0] > self.crafts_area_rect.right:
                 break
 
         # Dessiner les items sélectionnés
@@ -332,7 +411,7 @@ class CraftingState(BaseState):
                 # Positionner le bouton dans la zone de résultat
                 btn_width_px = (WINDOW_WIDTH / 50) * button_size_widht
                 btn_height_px = (WINDOW_HEIGHT / 35) * button_size_height
-                btn_x = self.result_area_rect.centerx - btn_width_px // 2
+                btn_x = self.result_area_rect.centerx - btn_width_px // 2 + 150  # Décalage vers la droite
                 btn_y = self.result_area_rect.bottom - btn_height_px - 15
                 # Dessiner le bouton "Assembler"
                 self.craft_button_rect = draw_button_manual(screen, button_data, btn_x, btn_y, btn_width_px, btn_height_px)
