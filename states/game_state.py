@@ -31,21 +31,27 @@ class GameState(BaseState):
         if self.state_manager.game_timer_start_time is None:
             self.state_manager.game_timer_start_time = time.time()
 
-        # Indicateur pour savoir si les missions ont déjà été affichées
-        self.first_tip_shown = False
-        self.landing_tip_shown = False
-        self.resources_tip_shown = False
-
         # Vérification si un état game déjà crée a été transmis en paramètre
         # Note : Permet d'éviter de regénérer entièrement la map lors de changement d'état
         if existing_game is not None:
             # Réutilisation de l'existant (même map, même vaisseau, etc.)
             self.game = existing_game
+            # Booléens pour enregistrer si les conseils ont déjà été affichés
+            if not hasattr(self.game, 'first_tip_shown'):
+                self.game.first_tip_shown = False
+            if not hasattr(self.game, 'landing_tip_shown'):
+                self.game.landing_tip_shown = False
+            if not hasattr(self.game, 'resources_tip_shown'):
+                self.game.resources_tip_shown = False
             
         # Sinon création d'un nouveau Game + nouvelle map + nouveau vaisseau
         else:
             # Création de la classe Game
             self.game = Game()
+            # Initialisation des indicateurs de conseils (booléens)
+            self.game.first_tip_shown = False
+            self.game.landing_tip_shown = False
+            self.game.resources_tip_shown = False
 
             # Selection de la seed
             if config.custom_seed is None:
@@ -360,20 +366,20 @@ class GameState(BaseState):
         self.state_manager.persistent_game_timer_value = max(0, GAME_TIMER_DURATION - elapsed_since_start)
         
         # Vérif pour afficher conseil récup fuel
-        if ( not self.first_tip_shown and self.game.spaceship.propellant < SPACESHIP_MAX_PROPELLANT - 10 ) or self.game.spaceship.propellant < 20:
-            self.first_tip_shown = True
+        if ( not self.game.first_tip_shown and self.game.spaceship.propellant < SPACESHIP_MAX_PROPELLANT - 10 ) or self.game.spaceship.propellant < 20:
+            self.game.first_tip_shown = True
             self.game.hud.add_info_box("first_tip")
             print("Affichage de la première mission")
         
         # Vérif pour afficher conseil atterrissage
-        if not self.landing_tip_shown and self.game.hud.resultant_force > 8:
-            self.landing_tip_shown = True
+        if not self.game.landing_tip_shown and self.game.hud.resultant_force > 8:
+            self.game.landing_tip_shown = True
             self.game.hud.add_info_box("landing_tip")
             print("Affichage de la mission d'atterrissage")
 
-        # Vérif pour afficher conseil ressources planète
-        if not self.resources_tip_shown:
-            self.resources_tip_shown = True
+        # Vérif pour afficher conseil ressources
+        if not self.game.resources_tip_shown:
+            self.game.resources_tip_shown = True
             self.game.hud.add_info_box("resources_tip")
             print("Affichage de la mission ressources")
 
