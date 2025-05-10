@@ -44,7 +44,6 @@ class MenuState(BaseState):
 
             # Vérification du clique de la souris sur le bouton
             if click_button("menu_settings",pos,self.size):
-                print("clique")
                 # Passe l'état courant à menu_settings_state
                 self.state_manager.set_state(MenuSettingsState(self.state_manager))
 

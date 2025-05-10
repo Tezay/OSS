@@ -1,6 +1,6 @@
 {
     "tech_tree": {
-        "terraforming": {
+        "propellant": {
             "tiers": {
                 "tier_0": { "unlocked": true },
                 "tier_1": { "unlocked": false },
@@ -18,7 +18,7 @@
                 "tier_4": { "unlocked": false }
             }
         },
-        "antimatter_science": {
+        "nitrogen": {
             "tiers": {
                 "tier_0": { "unlocked": true },
                 "tier_1": { "unlocked": false },

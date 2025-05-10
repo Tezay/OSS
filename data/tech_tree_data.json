@@ -1,35 +1,35 @@
 {
     "tech_tree": {
-        "terraforming": {
-            "name": "Terraformation",
+        "propellant": {
+            "name": "Propergol",
             "tiers": {
                 "tier_0": {
-                    "description":  "Permet de recuperer des ressources sur la surface d'une planete.",
+                    "description":  "Petit reservoir de propergol (Contenance : 50L).",
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description":  "Pareil que tier precedent, mais plus rapidement.",
+                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 100L).",
                     "required_resources": [
                         {
-                            "name": "liquid_water",
-                            "quantity": 0
+                            "name": "propellant_tank_1",
+                            "quantity": 1
                         }
                     ]
                 },
                 "tier_2": {
-                    "description": "Permet d'installer une colonie sur des planetes, permet de recuperer des ressources plus rapidement (regeneration des ressources plus rapide).",
+                    "description": "augmentation de la contenance du reservoir de propergol (Contenance : 250L).",
                     "required_resources": [
                         {
-                        "name": "liquid_water",
-                        "quantity": 0
+                        "name": "propellant_tank_2",
+                        "quantity": 1
                     }]
                 },
                 "tier_3": {
-                    "description":  "Permet de recuperer directement les ressources a la base centrale (plus necessaire de se rendre sur la planete).",
+                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 500L).",
                     "required_resources": []
                 },
                 "tier_4": {
-                    "description":  "Permet de recuperer directement les ressources dans l'inventaire du vaisseau.",
+                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 1000L).",
                     "required_resources": []
                 }
             }
@@ -43,43 +43,63 @@
                 },
                 "tier_1": {
                     "description":  "Moteur a fusion froide (Poussee : 1000N).",
-                    "required_resources": []
+                    "required_resources": [
+                        {
+                            "name": "engine_update_1",
+                            "quantity": 1
+                        }
+                    ]
                 },
                 "tier_2": {
                     "description":  "Moteur atomique (Poussee : 1500N).",
-                    "required_resources": []
+                    "required_resources": [
+                        {
+                            "name": "engine_update_2",
+                            "quantity": 1
+                        }
+                    ]
                 },
                 "tier_3": {
                     "description":  "Moteur a courbure spatiale (Poussee : 2000N).",
                     "required_resources": []
                 },
                 "tier_4": {
-                    "description":  "Stabilisateur de trou de ver (Permet la teleportation a la base).",
+                    "description":  "Stabilisateur de trou de ver (poussee : 3000N).",
                     "required_resources": []
                 }
             }
         },
-        "antimatter_science": {
-            "name": "Science antimatiere",
+        "nitrogen": {
+            "name": "Nitrogen",
             "tiers": {
                 "tier_0": {
-                    "description":  "Generateur a fusion nucleaire (1 antimatiere / minute).",
+                    "description":  "Petit reservoir de nitrogen (Contenance : 20L).",
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description":  "Accelerateur a particule (5 antimatieres / minute).",
-                    "required_resources": []
+                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 40L).",
+                    "required_resources": [
+                        {
+                            "name": "nitrogen_tank_1",
+                            "quantity": 1
+                        }
+                    ]
                 },
                 "tier_2": {
-                    "description":  "Commutation d'antimatiere (10 antimatieres / minute).",
-                    "required_resources": []
+                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 80L).",
+                    "required_resources": [
+                        {
+                            "name": "nitrogen_tank_2",
+                            "quantity": 1
+                        }
+                    ]
                 },
                 "tier_3": {
-                    "description":  "Generateur metamateriel (20 antimatieres / minute).",
+                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 160L).",
                     "required_resources": []
                 },
                 "tier_4": {
-                    "description":  "Vision positronique (30 antimatieres / minute).",
+                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 320L).",
                     "required_resources": []
                 }
             }
@@ -92,11 +112,16 @@
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description":  "Augmente la portee de la minimap (Portee : moyenne).",
-                    "required_resources": []
+                    "description":  "débloque la map en plein écran.",
+                    "required_resources": [
+                        {
+                            "name": "radar_update",
+                            "quantity": 1
+                        }
+                    ]
                 },
                 "tier_2": {
-                    "description":  "Augmente la portee de la minimap (Portee : grande).",
+                    "description":  "Augmente la portee de la map plein écran.",
                     "required_resources": []
                 }
             }

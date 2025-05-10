@@ -7,7 +7,7 @@ from gui.buttons import *
 from config import *
 from systems.planet_resources import load_item_images
 from core.json_manager import get_dialogues
-
+from states.tech_tree_state import TechTreeState
 
 # Classe pour gérer l'interface dans le jeu
 class Hud:
@@ -97,6 +97,8 @@ class Hud:
         
         # Chargement des textes des boites d'infos depuis le fichier JSON
         self.info_box_texts = get_dialogues("info_boxes") or {}
+
+        #self.tech_tree = self.game.data_manager.tech_tree.session_data
 
     def update(self, spaceship):
         # Position du vaisseau
@@ -332,7 +334,6 @@ class Hud:
         """
         # Définir un zoom réduit pour la mini-map
         minimap_zoom = 0.3  # Par exemple, 20% de la taille réelle
-
         # Obtenir une vue réduite de la caméra
         minimap_view = camera.get_custom_zoom_view(world_surface, minimap_zoom)
 
@@ -668,7 +669,7 @@ class Hud:
         
         surface.blit(timer_surface, timer_rect)
 
-    def draw(self, surface, camera, world_surface, world_surface_wiouth_stars, persistent_game_timer_value):
+    def draw(self, surface, camera, world_surface, world_surface_wiouth_stars, persistent_game_timer_value,tech_tree):
         """
         Dessine l'HUD.
         """
@@ -701,7 +702,6 @@ class Hud:
 
         # Dessin de l'HUD
         coord_hud = hud_draw(10, 30, 50, 35)
-        # print(coord_hud)
         image = pygame.image.load('assets/hud/main_hud.png')
 
         # Calcule la taille de l'image de fond de l'HUD (et la redimensionne)
@@ -727,11 +727,92 @@ class Hud:
         draw_buttons("inventory", (30, 30))
         draw_buttons("crafting", (30, 30))
 
-        propelent = left_propellant_text[11:] + str("/50")
-        draw_text(custom_size(34.25, 31.25), propelent)
-        nitrogen = left_nitrogen_text[9:] + str("/20")
-        draw_text(custom_size(34.25, 33.25), nitrogen)
-        # print(position_text)
+
+        if tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_4"]["unlocked"]:
+            SPACESHIP_MAX_NITROGEN = 320
+        elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_3"]["unlocked"]:
+            SPACESHIP_MAX_NITROGEN = 160
+        elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_2"]["unlocked"]:
+            SPACESHIP_MAX_NITROGEN = 80
+        elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_1"]["unlocked"]:
+            SPACESHIP_MAX_NITROGEN = 40
+        elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_0"]["unlocked"]:
+            SPACESHIP_MAX_NITROGEN = 20
+
+        
+        if tech_tree["tech_tree"]["propellant"]["tiers"]["tier_4"]["unlocked"]:
+            SPACESHIP_MAX_PROPELLANT = 1000
+        elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_3"]["unlocked"]:
+            SPACESHIP_MAX_PROPELLANT = 500
+        elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_2"]["unlocked"]:
+            SPACESHIP_MAX_PROPELLANT = 250
+        elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_1"]["unlocked"]:
+            SPACESHIP_MAX_PROPELLANT = 100
+        elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_0"]["unlocked"]:
+            SPACESHIP_MAX_PROPELLANT = 50
+
+        
+        nitrogen=float(left_nitrogen_text[9:])
+        propellant=float(left_propellant_text[11:])
+
+
+        if propellant==SPACESHIP_MAX_PROPELLANT:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant\propellant_max.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*90:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_9.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*80:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_8.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*70:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_7.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*60:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_6.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*50:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_5.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*40:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_4.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*30:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_3.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*20:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_2.png").convert_alpha()
+        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*10:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_1.png").convert_alpha()
+        else:
+            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_0.png").convert_alpha()
+
+        coord_hud=hud_draw(38,31,50,35)
+        screen.blit(propellant_image, coord_hud)
+
+        
+        if nitrogen==SPACESHIP_MAX_NITROGEN:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_max.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*90:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_9.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*80:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_8.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*70:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_7.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*60:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_6.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*50:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_5.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*40:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_4.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*30:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_3.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*20:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_2.png").convert_alpha()
+        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*10:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_1.png").convert_alpha()
+        else:
+            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_0.png").convert_alpha()
+
+        coord_hud=hud_draw(38,33,50,35)
+        screen.blit(nitrogen_image, coord_hud)
+
+        propelent = left_propellant_text[11:] + "/" +str(SPACESHIP_MAX_PROPELLANT)
+        draw_text(custom_size(33.5, 31.25), propelent)
+        nitrogen = left_nitrogen_text[9:] +"/"+ str(SPACESHIP_MAX_NITROGEN)
+        draw_text(custom_size(33.5, 33.25), nitrogen)
         position_x = position_text[9:17]
         draw_text(custom_size(13, 31), position_x)
         position_y = position_text[21:29]
@@ -763,15 +844,3 @@ class Hud:
 
         # Dessiner le timer du jeu
         self.draw_game_timer(surface, persistent_game_timer_value)
-
-
-
-
-
-
-
-
-
-
-
-

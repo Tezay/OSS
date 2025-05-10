@@ -245,7 +245,7 @@ buttons = {
         "color":(255,255,255),"text":"Seed","file":"assets/button.png"},
 
     "return_menu":{
-        "x":20,"y":18,
+        "x":15,"y":22,
         "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
 
     "crafting_return":{ # Bouton retour pour le menu craft
@@ -294,7 +294,7 @@ buttons = {
 
 
     "respawn":{
-        "x":24,"y":22,
+        "x":35,"y":22,
         "color":(255,255,255),"text":"Respawn","file":"assets/button.png"},
 
     "default_planet":{
@@ -328,7 +328,7 @@ buttons = {
         "color":(255,255,255),"text":"","file":'assets\hud/inventory.png'},
 
     "crafting":{ # Bouton pour ouvrir le menu craft depuis le HUD
-        "x":11,"y":29, # Position à ajuster si nécessaire
+        "x":47,"y":31, # Position à ajuster si nécessaire
         "color":(255,255,255),"text":"","file":'assets/hud/crafting_icon.png'}, # Assurez-vous d'avoir une icone
 
     # Boutons de l'arbre technologique de la branche "moteurs"
@@ -355,47 +355,47 @@ buttons = {
     
     #boutons de l'arbre technologique de la branche "terraformation"
 
-    "terraforming_tier_0":{
+    "propellant_tier_0":{
         "x":40,"y":3,
-        "color":(255,255,255),"text":"Terraformation T0","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Propellant T0","file":"assets/button.png","text_size":10},
     
-    "terraforming_tier_1":{
+    "propellant_tier_1":{
         "x":40,"y":6,
-        "color":(255,255,255),"text":"Terraformation T1","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Propellant T1","file":"assets/button.png","text_size":10},
 
-    "terraforming_tier_2":{
+    "propellant_tier_2":{
         "x":40,"y":9,
-        "color":(255,255,255),"text":"Terraformation T2","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Propellant T2","file":"assets/button.png","text_size":10},
     
-    "terraforming_tier_3":{
+    "propellant_tier_3":{
         "x":40,"y":12,
-        "color":(255,255,255),"text":"Terraformation T3","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Propellant T3","file":"assets/button.png","text_size":10},
     
-    "terraforming_tier_4":{
+    "propellant_tier_4":{
         "x":40,"y":15,
-        "color":(255,255,255),"text":"Terraformation T4","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Propellant T4","file":"assets/button.png","text_size":10},
 
     # Boutons de l'arbre technologique de la branche "science de l'anti-matière"
 
-    "antimatter_science_tier_0":{
+    "nitrogen_tier_0":{
         "x":20,"y":3,
-        "color":(255,255,255),"text":"Science anti-matière T0","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Nitrogen T0","file":"assets/button.png","text_size":10},
     
-    "antimatter_science_tier_1":{
+    "nitrogen_tier_1":{
         "x":20,"y":6,
-        "color":(255,255,255),"text":"Science anti-matière T1","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Nitrogen T1","file":"assets/button.png","text_size":10},
     
-    "antimatter_science_tier_2":{
+    "nitrogen_tier_2":{
         "x":20,"y":9,
-        "color":(255,255,255),"text":"Science anti-matière T2","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Nitrogen T2","file":"assets/button.png","text_size":10},
     
-    "antimatter_science_tier_3":{
+    "nitrogen_tier_3":{
         "x":20,"y":12,
-        "color":(255,255,255),"text":"Science anti-matière T3","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Nitrogen T3","file":"assets/button.png","text_size":10},
     
-    "antimatter_science_tier_4":{
+    "nitrogen_tier_4":{
         "x":20,"y":15,
-        "color":(255,255,255),"text":"Science anti-matière T4","file":"assets/button.png","text_size":10},
+        "color":(255,255,255),"text":"Nitrogen T4","file":"assets/button.png","text_size":10},
 
     # Boutons de l'arbre technologique de la branche "radar"
 

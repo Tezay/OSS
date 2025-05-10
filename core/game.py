@@ -31,7 +31,7 @@ class Game():
         self.background_stars = []
         self.planet_textures = {}
         self.spaceship = None
-        self.hud = Hud()
+        self.hud=Hud()
         self.camera = None
         self.data_manager = DataManager()
         self.sound_manager = SoundManager()
@@ -42,7 +42,6 @@ class Game():
         self.world.fill((20, 20, 64))
 
         self.afk_timer = 0  # Timer anti-AFK
-
     def update(self, dt, actions):
         """
         Met à jour la logique du jeu (caméra, entités, etc.).
@@ -51,7 +50,6 @@ class Game():
         """
         # Mise à jour de la caméra (en mode debug, on bouge avec les touches)
         self.camera.update(actions)
-        #print("ppppppppppppppppppp",self.camera)
 
         # Appliquer la gravité des planètes + collisions 
         # Renvoie un booléen pour savoir si le vaisseau est rentré en collision avec la planète
@@ -406,7 +404,8 @@ class Game():
                             draw_segment = not draw_segment
 
         # Dessin de l'HUD avec la caméra et la surface du monde
-        self.hud.draw(screen, self.camera, self.world,self.world_wiouth_stars, persistent_game_timer_value)
+        tech_tree=self.data_manager.tech_tree.session_data
+        self.hud.draw(screen, self.camera, self.world,self.world_wiouth_stars, persistent_game_timer_value,tech_tree)
 
         # En mode debug, affichage d'infos
         if DEBUG_MODE:

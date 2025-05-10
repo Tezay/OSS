@@ -34,12 +34,10 @@ class PlanetBaseState(BaseState):
         if pygame.mouse.get_pressed()[0]:
             if not self.game.spaceship.landed_planet.mines:
                 if click_button('mines_buy',pos):
-                    #print("icii")
                     if self.inventory.has_item("mines", 1):
                         print("Mine placed")
                         self.inventory.remove_item("mines",1)
                         self.game.spaceship.landed_planet.mines =True
-                    #print(self.inventory.data)
     def update(self, dt, actions, pos, mouse_clicked):
 
         pass
@@ -57,10 +55,8 @@ class PlanetBaseState(BaseState):
         planet=self.game.spaceship.landed_planet
         planet_info=planet.planet_type
         planet_data=get_planet_data(planet_info)
-        #print(planet_data)
         ressource=""
         for ressources in planet_data["available_ressources"]:
-            #print(ressources)
             quantity=""
             if ressources["spawn_rate"]<=2:
                 quantity="trace de "
@@ -73,8 +69,6 @@ class PlanetBaseState(BaseState):
             ressource+=quantity+ressources["name"]+"\n"
         
         draw_text(custom_size(13,7),ressource,24)
-        print(self.tech_tree)
-        print(self.tech_tree["tech_tree"]["terraforming"]["tiers"]["tier_2"]["unlocked"])
         if self.tech_tree["tech_tree"]["terraforming"]["tiers"]["tier_2"]["unlocked"]:
             draw_buttons("mines_buy")
         else:

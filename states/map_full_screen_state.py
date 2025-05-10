@@ -6,7 +6,7 @@ from gui.buttons import *
 
 
 class MapFullScreen(BaseState):
-    def __init__(self, state_manager, game):
+    def __init__(self, state_manager, game,tier):
         super().__init__()
         self.state_manager = state_manager
         self.game = game
@@ -14,7 +14,7 @@ class MapFullScreen(BaseState):
         self.world=game.world
         self.camera=self.game.camera
         self.surface=screen
-
+        self.tier=tier
     def handle_event(self, event, pos):
         if event.type == pygame.KEYDOWN:
             # Fermer la carte avec la touche "exit_current_menu"
@@ -43,8 +43,10 @@ class MapFullScreen(BaseState):
         # Définir un zoom réduit pour la mini-map
         if DEBUG_MODE==True:
             minimap_zoom = 0.05  # Par exemple, 10% de la taille réelle
-        else:
+        elif self.tier==1:
             minimap_zoom = 0.3  # Par exemple, 30% de la taille réelle
+        elif self.tier==2:
+            minimap_zoom = 0.2
 
 
 

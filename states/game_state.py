@@ -188,9 +188,13 @@ class GameState(BaseState):
         mouse_x, mouse_y = pos
 
         if actions["open_map"]:
-            from states.map_full_screen_state import MapFullScreen
-            # Passe l'état courant à game_settings_state
-            self.state_manager.set_state(MapFullScreen(self.state_manager, self.game))  # changer le state
+            if self.tech_tree["tech_tree"]["radar"]["tiers"]["tier_1"]["unlocked"]:
+                tier=1
+                if self.tech_tree["tech_tree"]["radar"]["tiers"]["tier_2"]["unlocked"]:
+                    tier=2
+                from states.map_full_screen_state import MapFullScreen
+                # Passe l'état courant à game_settings_state
+                self.state_manager.set_state(MapFullScreen(self.state_manager, self.game,tier))  # changer le state
 
         
         if mouse_clicked:
@@ -469,63 +473,7 @@ class GameState(BaseState):
         # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
         self.game.draw(screen, persistent_game_timer_value=timer_value_to_display)
 
-        nitrogen=self.game.spaceship.nitrogen
-        propellant=self.game.spaceship.propellant
-
-        #print(propellant,nitrogen)
-
-        if propellant==SPACESHIP_MAX_PROPELLANT:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant\propellant_max.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*90:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_9.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*80:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_8.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*70:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_7.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*60:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_6.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*50:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_5.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*40:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_4.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*30:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_3.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*20:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_2.png").convert_alpha()
-        elif propellant>(SPACESHIP_MAX_PROPELLANT/100)*10:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_1.png").convert_alpha()
-        else:
-            propellant_image=pygame.image.load(HUD_TEXTURE_PATH+"propellant/propellant_0.png").convert_alpha()
-
-        coord_hud=hud_draw(38,31,50,35)
-        screen.blit(propellant_image, coord_hud)
-
         
-        if nitrogen==SPACESHIP_MAX_NITROGEN:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_max.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*90:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_9.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*80:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_8.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*70:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_7.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*60:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_6.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*50:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_5.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*40:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_4.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*30:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_3.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*20:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_2.png").convert_alpha()
-        elif nitrogen>(SPACESHIP_MAX_NITROGEN/100)*10:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_1.png").convert_alpha()
-        else:
-            nitrogen_image=pygame.image.load(HUD_TEXTURE_PATH+"nitrogen/nitrogen_0.png").convert_alpha()
-
-        coord_hud=hud_draw(38,33,50,35)
-        screen.blit(nitrogen_image, coord_hud)
 
         # Affichage du message d'alerte pour l'afk
         if (self.game.afk_timer > AFK_TIME-10):
@@ -564,27 +512,6 @@ class GameState(BaseState):
             info = pygame.display.Info()
             spaceship_x=info.current_w//2
             spaceship_y=info.current_h//2
-
-            distance = math.sqrt((mouse_x - spaceship_x) ** 2 + (mouse_y - spaceship_y) ** 2)
-            if color != (0,0,50,255) and distance<=radius*3:
-                planet_info = planet.planet_type
-
-                # Construction du texte pour l'overlay avec les quantités actuelles
-                resource_texts = []
-                # Trie des ressources par nom
-                sorted_resource_names = sorted(planet.resources.keys())
-                for resource_name in sorted_resource_names:
-                    quantity = planet.resources[resource_name]
-                    # Affichage des ressources et quantités
-                    resource_texts.append(f"- {resource_name}: {quantity:.0f}")
-
-                if not resource_texts:
-                    ressource_display = "Aucune ressource disponible"
-                else:
-                    ressource_display = "\n ".join(resource_texts)
-
-                txt = f"{planet.name} ({planet_info})\n Ressources actuelles :\n {ressource_display}"
-                overlay(txt, pygame.mouse.get_pos())
 
         from gui.ressources_mined import RessourcesMined
         planets=RessourcesMined(self.game).update()

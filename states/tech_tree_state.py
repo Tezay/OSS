@@ -47,13 +47,10 @@ class TechTreeState(BaseState):
 
 
             unlocked_tiers=self.game.data_manager.tech_tree.session_data
-            #print("unlocked_tiers",unlocked_tiers["tech_tree"])
 
             
             for module in unlocked_tiers["tech_tree"]:
-                #print("module",module)
                 for tier in unlocked_tiers["tech_tree"][module]["tiers"]:
-                    #print("tier",tier)
                     txt=module+"_"+tier
                     if click_button(txt,pos):
                         if int(tier[5])!=0:
@@ -61,10 +58,6 @@ class TechTreeState(BaseState):
                         else:
                             verif_tier=tier
 
-                        print("click",txt)
-                        print("avant",verif_tier)
-                        #print("verif_tier",verif_tier)
-                        #print("verif_tier[5]",verif_tier[5])
                         if int(verif_tier[5])==int(tier[5])-1:
                             if unlocked_tiers["tech_tree"][module]["tiers"][tier]["unlocked"]==False and unlocked_tiers["tech_tree"][module]["tiers"][verif_tier]["unlocked"]==True:
                                 inventory = self.game.data_manager.inventory
@@ -80,6 +73,7 @@ class TechTreeState(BaseState):
                 self.game.data_manager.tech_tree.upgrade_module("terraforming",inventory)
             #############################
 
+
     def draw(self, screen,pos):
 
         # Dessiner le jeu "en fond"
@@ -90,13 +84,11 @@ class TechTreeState(BaseState):
         screen.blit(overlay, (0, 0))
 
 
-        grille(True)
+        grille(DEBUG_MODE)
 
         unlocked_tiers=self.game.data_manager.tech_tree.session_data
 
-        #print(unlocked_tiers)
 
-        #print("unlocked_tiers",unlocked_tiers["tech_tree"]["ship_engine"])
 
         
         data=self.game.data_manager.tech_tree.get_tech_tree_default_data()
@@ -119,7 +111,6 @@ class TechTreeState(BaseState):
 
         
             
-        #print("tech_tree_data",tech_tree_data)
 
 
         
@@ -137,9 +128,9 @@ class TechTreeState(BaseState):
         draw_buttons("defenses_T1")
         draw_buttons("defenses_T2")"""
 
-        draw_size_buttons("defenses_T0",5,15,size)
+        """draw_size_buttons("defenses_T0",5,15,size)
         draw_size_buttons("defenses_T1",5,18,size)
-        draw_size_buttons("defenses_T2",5,21,size)
+        draw_size_buttons("defenses_T2",5,21,size)"""
 
         
         tech_tree_data_button={}
@@ -153,11 +144,9 @@ class TechTreeState(BaseState):
                     save_tier=tier[:4]+"_"+str(int(tier[5])-1)
                 else:
                     save_tier=tier
-                #print("save_tier",save_tier)
                 inventory = self.game.data_manager.inventory
                 if unlocked_tiers["tech_tree"][module]["tiers"][tier]["unlocked"]==True:
                     draw_size_buttons(txt,buttons[txt]["x"],buttons[txt]["y"],size,color=(0,255,0))
-                    #print("moduleeeeeeeeee",module)
                 elif tech_tree_data[module][tier]["unlocked"]==False and tech_tree_data[module][save_tier]["unlocked"]==True and self.game.data_manager.tech_tree.possible_upgrade_module(module,tier,inventory):
                     draw_size_buttons(txt,buttons[txt]["x"],buttons[txt]["y"],size,color=(255,255,0))
                     #sinon on dessine le bouton en rouge
@@ -175,8 +164,7 @@ class TechTreeState(BaseState):
                 #remettre les bon textes avec les sauts de lignes
                 tech_tree_data_button[txt]=txt_2
         
-        #print("tech_tree_data",tech_tree_data["terraforming_tier_1"])
-        #print("tech_tree_data_button",tech_tree_data_button)
+
         
         #extraire ce qui va etre afficher dans l'overlay
         for name in tech_tree_data_button:
