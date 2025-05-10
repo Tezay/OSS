@@ -52,7 +52,7 @@ class Planet:
                 resource_name = resource_info["name"]
                 spawn_rate = resource_info["spawn_rate"]
                 # Quantité initiale = 12 * spawn_rate (pour 12 * 10 secondes = 120s = 2min)
-                initial_quantity = spawn_rate * 12
+                initial_quantity = int(spawn_rate) * 12
                 self.resources[resource_name] = initial_quantity
 
     def update_resources_offline(self, elapsed_time):
@@ -66,12 +66,13 @@ class Planet:
                 resource_name = resource_info["name"]
                 spawn_rate = resource_info["spawn_rate"]
                 # Ressources générées = (temps écoulé en sec / 10 sec) * spawn_rate
-                resources_to_add = (elapsed_time / 10.0) * spawn_rate
-                if resource_name in self.resources:
-                    self.resources[resource_name] += resources_to_add
-                else:
-                    # Au cas où la ressource n'était pas là initialement
-                    self.resources[resource_name] = resources_to_add
+                resources_to_add = int((elapsed_time / 10.0) * spawn_rate)
+                if resources_to_add > 0:
+                    if resource_name in self.resources:
+                        self.resources[resource_name] += resources_to_add
+                    else:
+                        # Au cas où la ressource n'était pas là initialement
+                        self.resources[resource_name] = resources_to_add
 
     def update_resources_while_landed(self):
         """
@@ -82,11 +83,12 @@ class Planet:
         if planet_data and "available_ressources" in planet_data:
             for resource_info in planet_data["available_ressources"]:
                 resource_name = resource_info["name"]
-                spawn_rate = resource_info["spawn_rate"]
-                if resource_name in self.resources:
-                    self.resources[resource_name] += spawn_rate
-                else:
-                    self.resources[resource_name] = spawn_rate
+                spawn_rate = int(resource_info["spawn_rate"])
+                if spawn_rate > 0:
+                    if resource_name in self.resources:
+                        self.resources[resource_name] += spawn_rate
+                    else:
+                        self.resources[resource_name] = spawn_rate
 
     def draw(self, world_surface):
         """

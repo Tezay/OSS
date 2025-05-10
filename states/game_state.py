@@ -173,6 +173,11 @@ class GameState(BaseState):
 
     def update(self, dt, actions, pos, mouse_clicked):
 
+        # Enregistrer bool vaisseau atterri
+        initial_is_landed_this_frame = self.game.spaceship.is_landed
+        # Enregistrer planète atterrie
+        initial_landed_planet_this_frame = self.game.spaceship.landed_planet
+
         if hasattr(self, 'pending_tutorial_state') and self.pending_tutorial_state:
             self.pending_tutorial_state = False
             from .tutorial_state import TutorialState
@@ -261,35 +266,30 @@ class GameState(BaseState):
             rad = math.radians(self.game.spaceship.angle)
 
             # Application de la force en direction du vaisseau
-            print(self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_1"]["unlocked"])
+            current_thrust_force = SPACESHIP_THRUST_FORCE_T0
             if self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_3"]["unlocked"]:
-                print("4")
-                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T3
+                current_thrust_force=SPACESHIP_THRUST_FORCE_T3
             elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_2"]["unlocked"]:
-                print("3")
-                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T2
+                current_thrust_force=SPACESHIP_THRUST_FORCE_T2
             elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_1"]["unlocked"]:
-                print("2")
-                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T1
-            elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_0"]["unlocked"]:
-                print("1")
-                SPACESHIP_THRUST_FORCE=SPACESHIP_THRUST_FORCE_T0
+                current_thrust_force=SPACESHIP_THRUST_FORCE_T1
                 
-            fx = SPACESHIP_THRUST_FORCE * math.sin(rad)
-            fy = -SPACESHIP_THRUST_FORCE * math.cos(rad)
+            fx = current_thrust_force * math.sin(rad)
+            fy = -current_thrust_force * math.cos(rad)
 
             # Si le vaisseau est dans l'état atterri, lui permettre de redécoller
             if self.game.spaceship.is_landed:
-                # Le booléen repasse à False 
-                self.game.spaceship.is_landed = False
+                # Repasse bool à False
+                self.game.spaceship.is_landed = False 
                 # Application d'une force de poussé supplémentaire, pour facilité le décrochement du vaisseau de l'attraction gravitationnelle de la planète
                 planet_mass = self.game.spaceship.landed_planet.mass
-                # Arbitrairement, j'ai trouvé que la masse de la planète / 1e5*G fonctionnait bien
+                # Arbitrairement, j'ai trouvé que la masse de la planète / 1e5 fonctionnait bien pour le décollage
                 takeoff_force_coeff = planet_mass/1e4
                 self.game.spaceship.add_force(fx*takeoff_force_coeff, fy*takeoff_force_coeff)
 
-            # Application de la force au vaisseau
-            self.game.spaceship.add_force(fx, fy)
+            # Application de la force nnormale du vaisseau (si pas atterri)
+            else:
+                self.game.spaceship.add_force(fx, fy)
 
             # Jouer le son "engine_powered" si non déjà joué
             if not self.engine_sound_playing:
@@ -310,6 +310,20 @@ class GameState(BaseState):
 
         # Update du game (renvoie un booléen si le vaisseau est détruit)
         dead = self.game.update(dt, actions)
+
+        # Verif si le vaisseau a quitté une planète
+        final_is_landed_this_frame = self.game.spaceship.is_landed
+
+        if initial_is_landed_this_frame and not final_is_landed_this_frame and initial_landed_planet_this_frame is not None:
+            # Réucp planète quittée
+            planet_just_left = initial_landed_planet_this_frame
+            
+            # Enregistrer l'heure de départ
+            planet_just_left.last_visited_time = pygame.time.get_ticks() / 1000.0
+            # Reset le bool visited
+            planet_just_left.visited = False 
+            
+            print(f"Départ de {planet_just_left.name}. Heure de départ: {planet_just_left.last_visited_time:.2f}, visited réinitialisé à False.")
 
         # Si l'update du jeu renvoie que le joueur est mort
         if dead:
@@ -522,19 +536,26 @@ class GameState(BaseState):
 
         if self.game.spaceship.is_landed:
             planet = self.game.spaceship.landed_planet
-            current_time_seconds = pygame.time.get_ticks() / 1000.0
+            current_arrival_time_seconds = pygame.time.get_ticks() / 1000.0
 
-            # Si la planète n'a pas encore été marquée comme visitée dans cette session d'atterrissage
+            # Si planète pas visitée calculer spawn des ressources pendant le temps hors ligne
             if not planet.visited:
-                # Vérifier si elle a déjà été visitée auparavant (last_visited_time existe)
-                if planet.last_visited_time is not None:
-                    elapsed_time = current_time_seconds - planet.last_visited_time
-                    # Mettre à jour les ressources générées pendant l'absence
-                    planet.update_resources_offline(elapsed_time)
+                # Vérif heure de visite
+                if planet.last_visited_time is not None and planet.last_visited_time > 0:
+                    elapsed_offline_time = current_arrival_time_seconds - planet.last_visited_time
+                    
+                    # Vérif si temps hors ligne > 0.1 seconde
+                    if elapsed_offline_time > 0.1:
+                        print(f"Offline ressources calcul for {planet.name}.  Elapsed time: {elapsed_offline_time:.2f}s")
+                        planet.update_resources_offline(elapsed_offline_time)
+                    else:
+                        print(f"Offline time for {planet.name} too short: ({elapsed_offline_time:.2f}s), no ressources calcul.")
+                else:
+                    print(f"First visit on {planet.name}. No offline ressources to calculate.")
 
-                # Marquer la planète comme visitée et enregistrer le temps actuel
+                # Marquer planète comme visitée (pour dire que le calcul des ressources a été fait)
                 planet.visited = True
-                planet.last_visited_time = current_time_seconds
+                planet.last_visited_time = current_arrival_time_seconds
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
             color = screen.get_at((mouse_x, mouse_y))
