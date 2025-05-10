@@ -2,7 +2,7 @@ import os
 import pygame
 from .base_state import BaseState
 from gui.buttons import *
-from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_LIST_PATH, KEY_BINDINGS
+from config import custom_font, DEFAULT_FONT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, ITEMS_LIST_PATH, KEY_BINDINGS, FONT_PATH, INFO_BOX_FONT_SIZE, INFO_BOX_MAX_WIDTH, DEBUG_MODE
 from core.json_manager import get_crafting_recipes, get_items_data
 
 # Classe enfant de BaseState
@@ -30,7 +30,7 @@ class CraftingState(BaseState):
         spacing = 30  # Uniform spacing between areas
 
         # Zone pour la liste des items de l'inventaire 
-        self.list_area_rect = pygame.Rect(50, 80, WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.45)
+        self.list_area_rect = pygame.Rect(50, 80, WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.60)
         # Zone pour les crafts possibles (inchangée)
         self.crafts_area_rect = pygame.Rect(self.list_area_rect.right + spacing, 80, WINDOW_WIDTH * 0.55, WINDOW_HEIGHT * 0.6)
         # Zone pour les items sélectionnés (déplacée en dessous de l'inventaire)
@@ -51,6 +51,14 @@ class CraftingState(BaseState):
         self.possible_craft = None
         # Rect du bouton "Assembler"
         self.craft_button_rect = None
+
+        # Variables pour stocker l'item survolé par la souris
+        self.hovered_item_name = None
+        # Charge texture overlay
+        self.overlay_texture = pygame.image.load("assets/overlay_texture.png").convert_alpha()
+        
+        # Charge police custom
+        self.tooltip_font = pygame.font.Font(FONT_PATH, INFO_BOX_FONT_SIZE)
 
     def _load_item_images(self):
         """Charge les images des items depuis items_list.json."""
@@ -81,6 +89,19 @@ class CraftingState(BaseState):
             if event.key == KEY_BINDINGS["exit_current_menu"] or event.key == KEY_BINDINGS["crafting"]:
                 self._exit_state()
 
+        # Vérif si souris est déplacée
+        elif event.type == pygame.MOUSEMOTION:
+            mouse_pos_motion = event.pos
+            self.hovered_item_name = None
+            # Check si souris est sur un item de l'inventaire
+            # Itère sur chaque rect de l'inventaire
+            for item_name, rect in self.inventory_clickable_rects.items():
+                # Si souris est sur un rect
+                if rect.collidepoint(mouse_pos_motion):
+                    # Récup le nom de l'item
+                    self.hovered_item_name = item_name
+                    break
+
         # Vérifier si la souris est cliquée
         if event.type == pygame.MOUSEBUTTONDOWN:
             # Vérifie si c'est un clic gauche
@@ -101,7 +122,6 @@ class CraftingState(BaseState):
                 # Vérifier clic sur le bouton "Assembler"
                 if self.possible_craft and self.craft_button_rect and self.craft_button_rect.collidepoint(pos):
                     self._perform_craft()
-
 
     def _exit_state(self):
         """Quitte l'état CraftingState pour retourner à GameState."""
@@ -228,6 +248,27 @@ class CraftingState(BaseState):
                 "can_craft": can_craft
             })
         return craftable_items
+
+    def _wrap_text(self, text, font, max_line_width):
+        """
+        Fonction pour couper le texte en plusieurs lignes.
+        """
+        words = text.split(' ')
+        lines = []
+        current_line = ''
+        for word in words:
+            test_line = current_line + word + ' '
+            # Vérif si la ligne dépasse la largeur max (en tenant compte de taille police)
+            if font.size(test_line.strip())[0] > max_line_width:
+                if current_line:
+                    lines.append(current_line.strip())
+                current_line = word + ' '
+            else:
+                current_line = test_line
+        
+        if current_line:
+            lines.append(current_line.strip())
+        return [line for line in lines if line]
 
     def update(self, dt, actions, pos, mouse_clicked):
         pass
@@ -436,3 +477,76 @@ class CraftingState(BaseState):
         title_surf = self.font.render("Zone d'Assemblage", True, (255, 255, 255))
         title_rect = title_surf.get_rect(center=(WINDOW_WIDTH // 2, 40))
         screen.blit(title_surf, title_rect)
+
+        # Dessine overlay avec info sur item survolé
+        #Si souris est sur un item de l'inventaire
+        if self.hovered_item_name:
+            # Récup les données de l'item
+            item_data = self.all_items_data.get(self.hovered_item_name)
+            if item_data:
+                # Récup nom et description de l'item
+                item_true_name = item_data.get("name", self.hovered_item_name)
+                item_description = item_data.get("description", "No description available.")
+
+                # Render pour surface du nom de l'item
+                name_surf = self.tooltip_font.render(item_true_name, True, (255, 255, 255))
+                
+                # Render pour surface de la description
+                desc_lines_text = self._wrap_text(item_description, self.tooltip_font, INFO_BOX_MAX_WIDTH - 20)
+                desc_surfaces = [self.tooltip_font.render(line, True, (220, 220, 220)) for line in desc_lines_text]
+
+                # Espacements
+                padding = 10
+                text_spacing = 5
+
+                # Calculer largeur + hauteur de l'overlay
+                tooltip_content_width = name_surf.get_width()
+                if desc_surfaces:
+                    # Calcul largeur max de la description (je me suis aidé d'internet pour cette ligne)
+                    tooltip_content_width = max(tooltip_content_width, max(s.get_width() for s in desc_surfaces if s.get_width() > 0) if any(s.get_width() > 0 for s in desc_surfaces) else 0 )
+                
+                # Ajouter marges
+                tooltip_width = tooltip_content_width + 2 * padding
+                
+                # Calcul hauteur du nom
+                name_height = name_surf.get_height()
+                desc_total_height = 0
+                if desc_surfaces:
+                    desc_total_height = sum(s.get_height() for s in desc_surfaces) + \
+                                        max(0, len(desc_surfaces) - 1) * (text_spacing / 2)
+
+                # Calcul hauteur totale de l'overlay
+                tooltip_content_height = name_height
+                if desc_surfaces and desc_total_height > 0 :
+                    tooltip_content_height += text_spacing + desc_total_height
+                
+                # Ajouter marges
+                tooltip_height = tooltip_content_height + 2 * padding
+
+                # Récup position souris
+                current_mouse_pos = pygame.mouse.get_pos()
+                small_gap_on_flip = 5
+
+                # Position initiale de l'overlay
+                tooltip_x, tooltip_y = current_mouse_pos
+
+                # Dessiner l'arrière plan de l'overlay
+                # Redimensionner texture pour qu'elle corresponde à la taille du texte
+                scaled_overlay = pygame.transform.scale(self.overlay_texture, (tooltip_width, tooltip_height))
+                screen.blit(scaled_overlay, (tooltip_x, tooltip_y))
+
+                # Dessiner le texte du nom de l'item
+                current_text_y = tooltip_y + padding
+                screen.blit(name_surf, (tooltip_x + padding, current_text_y))
+                # Passer à la ligne suivante
+                current_text_y += name_surf.get_height()
+
+                # Dessiner la description ligne par ligne
+                if desc_surfaces:
+                    # Ajouter un espace entre nom et description
+                    current_text_y += text_spacing 
+                    # Itère sur chaque ligne de la description
+                    for desc_surf in desc_surfaces:
+                        screen.blit(desc_surf, (tooltip_x + padding, current_text_y))
+                        # Passer à la ligne suivante
+                        current_text_y += desc_surf.get_height() + text_spacing / 2
