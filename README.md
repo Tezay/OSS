@@ -107,6 +107,22 @@ OSS/
 *   **HUD Dynamique :** L'HUD fournit des informations en temps réel sur l'état du vaisseau (position, vitesse, niveaux de carburant), une mini-carte, des indicateurs de force directionnelle et des informations contextuelles (messages d'atterrissage, invites de collecte de ressources, dialogues).
 *   **Persistance de Session :** La progression clé du joueur, comme le contenu de l'inventaire et les technologies débloquées, est sauvegardée dans un dossier unique dans `local_data/` pour chaque session de jeu.
 
+## Crédits
+
+### Membres du Projet
+
+*   Eliot CUPILLARD
+*   Eliot COUSSEAU
+*   Edouard TORRES
+*   Delphine DEHEZ
+*   Aurélia FOURNIER
+
+### Autres Contributeurs
+
+*   **Textures du Jeu :** La plupart des textures du jeu ont été réalisées par Thomas HOANG ([@thomas.hoang__](https://www.instagram.com/thomas.hoang__/)).
+*   **Générateur de Planètes Pixel Art :** Les textures des planètes ont été générées à l'aide de [PixelPlanets](https://github.com/Deep-Fold/PixelPlanets).
+
+
 ## Touches Clavier (Par Défaut)
 
 *   **Déplacer Vaisseau (Poussée) :** `ESPACE`
