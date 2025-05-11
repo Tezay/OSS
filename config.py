@@ -74,21 +74,8 @@ STAR_COLORS = [
 # Inventaire par défaut
 DEFAULT_INVENTORY = {
     "items": [
-        {"name": "iron_ore", "quantity": 10},
-        {"name": "azure_crystals", "quantity": 10},
-        {"name": "organic_fibers", "quantity": 10},
-        {"name": "hydrogen_gas", "quantity": 10},
-        {"name": "neutral_gas", "quantity": 10},
-        {"name": "compressed_carbon", "quantity": 10},
-        {"name": "raw_silicon", "quantity": 10},
-        {"name": "stellar_dust", "quantity": 10},
-        {"name": "luminous_lithium", "quantity": 10},
-        {"name": "volcanic_plasma", "quantity": 10},
-        {"name": "frozen_water", "quantity": 10},
-        {"name": "liquid_water", "quantity": 10},
-        {"name": "antimatter", "quantity": 10},
-        {"name": "nitrogen_tank_2", "quantity": 10},
-        {"name": "colony_kit", "quantity": 1}
+        {"name": "hydrogen_gas", "quantity": 2},
+        {"name": "neutral_gas", "quantity": 2}
     ]
 }
 

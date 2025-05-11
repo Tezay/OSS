@@ -110,15 +110,7 @@ class InventoryState(BaseState):
                         break
 
     def update(self, dt, actions, pos, mouse_clicked):
-        
-        if mouse_clicked:
-            ########### TEST ############
-            # Exemple de bouton pour tester l'ajout/suppression d'un item dans l'inventaire
-            if click_button('test_add_item',pos):
-                self.game.data_manager.inventory.add_item("liquid_water", 2)
-            if click_button('test_remove_item',pos):
-                self.game.data_manager.inventory.remove_item("liquid_water", 2)
-            #############################
+        pass
 
     def draw(self, screen, pos):
         # Dessiner le jeu "en fond"
@@ -188,14 +180,5 @@ class InventoryState(BaseState):
         # Dessin du texte
         text_surf = self.font.render("Inventaire - appuyez sur I pour reprendre", True, (255, 255, 255))
         rect = text_surf.get_rect(center=(WINDOW_WIDTH // 2, 50))
-
-        ########### TEST ############
-        # Exemple de bouton pour tester l'upgrade d'un module du tech tree
-        draw_buttons("test_add_item")
-        draw_buttons("test_remove_item")
-        #############################
-
         
-
-
         screen.blit(text_surf, rect)
