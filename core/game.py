@@ -10,7 +10,8 @@ from config import (
     RENDER_DISTANCE,
     G,
     MAX_LANDING_SPEED,
-    LANDING_DAMPING_FACTOR
+    LANDING_DAMPING_FACTOR,
+    MAX_LANDING_ANGLE_DEVIATION  # Ajout de la nouvelle constante
 )
 from gui.hud import Hud
 from core.session_data_manager import DataManager
@@ -174,10 +175,11 @@ class Game():
         et une planète. 
         - x, y, vx, vy sont les coordonnées et vitesse de l'objet
         - dt est la durée du pas de temps qu'on vient de simuler
-        - Retourne (new_x, new_y, new_vx, new_vy, landed) 
+        - Retourne (new_x, new_y, new_vx, new_vy, landed, landed_planet, deadly_collision) 
         où 'landed' indique si on a atterri sur une planète.
 
-        On considère l'atterrissage réussi si la vitesse < MAX_LANDING_SPEED.
+        On considère l'atterrissage réussi si la vitesse < MAX_LANDING_SPEED ET
+        si l'angle du vaisseau est correct par rapport à la surface de la planète.
         On recalcule la position (x,y) en cas de chevauchement pour coller à la surface.
         """
         landed = False
@@ -185,6 +187,9 @@ class Game():
         # Récupère les planètes visibles
         visible_planets = self.get_visible_planets()
         
+        # Initialisation de la variable deadly_collision en dehors de la boucle
+        deadly_collision = False
+
         # Itère sur les planètes visibles
         for planet in visible_planets:
 
@@ -193,25 +198,43 @@ class Game():
             # Calcul de la distance de collision
             collision_dist = planet.radius + radius_vaisseau
 
-            # Initialisation de la variable deadly_collision
-            deadly_collision = False
-
             # Si distance entre vaisseau et planète <= rayon planète + vaisseau
             # Alors il y a collision, et il faut regarder si le vaisseau atterri
             if dist_centers <= collision_dist:
 
-                # Calcul de la vitesse du vaisseau
-                speed = math.sqrt(vx*vx + vy*vy)
-
                 # Seulement si on n’est PAS déjà posé :
                 if not self.spaceship.is_landed:
 
+                    # Vérif l'angle d'atterrissage
+                    # Vecteur du bas du vaisseau (direction (0,1) en bas)
+                    ship_bottom_vector = pygame.math.Vector2(0, 1).rotate(-self.spaceship.angle)
+                    
+                    # Vecteur du vaisseau vers centre de la planète
+                    vec_ship_to_planet = pygame.math.Vector2(planet.x - x, planet.y - y)
+
+                    # Vérif si distance au carré > 0 pour éviter division par 0
+                    if vec_ship_to_planet.length_squared() > 0:
+                        # angle_to() retourne l'angle en degrés entre les deux vecteurs
+                        angle_deviation = ship_bottom_vector.angle_to(vec_ship_to_planet)
+                        
+                        # Vérif si angle attérissage > angle max
+                        if abs(angle_deviation) > MAX_LANDING_ANGLE_DEVIATION:
+                            deadly_collision = True
+                            print(f"Deadly collision with {planet.name} caused by incorrect landing angle Deviation: {angle_deviation:.2f}°")
+                            break 
+
+                    if deadly_collision:
+                        break
+
+                    # Vérifvitesse d'atterrissage
+                    speed = math.sqrt(vx*vx + vy*vy)
+
                     # Si le vaisseau est 2 fois plus rapide que la vitesse d'atterrissage max
-                    if speed >= MAX_LANDING_SPEED *2:
-                        # Collision mortel avec une planète passe deadly_collision à True pour faire respawn le vaisseau
+                    if speed >= MAX_LANDING_SPEED * 2:
+                        # Collision mortelle avec une planète passe deadly_collision à True pour faire respawn le vaisseau
                         deadly_collision = True
-                        print("Deadly collision with a planet!")
-                        # Sortir de la boucle d'itération des planètes dès lors qu'on sait qu'il y a une collision mortelle avec l'une d'elles
+                        print(f"Collision mortelle avec {planet.name} due à une vitesse excessive!")
+                        # Sortir de la boucle d'itération des planètes dès lors qu'on sait qu'il y a une collision mortelle.
                         break
  
                     # Si le vaisseau est plus rapide que la vitesse d'atterrissage max, mais moins que 2 fois
@@ -226,9 +249,9 @@ class Game():
                         vx = -vx * LANDING_DAMPING_FACTOR
                         vy = -vy * LANDING_DAMPING_FACTOR
                     
-                    # Sinon le vaisseau a une vitesse d'atterrissage
+                    # Sinon le vaisseau a une vitesse d'atterrissage correcte (et l'angle était aussi correct)
                     else:
-                        # Atterrisage
+                        # Atterrissage réussi
                         landed = True
                         landed_planet = planet
 
