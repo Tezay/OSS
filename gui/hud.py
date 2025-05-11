@@ -465,7 +465,8 @@ class Hud:
         button_color = (80, 80, 120)
         mouse_pos = pygame.mouse.get_pos()
         if self.collect_button_rect.collidepoint(mouse_pos):
-            button_color = (100, 100, 150)  # Couleur plus claire au survol
+            # Couleur plus claire au survol
+            button_color = (100, 100, 150)
 
         # Dessiner le fond du bouton
         pygame.draw.rect(surface, button_color, self.collect_button_rect)

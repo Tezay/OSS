@@ -16,15 +16,9 @@ class InventoryState(BaseState):
         super().__init__()
         self.state_manager = state_manager
         self.game = game
-        self.font = custom_font
-        # Création d'une police plus petite pour afficher les quantités d'items
-        # Utilise FONT_PATH et DEFAULT_FONT_SIZE importés depuis config.py
-        # La taille est réduite (par exemple, de 8 points) pour une meilleure lisibilité.
-        try:
-            self.quantity_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE - 8)
-        except pygame.error as e:
-            print(f"Erreur lors du chargement de la police pour les quantités: {e}. Utilisation de la police système.")
-            self.quantity_font = pygame.font.SysFont("Arial", DEFAULT_FONT_SIZE - 8)
+        # Charge fonts custom
+        self.font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE)
+        self.quantity_font = pygame.font.Font(FONT_PATH, DEFAULT_FONT_SIZE - 8)
         
         # Taille d'une cellule de la grille
         self.cell_size = 64

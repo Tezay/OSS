@@ -28,7 +28,7 @@ class Button():
 
         # Vérifier si la souris est sur l'image
         if texture.get_rect(topleft=(self.x, self.y)).collidepoint(pygame.mouse.get_pos()):
-            # Charger la texture avec des contours blancs
+            # Charger la texture de survol
             if self.file=="assets/button.png":
                 texture = pygame.transform.scale(pygame.image.load("assets/button_highlighted.png"), (self.width, self.height))
                 screen.blit(texture, (self.x, self.y))
@@ -40,6 +40,9 @@ class Button():
                 screen.blit(texture, (self.x-2, self.y-2))
             elif self.file=="assets\hud/inventory.png":
                 texture = pygame.transform.scale(pygame.image.load("assets\hud/inventory_hoover.png"), (self.width, self.height))
+                screen.blit(texture, (self.x, self.y))
+            elif self.file=="assets/hud/crafting.png":
+                texture = pygame.transform.scale(pygame.image.load("assets/hud/crafting_hoover.png"), (self.width, self.height))
                 screen.blit(texture, (self.x, self.y))
         else:
             screen.blit(texture, (self.x, self.y))

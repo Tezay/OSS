@@ -112,7 +112,8 @@ class Inventory:
         Renvoie un dictionnaire contenant les données des items possédés par le joueur.
         """
         # Charge les données complètes des items depuis le fichier ITEMS_LIST_PATH
-        with open(ITEMS_LIST_PATH, 'r') as file:
+        # Ajout de encoding='utf-8' pour assurer la lecture correcte des caractères spéciaux.
+        with open(ITEMS_LIST_PATH, 'r', encoding='utf-8') as file:
             all_items_data = json.load(file)
 
         # Crée un dictionnaire pour stocker les données des items possédés
@@ -132,5 +133,5 @@ class Inventory:
                 items_data[item_name] = item_data
 
         return items_data
-    
+
 

@@ -327,9 +327,9 @@ buttons = {
         "x":11,"y":31,
         "color":(255,255,255),"text":"","file":'assets\hud/inventory.png'},
 
-    "crafting":{ # Bouton pour ouvrir le menu craft depuis le HUD
-        "x":47,"y":31, # Position à ajuster si nécessaire
-        "color":(255,255,255),"text":"","file":'assets/hud/crafting_icon.png'}, # Assurez-vous d'avoir une icone
+    "crafting":{
+        "x":47,"y":31,
+        "color":(255,255,255),"text":"","file":'assets/hud/crafting.png'},
 
     # Boutons de l'arbre technologique de la branche "moteurs"
 
