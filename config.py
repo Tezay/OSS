@@ -224,7 +224,7 @@ buttons = {
         "color":(255,255,255),"text":"Retour au jeu","file":"assets/button.png"},
     
     "menu_settings_return":{
-        "x":20,"y":23,
+        "x":20,"y":30,
         "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
     
     "save_and_quit":{
@@ -235,8 +235,8 @@ buttons = {
         "x":6,"y":19,
         "color":(255,255,255),"text":"Crédits","file":"assets/button.png"},
     "git":{
-        "x":20,"y":18,
-        "color":(255,255,255),"text":"Git","file":"assets/button.png"},
+        "x":20,"y":24,
+        "color":(255,255,255),"text":"Voir le GitHub","file":"assets/button.png"},
     "sound":{
         "x":20,"y":13,
         "color":(255,255,255),"text":"Son","file":"assets/button.png"},
@@ -249,12 +249,12 @@ buttons = {
         "x":15,"y":22,
         "color":(255,255,255),"text":"Retour au menu","file":"assets/button.png"},
 
-    "crafting_return":{ # Bouton retour pour le menu craft
+    "crafting_return":{
         "x":6,"y":30,
         "color":(255,255,255),"text":"Retour","file":"assets/button.png"},
 
-    "craft_button":{ # Bouton pour lancer le craft
-        "x":40,"y":25, # Position à ajuster dans CraftingState.draw
+    "craft_button":{
+        "x":40,"y":25,
         "color":(0,255,0),"text":"Assembler","file":"assets/button.png"},
 
     "resolution_return":{
