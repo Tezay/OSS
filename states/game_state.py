@@ -296,9 +296,7 @@ class GameState(BaseState):
 
             # Application de la force en direction du vaisseau
             current_thrust_force = SPACESHIP_THRUST_FORCE_T0
-            if self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_3"]["unlocked"]:
-                current_thrust_force=SPACESHIP_THRUST_FORCE_T3
-            elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_2"]["unlocked"]:
+            if self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_2"]["unlocked"]:
                 current_thrust_force=SPACESHIP_THRUST_FORCE_T2
             elif self.tech_tree["tech_tree"]["ship_engine"]["tiers"]["tier_1"]["unlocked"]:
                 current_thrust_force=SPACESHIP_THRUST_FORCE_T1
