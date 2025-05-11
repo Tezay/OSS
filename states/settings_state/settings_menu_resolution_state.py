@@ -72,7 +72,7 @@ class MenuSettingsResolutionState(BaseState):
 
     def draw(self, screen,pos):
         screen.fill((0, 0, 0))
-        grille(True)
+        grille(False)
         # Dessin des boutons relatifs à l'état settings_menu_resolution_state (avec la méthode .draw() de la classe Button)
         
 

@@ -8,7 +8,7 @@
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 100L).",
+                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 100L) \n cout: \n 1 reservoir de propergole 1.",
                     "required_resources": [
                         {
                             "name": "propellant_tank_1",
@@ -17,21 +17,15 @@
                     ]
                 },
                 "tier_2": {
-                    "description": "augmentation de la contenance du reservoir de propergol (Contenance : 250L).",
+                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 200L) \n cout: \n 1 reservoir de propergole 2.",
                     "required_resources": [
                         {
-                        "name": "propellant_tank_2",
-                        "quantity": 1
-                    }]
-                },
-                "tier_3": {
-                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 500L).",
-                    "required_resources": []
-                },
-                "tier_4": {
-                    "description":  "augmentation de la contenance du reservoir de propergol (Contenance : 1000L).",
-                    "required_resources": []
+                            "name": "propellant_tank_2",
+                            "quantity": 1 
+                        }
+                    ]    
                 }
+
             }
         },
         "ship_engine": {
@@ -42,7 +36,7 @@
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description":  "Moteur a fusion froide (Poussee : 1000N).",
+                    "description":  "Moteur a fusion froide (Poussee : 1000N) \n cout: \n 1 mise a jours moteur 1.",
                     "required_resources": [
                         {
                             "name": "engine_update_1",
@@ -51,21 +45,13 @@
                     ]
                 },
                 "tier_2": {
-                    "description":  "Moteur atomique (Poussee : 1500N).",
+                    "description":  "Moteur atomique (Poussee : 1500N) \n cout: \n 1 mise a jours moteur 2.",
                     "required_resources": [
                         {
                             "name": "engine_update_2",
                             "quantity": 1
                         }
                     ]
-                },
-                "tier_3": {
-                    "description":  "Moteur a courbure spatiale (Poussee : 2000N).",
-                    "required_resources": []
-                },
-                "tier_4": {
-                    "description":  "Stabilisateur de trou de ver (poussee : 3000N).",
-                    "required_resources": []
                 }
             }
         },
@@ -77,7 +63,7 @@
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 40L).",
+                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 40L) \n cout: \n 1 reservoir de nitrogen 1.",
                     "required_resources": [
                         {
                             "name": "nitrogen_tank_1",
@@ -86,21 +72,13 @@
                     ]
                 },
                 "tier_2": {
-                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 80L).",
+                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 100L) \n cout: \n 1 reservoir de nitrogen 2.",
                     "required_resources": [
                         {
                             "name": "nitrogen_tank_2",
                             "quantity": 1
                         }
                     ]
-                },
-                "tier_3": {
-                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 160L).",
-                    "required_resources": []
-                },
-                "tier_4": {
-                    "description":  "augmentation de la contenance du reservoir de nitrogen (Contenance : 320L).",
-                    "required_resources": []
                 }
             }
         },
@@ -112,17 +90,13 @@
                     "required_resources": []
                 },
                 "tier_1": {
-                    "description":  "débloque la map en plein écran.",
+                    "description":  "débloque la map en plein écran, \n cout: \n 1 Mise à Jour Radar.",
                     "required_resources": [
                         {
                             "name": "radar_update",
                             "quantity": 1
                         }
                     ]
-                },
-                "tier_2": {
-                    "description":  "Augmente la portee de la map plein écran.",
-                    "required_resources": []
                 }
             }
         }

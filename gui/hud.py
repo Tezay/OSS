@@ -771,24 +771,18 @@ class Hud:
         draw_buttons("crafting", (30, 30))
 
 
-        if tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_4"]["unlocked"]:
-            SPACESHIP_MAX_NITROGEN = 320
-        elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_3"]["unlocked"]:
-            SPACESHIP_MAX_NITROGEN = 160
-        elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_2"]["unlocked"]:
-            SPACESHIP_MAX_NITROGEN = 80
+
+        if tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_2"]["unlocked"]:
+            SPACESHIP_MAX_NITROGEN = 100
         elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_1"]["unlocked"]:
-            SPACESHIP_MAX_NITROGEN = 40
+            SPACESHIP_MAX_NITROGEN = 50
         elif tech_tree["tech_tree"]["nitrogen"]["tiers"]["tier_0"]["unlocked"]:
             SPACESHIP_MAX_NITROGEN = 20
 
         
-        if tech_tree["tech_tree"]["propellant"]["tiers"]["tier_4"]["unlocked"]:
-            SPACESHIP_MAX_PROPELLANT = 1000
-        elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_3"]["unlocked"]:
-            SPACESHIP_MAX_PROPELLANT = 500
-        elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_2"]["unlocked"]:
-            SPACESHIP_MAX_PROPELLANT = 250
+
+        if tech_tree["tech_tree"]["propellant"]["tiers"]["tier_2"]["unlocked"]:
+            SPACESHIP_MAX_PROPELLANT = 200
         elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_1"]["unlocked"]:
             SPACESHIP_MAX_PROPELLANT = 100
         elif tech_tree["tech_tree"]["propellant"]["tiers"]["tier_0"]["unlocked"]:

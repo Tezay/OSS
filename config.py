@@ -367,14 +367,6 @@ buttons = {
     "propellant_tier_2":{
         "x":40,"y":9,
         "color":(255,255,255),"text":"Propellant T2","file":"assets/button.png","text_size":10},
-    
-    "propellant_tier_3":{
-        "x":40,"y":12,
-        "color":(255,255,255),"text":"Propellant T3","file":"assets/button.png","text_size":10},
-    
-    "propellant_tier_4":{
-        "x":40,"y":15,
-        "color":(255,255,255),"text":"Propellant T4","file":"assets/button.png","text_size":10},
 
     # Boutons de l'arbre technologique de la branche "science de l'anti-matière"
 
@@ -389,14 +381,6 @@ buttons = {
     "nitrogen_tier_2":{
         "x":20,"y":9,
         "color":(255,255,255),"text":"Nitrogen T2","file":"assets/button.png","text_size":10},
-    
-    "nitrogen_tier_3":{
-        "x":20,"y":12,
-        "color":(255,255,255),"text":"Nitrogen T3","file":"assets/button.png","text_size":10},
-    
-    "nitrogen_tier_4":{
-        "x":20,"y":15,
-        "color":(255,255,255),"text":"Nitrogen T4","file":"assets/button.png","text_size":10},
 
     # Boutons de l'arbre technologique de la branche "radar"
 

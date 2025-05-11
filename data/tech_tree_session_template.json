@@ -4,34 +4,29 @@
             "tiers": {
                 "tier_0": { "unlocked": true },
                 "tier_1": { "unlocked": false },
-                "tier_2": { "unlocked": false },
-                "tier_3": { "unlocked": false },
-                "tier_4": { "unlocked": false }
+                "tier_2": { "unlocked": false }
+
             }
         },
         "ship_engine": {
             "tiers": {
                 "tier_0": { "unlocked": true },
                 "tier_1": { "unlocked": false },
-                "tier_2": { "unlocked": false },
-                "tier_3": { "unlocked": false },
-                "tier_4": { "unlocked": false }
+                "tier_2": { "unlocked": false }
             }
         },
         "nitrogen": {
             "tiers": {
                 "tier_0": { "unlocked": true },
                 "tier_1": { "unlocked": false },
-                "tier_2": { "unlocked": false },
-                "tier_3": { "unlocked": false },
-                "tier_4": { "unlocked": false }
+                "tier_2": { "unlocked": false }
+
             }
         },
         "radar": {
             "tiers": {
                 "tier_0": { "unlocked": true },
-                "tier_1": { "unlocked": false },
-                "tier_2": { "unlocked": false }
+                "tier_1": { "unlocked": false }
             }
         }
     }
