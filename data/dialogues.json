@@ -14,6 +14,7 @@
     "info_boxes": {
         "first_tip": "Afin de créer votre propre carburant et être autonome dans l'espace, récupérez du Gaz Neutre et du Gaz Hydrogène sur des planètes gazeuse. A partir de ceux là, vous pourrez recharger vos reserves de carburant depuis l'inventaire !",
         "landing_tip": "Conseil d'atterrissage : Pour décélérer, retournez votre vaisseau dans la direction opposée du déplacement, et allumez le moteur. Assurez-vous que votre vitesse est inférieure à 20 pour un atterrissage en douceur sur les planètes.",
-        "resources_tip": "Les planètes possèdent différentes ressources selon leur type. Explorez-les toutes pour récupérer ce dont vous avez besoin !"
+        "resources_tip": "Les planètes possèdent différentes ressources selon leur type. Explorez-les toutes pour récupérer ce dont vous avez besoin !",
+        "inventory_tip": "Appuyez sur [I] pour ouvrir votre inventaire. Vous y trouverez toutes les ressources que vous avez collectés."
     }
 }

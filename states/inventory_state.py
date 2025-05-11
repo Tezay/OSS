@@ -149,7 +149,7 @@ class InventoryState(BaseState):
             # Dessine un rectangle représentant une cellule de la grille
             item_rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
             # Dessin du fond de la cellule
-            pygame.draw.rect(screen, (50, 50, 50), item_rect)
+            pygame.draw.rect(screen, (50, 50, 50), item_rect, border_radius=10)
             
             # Stock les coordonnées de l'item dans le dictionnaire pour la détection de clics
             self.inventory_clickable_rects[item["name"]] = item_rect

@@ -43,6 +43,8 @@ class GameState(BaseState):
                 self.game.landing_tip_shown = False
             if not hasattr(self.game, 'resources_tip_shown'):
                 self.game.resources_tip_shown = False
+            if not hasattr(self.game, 'inventory_tip_shown'):
+                self.game.inventory_tip_shown = False
             
         # Sinon création d'un nouveau Game + nouvelle map + nouveau vaisseau
         else:
@@ -52,6 +54,7 @@ class GameState(BaseState):
             self.game.first_tip_shown = False
             self.game.landing_tip_shown = False
             self.game.resources_tip_shown = False
+            self.game.inventory_tip_shown = False
 
             # Selection de la seed
             if config.custom_seed is None:
@@ -175,6 +178,24 @@ class GameState(BaseState):
                 print("Collect resources button clicked!")
                 # Joue le son de collecte de ressources
                 self.game.sound_manager.play_sound("collect_resources", "collect_resources.wav")
+                # Ajouter boite info sur l'inventaire si jamais affichée
+                if not self.game.inventory_tip_shown:
+                    self.game.inventory_tip_shown = True
+                    self.game.hud.add_info_box("inventory_tip")
+
+            # Vérifier si clic sur bouton "Installer la colonie"
+            if self.game.hud.install_colony_button_rect and self.game.hud.install_colony_button_rect.collidepoint(pos):
+                if not self.game.complete_game:
+                    self.game.complete_game = True
+                    print("Button 'Installer la colonie' clicked. End of the game.")
+                    # Passer l'état courant à VictoryState
+                    from .victory_state import VictoryState
+                    self.state_manager.set_state(VictoryState(self.state_manager, self.game))
+                    # Son victoire
+                    self.game.sound_manager.play_sound("win_sound", "win_sound.wav")
+
+        # Reset timer AFK si action détectée
+        self.game.afk_timer = 0
 
     def update(self, dt, actions, pos, mouse_clicked):
 
@@ -264,7 +285,6 @@ class GameState(BaseState):
                 self.propulsion_sound_playing = False
 
         
-
         # Poussée continue si touche préssée (si propellant > 0)
         if actions["spaceship_move"] and self.game.spaceship.propellant > 0:
 
@@ -477,8 +497,6 @@ class GameState(BaseState):
         
         # Dessin du jeu (espace 2d avec planètes et vaisseau, HUD, minimap etc.)
         self.game.draw(screen, persistent_game_timer_value=timer_value_to_display)
-
-        
 
         # Affichage du message d'alerte pour l'afk
         if (self.game.afk_timer > AFK_TIME-10):

@@ -88,7 +88,7 @@ DEFAULT_INVENTORY = {
         {"name": "liquid_water", "quantity": 10},
         {"name": "antimatter", "quantity": 10},
         {"name": "nitrogen_tank_2", "quantity": 10},
-        {"name": "nitrogen_tank_1", "quantity": 10}
+        {"name": "colony_kit", "quantity": 1}
     ]
 }
 

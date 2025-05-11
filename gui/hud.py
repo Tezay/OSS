@@ -49,6 +49,8 @@ class Hud:
         self.landing_message = ""
         # Rect pour le bouton de collecte des ressources
         self.collect_button_rect = None
+        # Rect pour le bouton "installer colonie"
+        self.install_colony_button_rect = None
 
         # Attributs pour les dialogues
         self.dialogues = []
@@ -670,7 +672,47 @@ class Hud:
         
         surface.blit(timer_surface, timer_rect)
 
-    def draw(self, surface, camera, world_surface, world_surface_wiouth_stars, persistent_game_timer_value,tech_tree):
+    def draw_install_colony_button(self, surface, game):
+        """
+        Dessine le bouton "Installer la colonie" si les conditions sont remplies.
+        Conditions : Vaisseau atterri sur une planète habitable ET le joueur possède "colony_kit".
+        """
+        # Réinitialiser le rect du bouton par défaut
+        self.install_colony_button_rect = None
+
+        if game.spaceship and game.spaceship.is_landed and game.spaceship.landed_planet:
+            # Vérifier si la planète est habitable et si le joueur a un colony_kit
+            if game.spaceship.landed_planet.planet_type == "habitable" and game.data_manager.inventory.has_item("colony_kit", 1):
+                # Définition des dimensions et position du bouton
+                button_width = WINDOW_WIDTH * 0.4
+                button_height = 55
+                # Centrer horizontalement
+                button_x = (WINDOW_WIDTH - button_width) // 2
+                # Marge 125 px en bas
+                button_y = WINDOW_HEIGHT - button_height - 125
+
+                self.install_colony_button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+
+                # Couleur bouton
+                button_color = (0, 100, 0)
+                mouse_pos = pygame.mouse.get_pos()
+                # Plus clair si survolé
+                if self.install_colony_button_rect.collidepoint(mouse_pos):
+                    button_color = (0, 150, 0)
+
+                # Dessiner fond bouton
+                pygame.draw.rect(surface, button_color, self.install_colony_button_rect, border_radius=10)
+                # Dessiner bordure
+                pygame.draw.rect(surface, (200, 255, 200), self.install_colony_button_rect, 2, border_radius=10)
+
+                # Texte du bouton
+                button_text = "Installer la colonie sur la planète"
+                # Utiliser police HUD
+                button_text_surf = self.font.render(button_text, True, (255, 255, 255))
+                button_text_rect = button_text_surf.get_rect(center=self.install_colony_button_rect.center)
+                surface.blit(button_text_surf, button_text_rect)
+
+    def draw(self, surface, camera, world_surface, world_surface_wiouth_stars, persistent_game_timer_value, tech_tree, game):
         """
         Dessine l'HUD.
         """
@@ -833,6 +875,9 @@ class Hud:
         else:
             # S'assurer que le rect est None si pas atterri
             self.collect_button_rect = None
+
+        # Dessiner le bouton d'installation de la colonie si les conditions sont remplies
+        self.draw_install_colony_button(surface, game)
 
         # Dessiner les boîtes d'information
         self.draw_info_boxes(surface)

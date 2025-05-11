@@ -36,6 +36,7 @@ class Game():
         self.data_manager = DataManager()
         self.sound_manager = SoundManager()
         self.tutorial_completed_this_session = False
+        self.complete_game = False
 
         # Surface "monde" 
         self.world = pygame.Surface((WORLD_WIDTH, WORLD_HEIGHT))
@@ -405,7 +406,7 @@ class Game():
 
         # Dessin de l'HUD avec la caméra et la surface du monde
         tech_tree=self.data_manager.tech_tree.session_data
-        self.hud.draw(screen, self.camera, self.world,self.world_wiouth_stars, persistent_game_timer_value,tech_tree)
+        self.hud.draw(screen, self.camera, self.world,self.world_wiouth_stars, persistent_game_timer_value,tech_tree, self)
 
         # En mode debug, affichage d'infos
         if DEBUG_MODE:
