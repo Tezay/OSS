@@ -47,6 +47,8 @@ class CraftingState(BaseState):
         self.selected_items = {}
         # Dictionnaire pour stocker les Rect de chaque item dans la liste
         self.inventory_clickable_rects = {}
+        # Dictionnaire pour stocker les Rect de chaque item craftable affiché
+        self.craftable_item_display_rects = {}
         # Stock la recipe correspondante si un craft est possible
         self.possible_craft = None
         # Rect du bouton "Assembler"
@@ -101,6 +103,16 @@ class CraftingState(BaseState):
                     # Récup le nom de l'item
                     self.hovered_item_name = item_name
                     break
+            
+            # Si aucun item de l'inventaire n'est survolé, vérif les items craftables
+            if not self.hovered_item_name:
+                # Itère sur chaque rect des items craftables
+                for item_name, rect in self.craftable_item_display_rects.items():
+                    # Si souris survol rect
+                    if rect.collidepoint(mouse_pos_motion):
+                        # Récup nom de l'item
+                        self.hovered_item_name = item_name
+                        break
 
         # Vérifier si la souris est cliquée
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -343,6 +355,7 @@ class CraftingState(BaseState):
         pygame.draw.rect(screen, (30, 30, 30), self.crafts_area_rect)
 
         # Afficher tous les crafts possibles
+        self.craftable_item_display_rects.clear()
         craftable_items = self._get_craftable_items()
         craft_x = self.crafts_area_rect.left + 15
         craft_y = self.crafts_area_rect.top + 15
@@ -357,6 +370,10 @@ class CraftingState(BaseState):
             # Dessiner le fond (sans encadrement vert)
             craft_rect = pygame.Rect(craft_x, craft_y, self.item_image_size[0] + 200, self.item_image_size[1] + 10)
             pygame.draw.rect(screen, (30, 30, 30), craft_rect)
+
+            # Déf le rect pour la détection du survol sur l'image du résultat du craft
+            result_item_hover_rect = pygame.Rect(craft_x, craft_y, self.item_image_size[0], self.item_image_size[1])
+            self.craftable_item_display_rects[craft_name] = result_item_hover_rect
 
             # Afficher l'image du craft (sinon carré gris)
             if craft_name in self.item_images:
