@@ -22,11 +22,11 @@ class CreditsState(BaseState):
 
         # Liste des contributeurs (avec url pour Thomas)
         self.contributors = [
-            {"name": "Eliot CUPILLARD", "url": None, "rect": None, "hover": False},
-            {"name": "Eliot COUSSEAU", "url": None, "rect": None, "hover": False},
-            {"name": "Edouard TORRES", "url": None, "rect": None, "hover": False},
-            {"name": "Delphine DEHEZ", "url": None, "rect": None, "hover": False},
-            {"name": "Aurélia FOURNIER", "url": None, "rect": None, "hover": False},
+            {"name": "Eliot CUPILLARD", "url": "https://github.com/Tezay", "rect": None, "hover": False},
+            {"name": "Eliot COUSSEAU", "url": "https://github.com/CSScooby", "rect": None, "hover": False},
+            {"name": "Edouard TORRES", "url": "https://github.com/edouard-torres", "rect": None, "hover": False},
+            {"name": "Delphine DEHEZ", "url": "https://github.com/delphine-dhz", "rect": None, "hover": False},
+            {"name": "Aurélia FOURNIER", "url": "https://github.com/aurelia-f", "rect": None, "hover": False},
             {"name": "Thomas HOANG", "url": "https://www.instagram.com/thomas.hoang__/", "rect": None, "hover": False}
         ]
 
