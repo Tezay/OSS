@@ -214,6 +214,8 @@ class Game():
 
                     # Vérif si distance au carré > 0 pour éviter division par 0
                     if vec_ship_to_planet.length_squared() > 0:
+                        # Normaliser le vecteur vers la planète
+                        vec_ship_to_planet = vec_ship_to_planet.normalize()
                         # angle_to() retourne l'angle en degrés entre les deux vecteurs
                         angle_deviation = ship_bottom_vector.angle_to(vec_ship_to_planet)
                         
@@ -233,7 +235,7 @@ class Game():
                     if speed >= MAX_LANDING_SPEED * 2:
                         # Collision mortelle avec une planète passe deadly_collision à True pour faire respawn le vaisseau
                         deadly_collision = True
-                        print(f"Collision mortelle avec {planet.name} due à une vitesse excessive!")
+                        print(f"Deadly collision with {planet.name} caused by high speed: {speed:.2f} m/s")
                         # Sortir de la boucle d'itération des planètes dès lors qu'on sait qu'il y a une collision mortelle.
                         break
  

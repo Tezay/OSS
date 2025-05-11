@@ -39,7 +39,7 @@ LANDING_DAMPING_FACTOR = 0.2  # Coeff de vitesse transmise au rebond lors de l'a
 MAX_LANDING_SPEED = 20  # Vitesse maximale autorisée pour un atterrissage réussi
 
 # Angle maximal d'atterrissage en degrés (déviation par rapport à la perpendiculaire à la surface)
-MAX_LANDING_ANGLE_DEVIATION = 45
+MAX_LANDING_ANGLE_DEVIATION = 180
 
 # ----------------------------- PARAMÈTRES DE LA MAP -----------------------------
 # Dimensions de la map
