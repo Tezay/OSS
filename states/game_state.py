@@ -393,13 +393,13 @@ class GameState(BaseState):
         # Mise à jour des ressources si le vaisseau est posé
         if self.game.spaceship.is_landed:
             self.landed_update_timer += dt
-            # Toutes les 10 secondes
-            if self.landed_update_timer >= 10.0:
+            # Toutes les 60 secondes
+            if self.landed_update_timer >= 60.0:
                 landed_planet = self.game.spaceship.landed_planet
                 if landed_planet:
                     landed_planet.update_resources_while_landed()
                 # Réinitialise le timer pour la prochaine mise à jour
-                self.landed_update_timer -= 10.0
+                self.landed_update_timer -= 60.0
 
         # Mise à jour du timer de jeu via StateManager
         current_time = time.time()

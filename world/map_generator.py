@@ -44,15 +44,15 @@ class Planet:
     def _initialize_resources(self):
         """
         Initialise les ressources de la planète lors de sa création.
-        La quantité initiale est basée sur spawn_rate * 12 (équivalent à 2 minutes de génération).
+        La quantité initiale est basée sur spawn_rate * 2 (équivalent à 2 minutes de génération).
         """
         planet_data = get_planet_data(self.planet_type)
         if planet_data and "available_ressources" in planet_data:
             for resource_info in planet_data["available_ressources"]:
                 resource_name = resource_info["name"]
                 spawn_rate = resource_info["spawn_rate"]
-                # Quantité initiale = 12 * spawn_rate (pour 12 * 10 secondes = 120s = 2min)
-                initial_quantity = int(spawn_rate) * 12
+                # Quantité initiale = 12 * spawn_rate (pour 2 * 60 secondes = 120s = 2min)
+                initial_quantity = int(spawn_rate) * 2
                 self.resources[resource_name] = initial_quantity
 
     def update_resources_offline(self, elapsed_time):
@@ -65,8 +65,8 @@ class Planet:
             for resource_info in planet_data["available_ressources"]:
                 resource_name = resource_info["name"]
                 spawn_rate = resource_info["spawn_rate"]
-                # Ressources générées = (temps écoulé en sec / 10 sec) * spawn_rate
-                resources_to_add = int((elapsed_time / 10.0) * spawn_rate)
+                # Ressources générées = (temps écoulé en sec / 60 sec) * spawn_rate
+                resources_to_add = int((elapsed_time / 60.0) * spawn_rate)
                 if resources_to_add > 0:
                     if resource_name in self.resources:
                         self.resources[resource_name] += resources_to_add
@@ -77,7 +77,7 @@ class Planet:
     def update_resources_while_landed(self):
         """
         Met à jour les ressources en ajoutant le spawn_rate.
-        Appelé toutes les 10 secondes lorsque le vaisseau est posé sur la planète.
+        Appelé toutes les 60 secondes lorsque le vaisseau est posé sur la planète.
         """
         planet_data = get_planet_data(self.planet_type)
         if planet_data and "available_ressources" in planet_data:

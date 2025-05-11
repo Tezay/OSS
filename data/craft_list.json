@@ -66,9 +66,9 @@
       {
         "result": {"name": "colony_kit", "quantity": 1},
         "ingredients": [
-          {"name": "composant_bio", "quantity": 35},
-          {"name": "oxygenator", "quantity": 50},
-          {"name": "advance_circuit", "quantity": 40}
+          {"name": "composant_bio", "quantity": 20},
+          {"name": "oxygenator", "quantity": 15},
+          {"name": "advance_circuit", "quantity": 25}
 
         ]
       },
