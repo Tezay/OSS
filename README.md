@@ -115,8 +115,9 @@ OSS/
 *   **Décélérer (Debug) :** `Maj Droite`
 *   **Arrêt instantané (Debug) :** `0` (Pavé numérique)
 *   **Inventaire :** `I`
+*   **Zone d'Assemblage :** `C`
 *   **Carte :** `M`
-*   **Arbre Technologique :** (Bouton sur l'HUD)
+*   **Arbre Technologique :** `T`
 *   **Paramètres (En Jeu) :** `Échap` ou Bouton Paramètres sur l'HUD
 *   **Quitter Menu Actuel :** `Échap`
 *   **Confirmer Dialogue :** `Entrée`

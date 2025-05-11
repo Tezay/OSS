@@ -155,6 +155,7 @@ KEY_BINDINGS = {
     "exit_current_menu" : pygame.K_ESCAPE,
     "open_map" : pygame.K_m,
     "crafting": pygame.K_c,
+    "tech_tree": pygame.K_t,
 }
 
 

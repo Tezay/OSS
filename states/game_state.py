@@ -131,6 +131,11 @@ class GameState(BaseState):
             if event.key == KEY_BINDINGS["crafting"]:
                 from .crafting_state import CraftingState
                 self.state_manager.set_state(CraftingState(self.state_manager, self.game))
+            
+            # Vérification de la touche associée au menu tech tree (si préssée, change l'état courant à tech_tree_state)
+            if event.key == KEY_BINDINGS["tech_tree"]:
+                from .tech_tree_state import TechTreeState
+                self.state_manager.set_state(TechTreeState(self.state_manager, self.game))
 
             # Vérification de la touche associée au menu de paramètres (si préssée, change l'état courant à game_settings_state)
             if event.key == KEY_BINDINGS["exit_current_menu"]:
