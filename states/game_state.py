@@ -216,8 +216,6 @@ class GameState(BaseState):
         if actions["open_map"]:
             if self.tech_tree["tech_tree"]["radar"]["tiers"]["tier_1"]["unlocked"]:
                 tier=1
-                if self.tech_tree["tech_tree"]["radar"]["tiers"]["tier_2"]["unlocked"]:
-                    tier=2
                 from states.map_full_screen_state import MapFullScreen
                 # Passe l'état courant à game_settings_state
                 self.state_manager.set_state(MapFullScreen(self.state_manager, self.game,tier))  # changer le state
