@@ -119,7 +119,7 @@ OSS/
 
 ### Autres Contributeurs
 
-*   **Textures du Jeu :** La plupart des textures du jeu ont été réalisées par Thomas HOANG ([@thomas.hoang__](https://www.instagram.com/thomas.hoang__/)).
+*   **Textures du Jeu :** La plupart des textures du jeu ont été réalisées par Thomas HOANG ([@thomas.hoang__](https://www.instagram.com/thomas.hoang__/)) et Thomas Reoulet.
 *   **Générateur de Planètes Pixel Art :** Les textures des planètes ont été générées à l'aide de [PixelPlanets](https://github.com/Deep-Fold/PixelPlanets).
 
 
